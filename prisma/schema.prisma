@@ -1,12 +1,138 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Modelo de datos del sistema QR de mantenimiento.
+// SQLite no tiene enums: los campos con valores fijos son String y se validan
+// en la aplicación (ver lib/dominio.ts).
 
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model Empresa {
+  id       String   @id @default(cuid())
+  nombre   String
+  creadoEn DateTime @default(now())
+
+  usuarios     Usuario[]
+  equipos      Equipo[]
+  asignaciones Asignacion[]
+  servicios    Servicio[]
+  bitacora     Bitacora[]
+}
+
+model Usuario {
+  id           String   @id @default(cuid())
+  empresaId    String
+  nombre       String
+  correo       String   @unique
+  passwordHash String
+  rol          String // ADMIN | TECNICO
+  activo       Boolean  @default(true)
+  creadoEn     DateTime @default(now())
+
+  empresa      Empresa      @relation(fields: [empresaId], references: [id], onDelete: Restrict)
+  sesiones     Sesion[]
+  asignaciones Asignacion[]
+  servicios    Servicio[]
+  bitacora     Bitacora[]
+
+  @@index([empresaId])
+}
+
+// La cookie lleva el token; aquí solo se guarda su hash (RS-04).
+model Sesion {
+  id          String   @id @default(cuid())
+  tokenHash   String   @unique
+  usuarioId   String
+  creadoEn    DateTime @default(now())
+  ultimoUsoEn DateTime @default(now())
+  expiraEn    DateTime
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+}
+
+model Equipo {
+  id        String   @id @default(cuid())
+  empresaId String
+  nombre    String
+  modelo    String
+  serie     String
+  ubicacion String
+  seccion   String?
+  qrToken   String   @unique // aleatorio y distinto del id (RS-16)
+  activo    Boolean  @default(true)
+  creadoEn  DateTime @default(now())
+
+  empresa      Empresa      @relation(fields: [empresaId], references: [id], onDelete: Restrict)
+  asignaciones Asignacion[]
+  servicios    Servicio[]
+
+  @@unique([empresaId, serie])
+  @@index([empresaId])
+}
+
+model Asignacion {
+  id        String   @id @default(cuid())
+  empresaId String
+  equipoId  String
+  tecnicoId String
+  fecha     String // YYYY-MM-DD en America/Monterrey
+  creadoEn  DateTime @default(now())
+
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Restrict)
+  equipo  Equipo  @relation(fields: [equipoId], references: [id], onDelete: Restrict)
+  tecnico Usuario @relation(fields: [tecnicoId], references: [id], onDelete: Restrict)
+
+  @@unique([equipoId, tecnicoId, fecha])
+  @@index([tecnicoId, fecha])
+  @@index([empresaId, fecha])
+}
+
+// Inmutable: un trigger rechaza UPDATE y DELETE (RS-13, RS-14).
+// Corregir o anular es crear otro registro que apunta al original.
+model Servicio {
+  id           String   @id @default(cuid())
+  empresaId    String
+  equipoId     String
+  autorId      String
+  clase        String // ORIGINAL | CORRECCION | ANULACION
+  tipo         String? // INSTALACION | MANTENIMIENTO | REPARACION
+  descripcion  String
+  motivo       String? // obligatorio en correcciones y anulaciones
+  referenciaId String?
+  creadoEn     DateTime @default(now())
+
+  empresa    Empresa    @relation(fields: [empresaId], references: [id], onDelete: Restrict)
+  equipo     Equipo     @relation(fields: [equipoId], references: [id], onDelete: Restrict)
+  autor      Usuario    @relation(fields: [autorId], references: [id], onDelete: Restrict)
+  referencia Servicio?  @relation("Referencia", fields: [referenciaId], references: [id], onDelete: Restrict)
+  derivados  Servicio[] @relation("Referencia")
+
+  @@index([equipoId, creadoEn])
+  @@index([empresaId])
+}
+
+// Solo altas: un trigger rechaza UPDATE y DELETE (RS-18).
+// Nunca guarda contraseñas, tokens ni contenido sensible (RS-20).
+model Bitacora {
+  id        String   @id @default(cuid())
+  empresaId String?
+  usuarioId String?
+  accion    String
+  recurso   String?
+  resultado String // EXITO | DENEGADO | FALLO
+  detalle   String?
+  ip        String?
+  creadoEn  DateTime @default(now())
+
+  empresa Empresa? @relation(fields: [empresaId], references: [id], onDelete: Restrict)
+  usuario Usuario? @relation(fields: [usuarioId], references: [id], onDelete: Restrict)
+
+  @@index([empresaId, creadoEn])
 }
