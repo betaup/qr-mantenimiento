@@ -1,16 +1,8 @@
 import { Mail, User, UserPlus } from "lucide-react";
-import Link from "next/link";
 import { Campo } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
-import {
-  Avatar,
-  Estado,
-  Flecha,
-  IconoEnCaja,
-  tarjeta,
-} from "@/components/visual";
+import { IconoEnCaja, TarjetaTecnico } from "@/components/visual";
 import { CampoPassword } from "@/components/campo-password";
-import { cn } from "@/lib/utils";
 import { listarTecnicos } from "@/lib/datos/tecnicos";
 import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
 import { agregarTecnico } from "./acciones";
@@ -31,32 +23,10 @@ export default async function PaginaTecnicos() {
           <ul className="grid gap-4 sm:grid-cols-2">
             {tecnicos.map((tecnico) => (
               <li key={tecnico.id}>
-                <Link
+                <TarjetaTecnico
                   href={`/admin/tecnicos/${tecnico.id}`}
-                  className={cn(
-                    tarjeta,
-                    "h-48 justify-between gap-6",
-                    tecnico.activo ? "tarjeta-verde" : "tarjeta-gris",
-                  )}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <Avatar nombre={tecnico.nombre} />
-                    <Flecha />
-                  </div>
-                  <div className="flex items-end justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="truncate text-lg leading-tight font-medium">
-                        {tecnico.nombre}
-                      </p>
-                      <p className="text-foreground/60 mt-1 truncate text-sm">
-                        {tecnico.correo}
-                      </p>
-                    </div>
-                    <Estado tono={tecnico.activo ? "verde" : "gris"}>
-                      {tecnico.activo ? "Activo" : "Desactivado"}
-                    </Estado>
-                  </div>
-                </Link>
+                  tecnico={tecnico}
+                />
               </li>
             ))}
           </ul>

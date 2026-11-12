@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowUpRight,
+  Mail,
   MapPin,
   Snowflake,
   type LucideIcon,
@@ -121,11 +122,11 @@ export function Etiqueta({
   );
 }
 
-/** Círculo con flecha que marca una tarjeta como enlace. */
+/** Cuadro con flecha que marca una tarjeta como enlace. El mismo en todas. */
 export function Flecha() {
   return (
-    <span className="bg-secondary group-hover:bg-foreground group-hover:text-background flex size-9 shrink-0 items-center justify-center rounded-full transition-colors">
-      <ArrowUpRight className="size-4" aria-hidden />
+    <span className="group-hover:bg-foreground group-hover:text-background flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/60 transition-colors">
+      <ArrowUpRight className="size-5" aria-hidden />
     </span>
   );
 }
@@ -133,6 +134,9 @@ export function Flecha() {
 /** Forma común de las tarjetas de color; el fondo lo pone tarjeta-verde o tarjeta-gris. */
 export const tarjeta =
   "group focus-visible:ring-ring/60 flex flex-col rounded-2xl p-5 outline-none focus-visible:ring-3";
+
+/** Tamaño y reparto de las tarjetas de una lista: todas miden lo mismo. */
+const tarjetaDeLista = "h-48 justify-between gap-6";
 
 /** Icono de un equipo de clima o refrigeración. */
 export const IconoDeEquipo = Snowflake;
@@ -167,7 +171,7 @@ export function TarjetaEquipo({
   return (
     <Link
       href={href}
-      className={cn(tarjeta, "tarjeta-verde h-48 justify-between gap-6")}
+      className={cn(tarjeta, tarjetaDeLista, "tarjeta-verde")}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -178,9 +182,7 @@ export function TarjetaEquipo({
             {equipo.modelo}
           </p>
         </div>
-        <span className="group-hover:bg-foreground group-hover:text-background flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/60 transition-colors">
-          <ArrowUpRight className="size-5" aria-hidden />
-        </span>
+        <Flecha />
       </div>
       <div className="min-w-0">
         <p className="truncate font-mono text-2xl font-medium tracking-tight">
@@ -189,6 +191,52 @@ export function TarjetaEquipo({
         <p className="text-foreground/60 mt-1 flex items-center gap-1.5 text-sm">
           <MapPin className="size-4 shrink-0" aria-hidden />
           <span className="truncate">{equipo.ubicacion}</span>
+        </p>
+      </div>
+    </Link>
+  );
+}
+
+/**
+ * Tarjeta de un técnico, con la misma estructura que la de un equipo. Va en
+ * azul hielo para distinguir a las personas de los equipos; en gris si la
+ * cuenta está desactivada.
+ */
+export function TarjetaTecnico({
+  href,
+  tecnico,
+}: {
+  href: string;
+  tecnico: { nombre: string; correo: string; activo: boolean };
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        tarjeta,
+        tarjetaDeLista,
+        tecnico.activo ? "tarjeta-hielo" : "tarjeta-gris",
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <Avatar nombre={tecnico.nombre} />
+          <div className="min-w-0">
+            <p className="truncate text-lg leading-tight font-medium">
+              {tecnico.nombre}
+            </p>
+            <p className="text-foreground/60 mt-1 truncate text-sm">Técnico</p>
+          </div>
+        </div>
+        <Flecha />
+      </div>
+      <div className="flex min-w-0 flex-col items-start gap-2">
+        <Estado tono={tecnico.activo ? "verde" : "gris"}>
+          {tecnico.activo ? "Activo" : "Desactivado"}
+        </Estado>
+        <p className="text-foreground/60 flex max-w-full items-center gap-1.5 text-sm">
+          <Mail className="size-4 shrink-0" aria-hidden />
+          <span className="truncate">{tecnico.correo}</span>
         </p>
       </div>
     </Link>

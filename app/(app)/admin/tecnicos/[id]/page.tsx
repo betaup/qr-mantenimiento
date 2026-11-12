@@ -28,7 +28,7 @@ export default async function PaginaTecnico({
         <div
           className={cn(
             "flex items-center gap-4 rounded-2xl p-5",
-            tecnico.activo ? "tarjeta-verde" : "tarjeta-gris",
+            tecnico.activo ? "tarjeta-hielo" : "tarjeta-gris",
           )}
         >
           <Avatar nombre={tecnico.nombre} />
