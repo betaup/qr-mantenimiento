@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { AirVent, ArrowUpRight, MapPin, type LucideIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  MapPin,
+  Snowflake,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Piezas visuales que se repiten en las pantallas: icono en caja, estado con
@@ -125,6 +131,29 @@ export function Flecha() {
 export const tarjetaEnlace =
   "panel group focus-visible:ring-ring/50 flex flex-col gap-4 outline-none focus-visible:ring-3";
 
+/** Icono de un equipo de clima o refrigeración. */
+export const IconoDeEquipo = Snowflake;
+
+/** Enlace para regresar: una pastilla con flecha, para que se note que se puede usar. */
+export function Volver({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="bg-secondary hover:bg-foreground hover:text-background focus-visible:ring-ring/60 inline-flex w-fit items-center gap-2 rounded-full py-1.5 pr-3.5 pl-2.5 text-sm font-medium outline-none transition-colors focus-visible:ring-3"
+    >
+      <ArrowLeft className="size-4" aria-hidden />
+      {children}
+    </Link>
+  );
+}
+
+/** Tarjeta de un equipo: nombre arriba, serie grande abajo, sobre un fondo verde suave. */
 export function TarjetaEquipo({
   href,
   equipo,
@@ -133,20 +162,29 @@ export function TarjetaEquipo({
   equipo: { nombre: string; modelo: string; serie: string; ubicacion: string };
 }) {
   return (
-    <Link href={href} className={tarjetaEnlace}>
-      <div className="flex items-start gap-3">
-        <IconoEnCaja icono={AirVent} />
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-medium">{equipo.nombre}</p>
-          <p className="text-muted-foreground truncate text-sm">
+    <Link
+      href={href}
+      className="tarjeta-verde group focus-visible:ring-ring/60 flex min-h-48 flex-col justify-between gap-8 rounded-2xl p-5 outline-none focus-visible:ring-3"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-lg leading-tight font-medium">{equipo.nombre}</p>
+          <p className="text-foreground/60 mt-1 truncate text-sm">
             {equipo.modelo}
           </p>
         </div>
-        <Flecha />
+        <span className="group-hover:bg-foreground group-hover:text-background flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/60 transition-colors">
+          <ArrowUpRight className="size-5" aria-hidden />
+        </span>
       </div>
-      <div className="flex flex-wrap gap-2">
-        <Etiqueta mono>{equipo.serie}</Etiqueta>
-        <Etiqueta icono={MapPin}>{equipo.ubicacion}</Etiqueta>
+      <div className="min-w-0">
+        <p className="truncate font-mono text-2xl font-medium tracking-tight">
+          {equipo.serie}
+        </p>
+        <p className="text-foreground/60 mt-1 flex items-center gap-1.5 text-sm">
+          <MapPin className="size-4 shrink-0" aria-hidden />
+          <span className="truncate">{equipo.ubicacion}</span>
+        </p>
       </div>
     </Link>
   );

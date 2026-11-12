@@ -7,6 +7,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { CircleCheck, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { AccionDeFormulario, EstadoFormulario } from "@/lib/formularios";
@@ -22,6 +23,8 @@ export function Formulario({
   boton,
   enviando = "Guardando…",
   variante = "default",
+  icono,
+  completo = false,
   className,
   children,
 }: {
@@ -29,6 +32,10 @@ export function Formulario({
   boton: string;
   enviando?: string;
   variante?: "default" | "outline" | "destructive";
+  /** Icono del botón, ya como elemento: <Plus />. */
+  icono?: ReactNode;
+  /** Botón a todo el ancho del formulario. */
+  completo?: boolean;
   className?: string;
   children?: ReactNode;
 }) {
@@ -52,12 +59,20 @@ export function Formulario({
       {children}
 
       {estado.error && (
-        <p role="alert" className="text-destructive text-sm">
+        <p
+          role="alert"
+          className="flex items-start gap-2 rounded-xl bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
+        >
+          <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
           {estado.error}
         </p>
       )}
       {estado.exito && (
-        <p role="status" className="text-sm font-medium">
+        <p
+          role="status"
+          className="bg-brand/20 flex items-start gap-2 rounded-xl px-3.5 py-2.5 text-sm font-medium"
+        >
+          <CircleCheck className="mt-0.5 size-4 shrink-0" aria-hidden />
           {estado.exito}
         </p>
       )}
@@ -66,8 +81,12 @@ export function Formulario({
         type="submit"
         variant={variante}
         disabled={pendiente}
-        className="h-11 w-full px-3.5 text-base sm:h-9 sm:w-auto sm:self-start sm:text-sm"
+        className={cn(
+          "h-11 w-full px-4 text-base sm:text-sm",
+          !completo && "sm:h-10 sm:w-auto sm:self-start",
+        )}
       >
+        {icono}
         {pendiente ? enviando : boton}
       </Button>
     </form>

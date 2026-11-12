@@ -1,11 +1,16 @@
 import Link from "next/link";
-import { AirVent, History, Layers, MapPin } from "lucide-react";
+import { History, Layers, MapPin, RefreshCw } from "lucide-react";
 import { notFound } from "next/navigation";
 import { BotonImprimir } from "@/components/boton-imprimir";
 import { CampoPasswordAdmin } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
 import { buttonVariants } from "@/components/ui/button";
-import { Etiqueta, IconoEnCaja } from "@/components/visual";
+import {
+  Etiqueta,
+  IconoDeEquipo,
+  IconoEnCaja,
+  Volver,
+} from "@/components/visual";
 import { obtenerEquipo } from "@/lib/datos/equipos";
 import { imagenDelQr } from "@/lib/qr";
 import { regenerarQrDeEquipo } from "../acciones";
@@ -22,14 +27,9 @@ export default async function PaginaEquipo({
   return (
     <div className="flex flex-col gap-5">
       <div className="panel flex flex-col gap-4 print:hidden">
-        <Link
-          href="/admin/equipos"
-          className="text-muted-foreground text-sm underline-offset-4 hover:underline"
-        >
-          Volver a equipos
-        </Link>
+        <Volver href="/admin/equipos">Volver a equipos</Volver>
         <div className="flex items-center gap-4">
-          <IconoEnCaja icono={AirVent} grande />
+          <IconoEnCaja icono={IconoDeEquipo} grande />
           <div className="min-w-0">
             <h1 className="truncate text-2xl font-semibold tracking-tight">
               {equipo.nombre}
@@ -89,6 +89,7 @@ export default async function PaginaEquipo({
             accion={regenerarQrDeEquipo}
             boton="Regenerar código"
             variante="destructive"
+            icono={<RefreshCw aria-hidden />}
           >
             <input type="hidden" name="id" value={equipo.id} />
             <CampoPasswordAdmin id="passwordAdmin-qr" />

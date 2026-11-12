@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useActionState } from "react";
-import { Plus, X } from "lucide-react";
+import { ChevronDown, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/visual";
 import type { AccionDeFormulario, EstadoFormulario } from "@/lib/formularios";
@@ -76,12 +76,13 @@ export function FilaAsignacion({
         >
           <input type="hidden" name="equipoId" value={equipoId} />
           <input type="hidden" name="fecha" value={fecha} />
+          <div className="relative min-w-0 flex-1">
           <select
             name="tecnicoId"
             required
             defaultValue=""
             aria-label="Técnico"
-            className="border-input focus-visible:border-ring focus-visible:ring-ring/50 h-9 min-w-0 flex-1 rounded-lg border bg-transparent px-2 text-sm outline-none focus-visible:ring-3"
+            className="bg-secondary focus-visible:ring-ring/60 h-10 w-full appearance-none rounded-xl pr-9 pl-3.5 text-sm outline-none focus-visible:ring-3"
           >
             <option value="" disabled>
               Elegir técnico
@@ -92,8 +93,17 @@ export function FilaAsignacion({
               </option>
             ))}
           </select>
-          <Button type="submit" disabled={asignando} className="h-9 px-3">
-            <Plus aria-hidden />
+          <ChevronDown
+            aria-hidden
+            className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2"
+          />
+          </div>
+          <Button
+            type="submit"
+            disabled={asignando}
+            className="h-10 gap-1.5 rounded-xl px-3.5"
+          >
+            <Plus className="size-4" aria-hidden />
             Asignar
           </Button>
         </form>

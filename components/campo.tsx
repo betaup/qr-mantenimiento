@@ -1,29 +1,46 @@
 import type { ComponentProps } from "react";
-import { Input } from "@/components/ui/input";
+import { KeyRound, type LucideIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
-/** Etiqueta, campo de texto y una ayuda opcional. */
+export const claseDeCampo =
+  "bg-secondary placeholder:text-muted-foreground/70 focus-visible:ring-ring/60 h-11 w-full min-w-0 rounded-xl px-3.5 text-base outline-none transition-shadow focus-visible:bg-card focus-visible:ring-3 md:text-sm";
+
+/** Etiqueta, campo de texto con icono y una ayuda opcional. */
 export function Campo({
   etiqueta,
   ayuda,
+  icono: Icono,
   name,
+  className,
   ...props
-}: { etiqueta: string; ayuda?: string; name: string } & ComponentProps<"input">) {
+}: {
+  etiqueta: string;
+  ayuda?: string;
+  icono?: LucideIcon;
+  name: string;
+} & ComponentProps<"input">) {
+  const id = props.id ?? name;
   return (
     <div className="flex flex-col gap-1.5">
-      <Label htmlFor={props.id ?? name}>{etiqueta}</Label>
-      <Input
-        id={name}
-        name={name}
-        aria-describedby={ayuda ? `${props.id ?? name}-ayuda` : undefined}
-        className="h-9"
-        {...props}
-      />
+      <Label htmlFor={id}>{etiqueta}</Label>
+      <div className="relative">
+        {Icono && (
+          <Icono
+            aria-hidden
+            className="text-muted-foreground pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+          />
+        )}
+        <input
+          name={name}
+          aria-describedby={ayuda ? `${id}-ayuda` : undefined}
+          className={cn(claseDeCampo, Icono && "pl-10", className)}
+          {...props}
+          id={id}
+        />
+      </div>
       {ayuda && (
-        <p
-          id={`${props.id ?? name}-ayuda`}
-          className="text-muted-foreground text-xs leading-relaxed"
-        >
+        <p id={`${id}-ayuda`} className="text-muted-foreground text-xs">
           {ayuda}
         </p>
       )}
@@ -38,10 +55,11 @@ export function CampoPasswordAdmin({ id }: { id: string }) {
       id={id}
       name="passwordAdmin"
       etiqueta="Tu contraseña"
+      icono={KeyRound}
       type="password"
       autoComplete="current-password"
       required
-      ayuda="La pedimos de nuevo para confirmar que eres tú."
+      ayuda="Para confirmar que eres tú."
     />
   );
 }

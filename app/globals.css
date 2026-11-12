@@ -146,6 +146,15 @@
   padding: 1.25rem;
 }
 
+/* Fondo de las tarjetas de equipo: manchas suaves del verde de la marca. */
+@utility tarjeta-verde {
+  background-color: oklch(0.985 0.02 130);
+  background-image:
+    radial-gradient(at 0% 0%, oklch(0.92 0.1 130 / 0.9) 0, transparent 55%),
+    radial-gradient(at 100% 15%, oklch(0.86 0.15 128 / 0.85) 0, transparent 50%),
+    radial-gradient(at 70% 100%, oklch(0.95 0.07 150 / 0.9) 0, transparent 55%);
+}
+
 @media print {
   body {
     background: white;

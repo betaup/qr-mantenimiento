@@ -1,8 +1,13 @@
-import { AirVent, ClipboardCheck, MapPin, Users } from "lucide-react";
+import { ClipboardCheck, HardHat, MapPin } from "lucide-react";
 import { FilaAsignacion } from "@/components/fila-asignacion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Estado, Etiqueta, IconoEnCaja } from "@/components/visual";
+import {
+  Estado,
+  Etiqueta,
+  IconoDeEquipo,
+  IconoEnCaja,
+} from "@/components/visual";
 import { asignacionesDelDia } from "@/lib/datos/asignaciones";
 import { fechaDeHoy } from "@/lib/dominio";
 import { requerirRol } from "@/lib/auth/guardas";
@@ -96,7 +101,7 @@ export default async function PaginaAsignaciones({
         </div>
 
         <div className="panel flex flex-col justify-between gap-5">
-          <IconoEnCaja icono={Users} tono="azul" />
+          <IconoEnCaja icono={HardHat} tono="azul" />
           <div>
             <p className="text-4xl font-semibold tracking-tight">
               {tecnicos.length}
@@ -139,7 +144,10 @@ export default async function PaginaAsignaciones({
             return (
               <li key={equipo.id} className="panel flex flex-col gap-4">
                 <div className="flex items-start gap-3">
-                  <IconoEnCaja icono={AirVent} tono={asignado ? "verde" : "gris"} />
+                  <IconoEnCaja
+                    icono={IconoDeEquipo}
+                    tono={asignado ? "verde" : "gris"}
+                  />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{equipo.nombre}</p>
                     <p className="text-muted-foreground font-mono text-xs">

@@ -1,7 +1,15 @@
+import { Mail, User, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { Campo } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
-import { Avatar, Estado, Flecha, tarjetaEnlace } from "@/components/visual";
+import {
+  Avatar,
+  Estado,
+  Flecha,
+  IconoEnCaja,
+  tarjetaEnlace,
+} from "@/components/visual";
+import { CampoPassword } from "@/components/campo-password";
 import { listarTecnicos } from "@/lib/datos/tecnicos";
 import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
 import { agregarTecnico } from "./acciones";
@@ -46,25 +54,44 @@ export default async function PaginaTecnicos() {
         )}
       </section>
 
-      <section className="panel flex flex-col gap-4 self-start">
-        <h2 className="font-semibold">Agregar técnico</h2>
-        <Formulario accion={agregarTecnico} boton="Agregar técnico">
-          <Campo name="nombre" etiqueta="Nombre" required maxLength={80} />
+      <section className="panel flex flex-col gap-5 self-start">
+        <div className="flex items-center gap-3">
+          <IconoEnCaja icono={UserPlus} tono="oscuro" />
+          <div>
+            <h2 className="text-lg leading-tight font-semibold">Nuevo técnico</h2>
+            <p className="text-muted-foreground text-sm">
+              Entrégale su contraseña en persona.
+            </p>
+          </div>
+        </div>
+        <Formulario
+          accion={agregarTecnico}
+          boton="Agregar técnico"
+          icono={<UserPlus aria-hidden />}
+          completo
+        >
+          <Campo
+            name="nombre"
+            etiqueta="Nombre"
+            icono={User}
+            placeholder="Nombre y apellido"
+            required
+            maxLength={80}
+          />
           <Campo
             name="correo"
             etiqueta="Correo"
+            icono={Mail}
             type="email"
+            placeholder="nombre@empresa.com"
             required
             maxLength={254}
             autoComplete="off"
           />
-          <Campo
+          <CampoPassword
             name="password"
             etiqueta="Contraseña inicial"
-            type="password"
-            required
-            autoComplete="new-password"
-            ayuda={`Al menos ${LONGITUD_MINIMA} caracteres. Entrégasela en persona.`}
+            ayuda={`Mínimo ${LONGITUD_MINIMA} caracteres. La varita genera una.`}
           />
         </Formulario>
       </section>

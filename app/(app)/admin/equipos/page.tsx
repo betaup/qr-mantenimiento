@@ -1,6 +1,7 @@
+import { Hash, Layers, MapPin, Plus, Snowflake, Tag } from "lucide-react";
 import { Campo } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
-import { TarjetaEquipo } from "@/components/visual";
+import { IconoEnCaja, TarjetaEquipo } from "@/components/visual";
 import { listarEquipos } from "@/lib/datos/equipos";
 import { agregarEquipo } from "./acciones";
 
@@ -30,25 +31,62 @@ export default async function PaginaEquipos() {
         )}
       </section>
 
-      <section className="panel flex flex-col gap-4 self-start">
-        <h2 className="font-semibold">Agregar equipo</h2>
-        <Formulario accion={agregarEquipo} boton="Agregar equipo">
-          <Campo name="nombre" etiqueta="Nombre" required maxLength={80} />
-          <Campo name="modelo" etiqueta="Modelo" required maxLength={80} />
+      <section className="panel flex flex-col gap-5 self-start">
+        <div className="flex items-center gap-3">
+          <IconoEnCaja icono={Plus} tono="oscuro" />
+          <div>
+            <h2 className="text-lg leading-tight font-semibold">Nuevo equipo</h2>
+            <p className="text-muted-foreground text-sm">
+              Su código QR se crea solo.
+            </p>
+          </div>
+        </div>
+        <Formulario
+          accion={agregarEquipo}
+          boton="Agregar equipo"
+          icono={<Plus aria-hidden />}
+          completo
+        >
+          <Campo
+            name="nombre"
+            etiqueta="Nombre"
+            icono={Snowflake}
+            placeholder="Minisplit de recepción"
+            required
+            maxLength={80}
+          />
+          <Campo
+            name="modelo"
+            etiqueta="Modelo"
+            icono={Tag}
+            placeholder="Mirage Life 12"
+            required
+            maxLength={80}
+          />
           <Campo
             name="serie"
             etiqueta="Número de serie"
+            icono={Hash}
+            placeholder="Como viene en la placa"
             required
             maxLength={60}
-            ayuda="Como aparece en la placa del equipo."
+            className="font-mono"
           />
           <Campo
             name="ubicacion"
             etiqueta="Ubicación"
+            icono={MapPin}
+            placeholder="Planta baja, recepción"
             required
             maxLength={120}
           />
-          <Campo name="seccion" etiqueta="Sección (opcional)" maxLength={60} />
+          <Campo
+            name="seccion"
+            etiqueta="Sección (opcional)"
+            icono={Layers}
+            placeholder="Oficinas"
+            maxLength={60}
+          />
         </Formulario>
       </section>
     </div>

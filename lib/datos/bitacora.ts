@@ -3,7 +3,8 @@ import { db } from "@/lib/db";
 import { registrar } from "@/lib/bitacora";
 import { requerirRol } from "@/lib/auth/guardas";
 
-const POR_PAGINA = 50;
+// Pocas filas por página: la pantalla no crece sin fin.
+const POR_PAGINA = 10;
 
 /**
  * Eventos de la empresa del admin, del más reciente al más antiguo.
@@ -41,5 +42,9 @@ export async function consultarBitacora(pagina: number) {
     detalle: `página ${pagina}`,
   });
 
-  return { eventos, paginas: Math.max(1, Math.ceil(total / POR_PAGINA)) };
+  return {
+    eventos,
+    total,
+    paginas: Math.max(1, Math.ceil(total / POR_PAGINA)),
+  };
 }

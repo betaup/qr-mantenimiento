@@ -1,10 +1,26 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CampoMotivo, CamposServicio } from "@/components/campos-servicio";
 import { Formulario } from "@/components/formulario";
-import { AirVent, Ban, ClipboardCheck, Download, MapPin, PackagePlus, Wrench, type LucideIcon } from "lucide-react";
+import {
+  Ban,
+  ChevronDown,
+  ClipboardCheck,
+  Cog,
+  Download,
+  MapPin,
+  Package,
+  Pencil,
+  type LucideIcon,
+} from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { Estado, Etiqueta, IconoEnCaja, type Tono } from "@/components/visual";
+import {
+  Estado,
+  Etiqueta,
+  IconoDeEquipo,
+  IconoEnCaja,
+  Volver,
+  type Tono,
+} from "@/components/visual";
 import {
   equipoAccesible,
   historialDe,
@@ -26,13 +42,15 @@ const fechaYHora = new Intl.DateTimeFormat("es-MX", {
 
 const ICONO_DE_TIPO: Record<TipoServicio, { icono: LucideIcon; tono: Tono }> =
   {
-    INSTALACION: { icono: PackagePlus, tono: "azul" },
+    INSTALACION: { icono: Package, tono: "azul" },
     MANTENIMIENTO: { icono: ClipboardCheck, tono: "verde" },
-    REPARACION: { icono: Wrench, tono: "naranja" },
+    REPARACION: { icono: Cog, tono: "naranja" },
   };
 
+// Los desplegables se ven como botones, con su icono, para que se note que
+// se pueden abrir.
 const desplegable =
-  "text-sm font-medium underline-offset-4 hover:underline cursor-pointer w-fit";
+  "hover:bg-secondary focus-visible:ring-ring/60 inline-flex h-9 w-fit cursor-pointer list-none items-center gap-2 rounded-lg border px-3 text-sm font-medium outline-none focus-visible:ring-3 [&::-webkit-details-marker]:hidden";
 
 export default async function PaginaEquipo({
   params,
@@ -48,14 +66,11 @@ export default async function PaginaEquipo({
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
       <div className="panel flex flex-col gap-4">
-        <Link
-          href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}
-          className="text-muted-foreground w-fit text-sm underline-offset-4 hover:underline"
-        >
+        <Volver href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}>
           {esAdmin ? "Volver al equipo" : "Volver a tus equipos"}
-        </Link>
+        </Volver>
         <div className="flex items-center gap-4">
-          <IconoEnCaja icono={AirVent} grande />
+          <IconoEnCaja icono={IconoDeEquipo} grande />
           <div className="min-w-0">
             <h1 className="truncate text-2xl font-semibold tracking-tight">
               {equipo.nombre}
@@ -195,6 +210,7 @@ function Entrada({
       {corregido && (
         <details className="flex flex-col gap-2">
           <summary className={desplegable}>
+            <ChevronDown className="size-4" aria-hidden />
             Ver correcciones y texto original
           </summary>
           <div className="bg-muted/60 mt-3 flex flex-col gap-3 rounded-lg p-3 text-sm leading-relaxed">
@@ -223,7 +239,10 @@ function Entrada({
 
       {puedeCorregir && (
         <details>
-          <summary className={desplegable}>Corregir</summary>
+          <summary className={desplegable}>
+            <Pencil className="size-4" aria-hidden />
+            Corregir
+          </summary>
           <div className="mt-3 rounded-lg border p-4">
             <Formulario accion={corregir} boton="Guardar corrección">
               <input type="hidden" name="equipoId" value={equipoId} />
@@ -241,7 +260,10 @@ function Entrada({
 
       {puedeAnular && (
         <details>
-          <summary className={desplegable}>Anular</summary>
+          <summary className={desplegable}>
+            <Ban className="size-4" aria-hidden />
+            Anular
+          </summary>
           <div className="mt-3 flex flex-col gap-3 rounded-lg border p-4">
             <p className="text-muted-foreground text-sm leading-relaxed">
               El servicio queda marcado como anulado y ya no cuenta en el

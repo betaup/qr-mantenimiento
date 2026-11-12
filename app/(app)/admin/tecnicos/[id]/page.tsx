@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Campo, CampoPasswordAdmin } from "@/components/campo";
+import { CampoPasswordAdmin } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
-import { Avatar, Estado } from "@/components/visual";
+import { Avatar, Estado, Volver } from "@/components/visual";
+import { CampoPassword } from "@/components/campo-password";
 import { obtenerTecnico } from "@/lib/datos/tecnicos";
 import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
 import {
@@ -21,12 +21,9 @@ export default async function PaginaTecnico({
   return (
     <div className="flex max-w-xl flex-col gap-5">
       <div className="flex flex-col gap-2">
-        <Link
-          href="/admin/tecnicos"
-          className="text-muted-foreground text-sm underline-offset-4 hover:underline"
-        >
-          Volver a técnicos
-        </Link>
+        <span className="[&>a]:bg-card">
+          <Volver href="/admin/tecnicos">Volver a técnicos</Volver>
+        </span>
         <div className="panel flex items-center gap-4">
           <Avatar nombre={tecnico.nombre} />
           <div className="min-w-0 flex-1">
@@ -54,13 +51,10 @@ export default async function PaginaTecnico({
           boton="Restablecer contraseña"
         >
           <input type="hidden" name="id" value={tecnico.id} />
-          <Campo
+          <CampoPassword
             name="password"
             etiqueta="Contraseña nueva"
-            type="password"
-            required
-            autoComplete="new-password"
-            ayuda={`Al menos ${LONGITUD_MINIMA} caracteres.`}
+            ayuda={`Mínimo ${LONGITUD_MINIMA} caracteres. La varita genera una.`}
           />
           <CampoPasswordAdmin id="passwordAdmin-restablecer" />
         </Formulario>

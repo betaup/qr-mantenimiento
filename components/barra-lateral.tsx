@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  AirVent,
   CalendarCheck,
+  FileText,
+  HardHat,
   LogOut,
   QrCode,
-  ScrollText,
-  Users,
-  Wrench,
+  Snowflake,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,12 +23,12 @@ type Seccion = { href: string; nombre: string; icono: LucideIcon; tambien?: stri
 const SECCIONES: Record<Rol, Seccion[]> = {
   ADMIN: [
     { href: "/admin", nombre: "Asignaciones", icono: CalendarCheck },
-    { href: "/admin/equipos", nombre: "Equipos", icono: AirVent, tambien: "/equipos" },
-    { href: "/admin/tecnicos", nombre: "Técnicos", icono: Users },
-    { href: "/admin/bitacora", nombre: "Bitácora", icono: ScrollText },
+    { href: "/admin/equipos", nombre: "Equipos", icono: Snowflake, tambien: "/equipos" },
+    { href: "/admin/tecnicos", nombre: "Técnicos", icono: HardHat },
+    { href: "/admin/bitacora", nombre: "Bitácora", icono: FileText },
   ],
   TECNICO: [
-    { href: "/tecnico", nombre: "Mis equipos", icono: Wrench, tambien: "/equipos" },
+    { href: "/tecnico", nombre: "Mis equipos", icono: Snowflake, tambien: "/equipos" },
   ],
 };
 
