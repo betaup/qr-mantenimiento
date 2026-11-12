@@ -21,11 +21,17 @@ Proyecto Integrador Académico de Desarrollo de Software Seguro.
 El seed crea dos empresas ficticias, cada una con un admin y dos técnicos.
 Todas las cuentas usan la contraseña definida en `SEED_PASSWORD`.
 
+## Pruebas
+
+- `npm test`: pruebas unitarias de las reglas de autenticación.
+- `npm run lint`: revisión estática con ESLint.
+
 ## Estructura
 
 - `app/`: páginas y rutas de la API.
 - `components/ui/`: componentes de shadcn/ui.
-- `lib/`: conexión a la base de datos y valores del dominio.
+- `lib/`: conexión a la base de datos, valores del dominio y bitácora.
+- `lib/auth/`: sesiones, contraseñas, límite de intentos y verificación de rol.
 - `prisma/`: modelo de datos, migraciones y datos de prueba.
 
 Los servicios y la bitácora son inmutables: la base de datos tiene triggers
