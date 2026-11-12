@@ -9,11 +9,14 @@ const FALLOS_POR_CUENTA = 5;
 const FALLOS_POR_IP = 20;
 
 const ESCANEOS_DENEGADOS = 20;
+const PDF_POR_USUARIO = 10;
+const VENTANA_PDF_SEGUNDOS = 10 * 60;
 
 type Limites = {
   cuenta: RateLimiterMemory;
   ip: RateLimiterMemory;
   escaneo: RateLimiterMemory;
+  pdf: RateLimiterMemory;
 };
 
 const global = globalThis as unknown as { limites?: Limites };
@@ -22,6 +25,7 @@ const limites = (global.limites ??= {
   cuenta: new RateLimiterMemory({ points: FALLOS_POR_CUENTA, duration: VENTANA_SEGUNDOS }),
   ip: new RateLimiterMemory({ points: FALLOS_POR_IP, duration: VENTANA_SEGUNDOS }),
   escaneo: new RateLimiterMemory({ points: ESCANEOS_DENEGADOS, duration: VENTANA_SEGUNDOS }),
+  pdf: new RateLimiterMemory({ points: PDF_POR_USUARIO, duration: VENTANA_PDF_SEGUNDOS }),
 });
 
 async function agotado(limite: RateLimiterMemory, clave: string) {
@@ -49,4 +53,14 @@ export function escaneoBloqueado(usuarioId: string) {
 
 export async function registrarEscaneoDenegado(usuarioId: string) {
   await Promise.allSettled([limites.escaneo.consume(usuarioId)]);
+}
+
+/** Tope de reportes PDF por usuario: generar uno cuesta CPU (RS-22, T9). */
+export async function pdfPermitido(usuarioId: string): Promise<boolean> {
+  try {
+    await limites.pdf.consume(usuarioId);
+    return true;
+  } catch {
+    return false;
+  }
 }

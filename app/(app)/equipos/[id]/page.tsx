@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CampoMotivo, CamposServicio } from "@/components/campos-servicio";
 import { Formulario } from "@/components/formulario";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import {
   equipoAccesible,
   historialDe,
@@ -51,6 +52,16 @@ export default async function PaginaEquipo({
           </Dato>
           <Dato termino="Ubicación">{equipo.ubicacion}</Dato>
         </dl>
+        {/* Enlace normal, no <Link>: es una descarga, no una página. */}
+        <a
+          href={`/equipos/${equipo.id}/reporte`}
+          className={buttonVariants({
+            variant: "outline",
+            className: "h-11 w-full sm:h-9 sm:w-fit",
+          })}
+        >
+          Descargar reporte PDF
+        </a>
       </div>
 
       {!esAdmin && (

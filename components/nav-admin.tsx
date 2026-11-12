@@ -8,6 +8,7 @@ const SECCIONES = [
   { href: "/admin", nombre: "Asignaciones" },
   { href: "/admin/equipos", nombre: "Equipos" },
   { href: "/admin/tecnicos", nombre: "Técnicos" },
+  { href: "/admin/bitacora", nombre: "Bitácora" },
 ];
 
 export function NavAdmin() {

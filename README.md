@@ -30,7 +30,8 @@ Todas las cuentas usan la contraseña definida en `SEED_PASSWORD`.
 
 - `app/`: páginas y acciones del servidor. `app/e/[token]` es el destino de cada código QR.
 - `components/ui/`: componentes de shadcn/ui.
-- `lib/`: conexión a la base de datos, valores del dominio y bitácora.
+- `lib/`: conexión a la base de datos, valores del dominio, bitácora, QR y reporte PDF.
+- `proxy.ts`: política de seguridad de contenido (CSP) con un nonce por petición.
 - `lib/auth/`: sesiones, contraseñas, límite de intentos y verificación de rol.
 - `lib/datos/`: capa de acceso a datos; cada función filtra por la empresa de la sesión.
 - `prisma/`: modelo de datos, migraciones y datos de prueba.
