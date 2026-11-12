@@ -6,8 +6,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { FilaAsignacion } from "@/components/fila-asignacion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SelectorDeDia } from "@/components/selector-de-dia";
 import {
   Estado,
   Etiqueta,
@@ -55,18 +54,7 @@ export default async function PaginaAsignaciones({
           </p>
         </div>
 
-        <form className="flex items-center gap-2">
-          <Input
-            name="fecha"
-            type="date"
-            aria-label="Día"
-            defaultValue={fecha}
-            className="bg-card h-10 border-transparent"
-          />
-          <Button type="submit" className="h-10 px-4">
-            Ver día
-          </Button>
-        </form>
+        <SelectorDeDia fecha={fecha} hoy={hoy} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
