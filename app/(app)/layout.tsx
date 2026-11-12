@@ -11,16 +11,20 @@ export default async function LayoutApp({ children }: LayoutProps<"/">) {
     <div className="flex min-h-dvh flex-col">
       <header className="border-b print:hidden">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <span className="font-semibold tracking-tight">Mantenimiento QR</span>
+          <span className="shrink-0 font-semibold tracking-tight">
+            Mantenimiento QR
+          </span>
 
-          <div className="flex items-center gap-3">
-            <div className="text-right text-sm leading-tight">
-              <p className="font-medium">{usuario.nombre}</p>
-              <p className="text-muted-foreground">{usuario.empresa}</p>
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="min-w-0 text-right text-sm leading-tight">
+              <p className="truncate font-medium">{usuario.nombre}</p>
+              <p className="text-muted-foreground truncate">
+                {usuario.empresa}
+              </p>
             </div>
             <form action={salir}>
-              <Button type="submit" variant="outline" className="h-9">
-                Cerrar sesión
+              <Button type="submit" variant="outline" className="h-9 shrink-0">
+                Salir
               </Button>
             </form>
           </div>

@@ -66,7 +66,7 @@ export function Formulario({
         type="submit"
         variant={variante}
         disabled={pendiente}
-        className="h-9 self-start px-3.5"
+        className="h-11 w-full px-3.5 text-base sm:h-9 sm:w-auto sm:self-start sm:text-sm"
       >
         {pendiente ? enviando : boton}
       </Button>

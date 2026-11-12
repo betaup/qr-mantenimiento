@@ -42,6 +42,12 @@ export default async function PaginaEquipo({
             </div>
           ))}
         </dl>
+        <Link
+          href={`/equipos/${equipo.id}`}
+          className="w-fit text-sm font-medium underline-offset-4 hover:underline"
+        >
+          Ver historial de servicios
+        </Link>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[auto_1fr] lg:items-start">

@@ -2,7 +2,7 @@
 // formulario pasa por aquí antes de tocar la base de datos.
 import { z } from "zod";
 import { LONGITUD_MAXIMA, validarPassword } from "@/lib/auth/reglas";
-import { fechaDeHoy } from "@/lib/dominio";
+import { TIPOS_SERVICIO, fechaDeHoy } from "@/lib/dominio";
 
 const texto = (minimo: number, maximo: number) =>
   z.string().trim().min(minimo).max(maximo);
@@ -57,7 +57,38 @@ export const asignacionNueva = z.object({
   fecha: fecha.refine((valor) => valor >= fechaDeHoy()),
 });
 
+const tipo = z.enum(TIPOS_SERVICIO);
+const descripcion = texto(5, 2000);
+const motivo = texto(5, 500);
+
+export const servicioNuevo = z.object({
+  equipoId: id,
+  tipo,
+  descripcion,
+  // El técnico confirma que está frente al equipo correcto (RS-15).
+  confirmado: z.literal("on"),
+});
+
+export const correccionNueva = z.object({
+  servicioId: id,
+  tipo,
+  descripcion,
+  motivo,
+});
+
+export const anulacionNueva = z.object({ servicioId: id, motivo });
+
 export const soloId = z.object({ id });
+
+const RUTA_DE_QR = /^\/e\/[A-Za-z0-9_-]{20,64}$/;
+
+/**
+ * Destino al que volver después de iniciar sesión. Solo se acepta la ruta de
+ * un QR, así el parámetro no sirve para redirigir a otro sitio.
+ */
+export function destinoSeguro(valor: unknown): string | null {
+  return typeof valor === "string" && RUTA_DE_QR.test(valor) ? valor : null;
+}
 
 /** Primer mensaje útil de un error de validación. */
 export function mensajeDe(error: z.ZodError, porDefecto: string): string {

@@ -8,11 +8,12 @@ import { iniciarSesion, type EstadoLogin } from "./acciones";
 
 const inicial: EstadoLogin = {};
 
-export function FormularioLogin() {
+export function FormularioLogin({ siguiente }: { siguiente?: string }) {
   const [estado, accion, enviando] = useActionState(iniciarSesion, inicial);
 
   return (
     <form action={accion} className="flex flex-col gap-5">
+      {siguiente && <input type="hidden" name="siguiente" value={siguiente} />}
       <div className="flex flex-col gap-2">
         <Label htmlFor="correo">Correo</Label>
         <Input

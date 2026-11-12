@@ -11,6 +11,12 @@ export const TIPOS_SERVICIO = [
 ] as const;
 export type TipoServicio = (typeof TIPOS_SERVICIO)[number];
 
+export const NOMBRE_DE_TIPO: Record<TipoServicio, string> = {
+  INSTALACION: "Instalación",
+  MANTENIMIENTO: "Mantenimiento",
+  REPARACION: "Reparación",
+};
+
 export const CLASES_SERVICIO = ["ORIGINAL", "CORRECCION", "ANULACION"] as const;
 export type ClaseServicio = (typeof CLASES_SERVICIO)[number];
 

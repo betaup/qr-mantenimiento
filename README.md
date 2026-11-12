@@ -28,7 +28,7 @@ Todas las cuentas usan la contraseña definida en `SEED_PASSWORD`.
 
 ## Estructura
 
-- `app/`: páginas y rutas de la API.
+- `app/`: páginas y acciones del servidor. `app/e/[token]` es el destino de cada código QR.
 - `components/ui/`: componentes de shadcn/ui.
 - `lib/`: conexión a la base de datos, valores del dominio y bitácora.
 - `lib/auth/`: sesiones, contraseñas, límite de intentos y verificación de rol.

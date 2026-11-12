@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { ROLES } from "@/lib/dominio";
-import { correo } from "@/lib/validacion";
+import { correo, destinoSeguro } from "@/lib/validacion";
 import { registrar } from "@/lib/bitacora";
 import { ipDeLaPeticion } from "@/lib/peticion";
 import { rutaDeInicio } from "@/lib/auth/guardas";
@@ -85,5 +85,6 @@ export async function iniciarSesion(
     empresaId: usuario.empresaId,
   });
 
-  redirect(rutaDeInicio(rol));
+  // Si venía de escanear un QR, regresa a ese equipo.
+  redirect(destinoSeguro(formulario.get("siguiente")) ?? rutaDeInicio(rol));
 }

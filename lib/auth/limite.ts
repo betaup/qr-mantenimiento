@@ -8,13 +8,20 @@ const VENTANA_SEGUNDOS = 15 * 60;
 const FALLOS_POR_CUENTA = 5;
 const FALLOS_POR_IP = 20;
 
-const global = globalThis as unknown as {
-  limites?: { cuenta: RateLimiterMemory; ip: RateLimiterMemory };
+const ESCANEOS_DENEGADOS = 20;
+
+type Limites = {
+  cuenta: RateLimiterMemory;
+  ip: RateLimiterMemory;
+  escaneo: RateLimiterMemory;
 };
+
+const global = globalThis as unknown as { limites?: Limites };
 
 const limites = (global.limites ??= {
   cuenta: new RateLimiterMemory({ points: FALLOS_POR_CUENTA, duration: VENTANA_SEGUNDOS }),
   ip: new RateLimiterMemory({ points: FALLOS_POR_IP, duration: VENTANA_SEGUNDOS }),
+  escaneo: new RateLimiterMemory({ points: ESCANEOS_DENEGADOS, duration: VENTANA_SEGUNDOS }),
 });
 
 async function agotado(limite: RateLimiterMemory, clave: string) {
@@ -33,4 +40,13 @@ export async function registrarFalloDeLogin(correo: string, ip: string) {
 
 export async function limpiarFallosDeCuenta(correo: string) {
   await limites.cuenta.delete(correo);
+}
+
+// Escaneos de QR denegados por usuario: frena a quien prueba tokens (T1).
+export function escaneoBloqueado(usuarioId: string) {
+  return agotado(limites.escaneo, usuarioId);
+}
+
+export async function registrarEscaneoDenegado(usuarioId: string) {
+  await Promise.allSettled([limites.escaneo.consume(usuarioId)]);
 }

@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { rutaDeInicio } from "@/lib/auth/guardas";
 import { obtenerSesion } from "@/lib/auth/sesion";
+import { destinoSeguro } from "@/lib/validacion";
 import { FormularioLogin } from "./formulario";
 
 export const metadata: Metadata = { title: "Iniciar sesión · Mantenimiento QR" };
 
-export default async function PaginaLogin() {
+export default async function PaginaLogin({
+  searchParams,
+}: PageProps<"/login">) {
+  const siguiente = destinoSeguro((await searchParams).siguiente);
   const sesion = await obtenerSesion();
-  if (sesion) redirect(rutaDeInicio(sesion.usuario.rol));
+  if (sesion) redirect(siguiente ?? rutaDeInicio(sesion.usuario.rol));
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-sm flex-col justify-center gap-8 px-6 py-10">
@@ -17,11 +21,13 @@ export default async function PaginaLogin() {
           Mantenimiento QR
         </h1>
         <p className="text-muted-foreground">
-          Inicia sesión para ver tus equipos.
+          {siguiente
+            ? "Inicia sesión para abrir el equipo que escaneaste."
+            : "Inicia sesión para ver tus equipos."}
         </p>
       </div>
 
-      <FormularioLogin />
+      <FormularioLogin siguiente={siguiente ?? undefined} />
 
       <p className="text-muted-foreground text-sm leading-relaxed">
         Si olvidaste tu contraseña, pide al admin de tu empresa que la
