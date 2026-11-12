@@ -65,6 +65,7 @@ export function SelectorDeDia({ fecha, hoy }: { fecha: string; hoy: string }) {
             defaultMonth={seleccionada}
             today={aFecha(hoy)}
             onSelect={(dia) => dia && ir(aTexto(dia))}
+            className="[--cell-size:--spacing(9)]"
           />
         </PopoverContent>
       </Popover>
