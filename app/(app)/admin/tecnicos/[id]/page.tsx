@@ -3,6 +3,7 @@ import { CampoPasswordAdmin } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
 import { Avatar, Estado, Volver } from "@/components/visual";
 import { CampoPassword } from "@/components/campo-password";
+import { cn } from "@/lib/utils";
 import { obtenerTecnico } from "@/lib/datos/tecnicos";
 import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
 import {
@@ -24,13 +25,18 @@ export default async function PaginaTecnico({
         <span className="[&>a]:bg-card">
           <Volver href="/admin/tecnicos">Volver a técnicos</Volver>
         </span>
-        <div className="panel flex items-center gap-4">
+        <div
+          className={cn(
+            "flex items-center gap-4 rounded-2xl p-5",
+            tecnico.activo ? "tarjeta-verde" : "tarjeta-gris",
+          )}
+        >
           <Avatar nombre={tecnico.nombre} />
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-2xl font-semibold tracking-tight">
               {tecnico.nombre}
             </h1>
-            <p className="text-muted-foreground truncate">{tecnico.correo}</p>
+            <p className="text-foreground/60 truncate">{tecnico.correo}</p>
           </div>
           <Estado tono={tecnico.activo ? "verde" : "gris"}>
             {tecnico.activo ? "Activo" : "Desactivado"}

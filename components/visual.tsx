@@ -18,6 +18,8 @@ const TONOS = {
   violeta: "bg-violet-100 text-violet-800",
   gris: "bg-secondary text-muted-foreground",
   oscuro: "bg-foreground text-background",
+  // Sobre una tarjeta de color.
+  claro: "bg-white/60 text-foreground",
 } as const;
 
 export type Tono = keyof typeof TONOS;
@@ -128,8 +130,9 @@ export function Flecha() {
   );
 }
 
-export const tarjetaEnlace =
-  "panel group focus-visible:ring-ring/50 flex flex-col gap-4 outline-none focus-visible:ring-3";
+/** Forma común de las tarjetas de color; el fondo lo pone tarjeta-verde o tarjeta-gris. */
+export const tarjeta =
+  "group focus-visible:ring-ring/60 flex flex-col rounded-2xl p-5 outline-none focus-visible:ring-3";
 
 /** Icono de un equipo de clima o refrigeración. */
 export const IconoDeEquipo = Snowflake;
@@ -164,7 +167,7 @@ export function TarjetaEquipo({
   return (
     <Link
       href={href}
-      className="tarjeta-verde group focus-visible:ring-ring/60 flex min-h-48 flex-col justify-between gap-8 rounded-2xl p-5 outline-none focus-visible:ring-3"
+      className={cn(tarjeta, "tarjeta-verde min-h-48 justify-between gap-8")}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">

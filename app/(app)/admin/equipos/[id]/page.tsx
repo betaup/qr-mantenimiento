@@ -26,15 +26,15 @@ export default async function PaginaEquipo({
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="panel flex flex-col gap-4 print:hidden">
+      <div className="tarjeta-verde flex flex-col gap-4 rounded-2xl p-5 print:hidden">
         <Volver href="/admin/equipos">Volver a equipos</Volver>
         <div className="flex items-center gap-4">
-          <IconoEnCaja icono={IconoDeEquipo} grande />
+          <IconoEnCaja icono={IconoDeEquipo} tono="claro" grande />
           <div className="min-w-0">
             <h1 className="truncate text-2xl font-semibold tracking-tight">
               {equipo.nombre}
             </h1>
-            <p className="text-muted-foreground truncate">{equipo.modelo}</p>
+            <p className="text-foreground/60 truncate">{equipo.modelo}</p>
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -46,7 +46,7 @@ export default async function PaginaEquipo({
           href={`/equipos/${equipo.id}`}
           className={buttonVariants({
             variant: "outline",
-            className: "h-9 w-fit",
+            className: "h-9 w-fit border-transparent bg-white/70",
           })}
         >
           <History aria-hidden />

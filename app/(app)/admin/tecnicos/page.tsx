@@ -7,9 +7,10 @@ import {
   Estado,
   Flecha,
   IconoEnCaja,
-  tarjetaEnlace,
+  tarjeta,
 } from "@/components/visual";
 import { CampoPassword } from "@/components/campo-password";
+import { cn } from "@/lib/utils";
 import { listarTecnicos } from "@/lib/datos/tecnicos";
 import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
 import { agregarTecnico } from "./acciones";
@@ -32,21 +33,29 @@ export default async function PaginaTecnicos() {
               <li key={tecnico.id}>
                 <Link
                   href={`/admin/tecnicos/${tecnico.id}`}
-                  className={tarjetaEnlace}
+                  className={cn(
+                    tarjeta,
+                    "min-h-44 justify-between gap-8",
+                    tecnico.activo ? "tarjeta-verde" : "tarjeta-gris",
+                  )}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-start justify-between gap-3">
                     <Avatar nombre={tecnico.nombre} />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium">{tecnico.nombre}</p>
-                      <p className="text-muted-foreground truncate text-sm">
+                    <Flecha />
+                  </div>
+                  <div className="flex items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-lg leading-tight font-medium">
+                        {tecnico.nombre}
+                      </p>
+                      <p className="text-foreground/60 mt-1 truncate text-sm">
                         {tecnico.correo}
                       </p>
                     </div>
-                    <Flecha />
+                    <Estado tono={tecnico.activo ? "verde" : "gris"}>
+                      {tecnico.activo ? "Activo" : "Desactivado"}
+                    </Estado>
                   </div>
-                  <Estado tono={tecnico.activo ? "verde" : "gris"}>
-                    {tecnico.activo ? "Activo" : "Desactivado"}
-                  </Estado>
                 </Link>
               </li>
             ))}

@@ -7,7 +7,9 @@ import {
   Etiqueta,
   IconoDeEquipo,
   IconoEnCaja,
+  tarjeta,
 } from "@/components/visual";
+import { cn } from "@/lib/utils";
 import { asignacionesDelDia } from "@/lib/datos/asignaciones";
 import { fechaDeHoy } from "@/lib/dominio";
 import { requerirRol } from "@/lib/auth/guardas";
@@ -142,15 +144,19 @@ export default async function PaginaAsignaciones({
             );
             const asignado = equipo.asignaciones.length > 0;
             return (
-              <li key={equipo.id} className="panel flex flex-col gap-4">
+              <li
+                key={equipo.id}
+                className={cn(
+                  tarjeta,
+                  "gap-4",
+                  asignado ? "tarjeta-verde" : "tarjeta-gris",
+                )}
+              >
                 <div className="flex items-start gap-3">
-                  <IconoEnCaja
-                    icono={IconoDeEquipo}
-                    tono={asignado ? "verde" : "gris"}
-                  />
+                  <IconoEnCaja icono={IconoDeEquipo} tono="claro" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{equipo.nombre}</p>
-                    <p className="text-muted-foreground font-mono text-xs">
+                    <p className="text-foreground/60 font-mono text-xs">
                       {equipo.serie}
                     </p>
                   </div>

@@ -65,17 +65,17 @@ export default async function PaginaEquipo({
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
-      <div className="panel flex flex-col gap-4">
+      <div className="tarjeta-verde flex flex-col gap-4 rounded-2xl p-5">
         <Volver href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}>
           {esAdmin ? "Volver al equipo" : "Volver a tus equipos"}
         </Volver>
         <div className="flex items-center gap-4">
-          <IconoEnCaja icono={IconoDeEquipo} grande />
+          <IconoEnCaja icono={IconoDeEquipo} tono="claro" grande />
           <div className="min-w-0">
             <h1 className="truncate text-2xl font-semibold tracking-tight">
               {equipo.nombre}
             </h1>
-            <p className="text-muted-foreground truncate">{equipo.modelo}</p>
+            <p className="text-foreground/60 truncate">{equipo.modelo}</p>
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -87,7 +87,7 @@ export default async function PaginaEquipo({
           href={`/equipos/${equipo.id}/reporte`}
           className={buttonVariants({
             variant: "outline",
-            className: "h-11 w-full sm:h-9 sm:w-fit",
+            className: "h-11 w-full border-transparent bg-white/70 sm:h-9 sm:w-fit",
           })}
         >
           <Download aria-hidden />
