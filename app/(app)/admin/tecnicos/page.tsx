@@ -35,7 +35,7 @@ export default async function PaginaTecnicos() {
                   href={`/admin/tecnicos/${tecnico.id}`}
                   className={cn(
                     tarjeta,
-                    "min-h-44 justify-between gap-8",
+                    "h-48 justify-between gap-6",
                     tecnico.activo ? "tarjeta-verde" : "tarjeta-gris",
                   )}
                 >

@@ -167,11 +167,13 @@ export function TarjetaEquipo({
   return (
     <Link
       href={href}
-      className={cn(tarjeta, "tarjeta-verde min-h-48 justify-between gap-8")}
+      className={cn(tarjeta, "tarjeta-verde h-48 justify-between gap-6")}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-lg leading-tight font-medium">{equipo.nombre}</p>
+          <p className="truncate text-lg leading-tight font-medium">
+            {equipo.nombre}
+          </p>
           <p className="text-foreground/60 mt-1 truncate text-sm">
             {equipo.modelo}
           </p>

@@ -1,4 +1,10 @@
-import { ClipboardCheck, HardHat, MapPin } from "lucide-react";
+import {
+  CalendarCheck,
+  ClipboardCheck,
+  HardHat,
+  MapPin,
+  type LucideIcon,
+} from "lucide-react";
 import { FilaAsignacion } from "@/components/fila-asignacion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,61 +70,67 @@ export default async function PaginaAsignaciones({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="bg-foreground text-background flex flex-col justify-between gap-5 rounded-xl p-5 sm:col-span-2">
+        <div className="tarjeta-noche text-background flex min-h-44 flex-col justify-between gap-6 rounded-2xl p-5 sm:col-span-2">
           <div className="flex items-start justify-between gap-3">
-            <p className="text-background/70">Equipos asignados</p>
-            <p className="text-background/70 text-sm">
-              {Math.round(avance)}%
+            <p className="text-lg leading-tight font-medium">
+              Equipos asignados
             </p>
-          </div>
-          <p className="text-4xl font-semibold tracking-tight">
-            {asignados}
-            <span className="text-background/60 text-xl font-normal">
-              {" "}
-              de {equipos.length}
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
+              <CalendarCheck className="size-5" aria-hidden />
             </span>
-          </p>
-          {/* Barra en SVG: la CSP no permite estilos en línea, y el ancho
-              depende de los datos. */}
-          <svg
-            role="img"
-            aria-label={`${asignados} de ${equipos.length} equipos asignados`}
-            className="h-3.5 w-full overflow-hidden rounded-full"
-          >
-            <defs>
-              <pattern
-                id="trama"
-                width="7"
-                height="7"
-                patternUnits="userSpaceOnUse"
-                patternTransform="rotate(45)"
-              >
-                <rect width="2" height="7" fill="white" fillOpacity="0.4" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="white" fillOpacity="0.15" />
-            <rect width={`${avance}%`} height="100%" rx="7" className="fill-brand" />
-            <rect width={`${avance}%`} height="100%" rx="7" fill="url(#trama)" />
-          </svg>
-        </div>
-
-        <div className="panel flex flex-col justify-between gap-5">
-          <IconoEnCaja icono={HardHat} tono="azul" />
-          <div>
-            <p className="text-4xl font-semibold tracking-tight">
-              {tecnicos.length}
-            </p>
-            <p className="text-muted-foreground">Técnicos activos</p>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-end justify-between gap-3">
+              <p className="text-5xl leading-none font-medium tracking-tight">
+                {asignados}
+                <span className="text-background/60 text-2xl font-normal">
+                  {" "}
+                  de {equipos.length}
+                </span>
+              </p>
+              <p className="text-background/70 text-sm">
+                {Math.round(avance)}% del día
+              </p>
+            </div>
+            {/* Barra en SVG: la CSP no permite estilos en línea, y el ancho
+                depende de los datos. */}
+            <svg
+              role="img"
+              aria-label={`${asignados} de ${equipos.length} equipos asignados`}
+              className="h-3.5 w-full overflow-hidden rounded-full"
+            >
+              <defs>
+                <pattern
+                  id="trama"
+                  width="7"
+                  height="7"
+                  patternUnits="userSpaceOnUse"
+                  patternTransform="rotate(45)"
+                >
+                  <rect width="2" height="7" fill="white" fillOpacity="0.4" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="white" fillOpacity="0.15" />
+              <rect width={`${avance}%`} height="100%" rx="7" className="fill-brand" />
+              <rect width={`${avance}%`} height="100%" rx="7" fill="url(#trama)" />
+            </svg>
           </div>
         </div>
 
-        <div className="panel flex flex-col justify-between gap-5">
-          <IconoEnCaja icono={ClipboardCheck} tono="naranja" />
-          <div>
-            <p className="text-4xl font-semibold tracking-tight">{servicios}</p>
-            <p className="text-muted-foreground">Servicios registrados</p>
-          </div>
-        </div>
+        <Indicador
+          clase="tarjeta-hielo"
+          titulo="Técnicos"
+          icono={HardHat}
+          valor={tecnicos.length}
+          detalle="Activos"
+        />
+        <Indicador
+          clase="tarjeta-ambar"
+          titulo="Servicios"
+          icono={ClipboardCheck}
+          valor={servicios}
+          detalle="Registrados"
+        />
       </div>
 
       <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2">
@@ -181,6 +193,41 @@ export default async function PaginaAsignaciones({
           })}
         </ul>
       )}
+    </div>
+  );
+}
+
+/** Indicador: título e icono arriba, el número en grande abajo. */
+function Indicador({
+  clase,
+  titulo,
+  icono,
+  valor,
+  detalle,
+}: {
+  clase: string;
+  titulo: string;
+  icono: LucideIcon;
+  valor: number;
+  detalle: string;
+}) {
+  return (
+    <div
+      className={cn(
+        clase,
+        "flex min-h-44 flex-col justify-between gap-6 rounded-2xl p-5",
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-lg leading-tight font-medium">{titulo}</p>
+        <IconoEnCaja icono={icono} tono="claro" />
+      </div>
+      <div>
+        <p className="text-5xl leading-none font-medium tracking-tight">
+          {valor}
+        </p>
+        <p className="text-foreground/60 mt-2 text-sm">{detalle}</p>
+      </div>
     </div>
   );
 }

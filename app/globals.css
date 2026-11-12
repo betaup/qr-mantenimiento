@@ -169,6 +169,35 @@
     radial-gradient(at 70% 100%, oklch(0.95 0 0 / 0.9) 0, transparent 55%);
 }
 
+/* Variantes para los indicadores: azul hielo y ámbar, vecinos del verde en
+   un sistema de clima (frío y calor), y una oscura con brillo verde. */
+@utility tarjeta-hielo {
+  --secondary: oklch(1 0 0 / 0.62);
+  --border: oklch(0.2 0 0 / 0.1);
+  background-color: oklch(0.985 0.012 230);
+  background-image:
+    radial-gradient(at 0% 0%, oklch(0.93 0.05 215 / 0.9) 0, transparent 55%),
+    radial-gradient(at 100% 15%, oklch(0.86 0.09 235 / 0.85) 0, transparent 50%),
+    radial-gradient(at 70% 100%, oklch(0.95 0.04 195 / 0.9) 0, transparent 55%);
+}
+
+@utility tarjeta-ambar {
+  --secondary: oklch(1 0 0 / 0.62);
+  --border: oklch(0.2 0 0 / 0.1);
+  background-color: oklch(0.985 0.015 85);
+  background-image:
+    radial-gradient(at 0% 0%, oklch(0.94 0.07 95 / 0.9) 0, transparent 55%),
+    radial-gradient(at 100% 15%, oklch(0.87 0.12 70 / 0.85) 0, transparent 50%),
+    radial-gradient(at 70% 100%, oklch(0.95 0.05 50 / 0.9) 0, transparent 55%);
+}
+
+@utility tarjeta-noche {
+  background-color: oklch(0.2 0 0);
+  background-image:
+    radial-gradient(at 100% 0%, oklch(0.55 0.15 135 / 0.5) 0, transparent 55%),
+    radial-gradient(at 0% 100%, oklch(0.45 0.09 185 / 0.45) 0, transparent 55%);
+}
+
 @media print {
   body {
     background: white;

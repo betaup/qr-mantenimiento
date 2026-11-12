@@ -4,7 +4,7 @@ import { registrar } from "@/lib/bitacora";
 import { requerirRol } from "@/lib/auth/guardas";
 
 // Pocas filas por página: la pantalla no crece sin fin.
-const POR_PAGINA = 10;
+export const POR_PAGINA = 10;
 
 /**
  * Eventos de la empresa del admin, del más reciente al más antiguo.

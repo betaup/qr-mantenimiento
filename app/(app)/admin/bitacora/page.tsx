@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
@@ -8,7 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { z } from "zod";
-import { consultarBitacora } from "@/lib/datos/bitacora";
+import { POR_PAGINA, consultarBitacora } from "@/lib/datos/bitacora";
 import { ZONA_HORARIA } from "@/lib/dominio";
 import { cn } from "@/lib/utils";
 
@@ -72,8 +73,11 @@ export default async function PaginaBitacora({
 }: PageProps<"/admin/bitacora">) {
   const pedida = numeroDePagina.parse((await searchParams).pagina);
   const { eventos, total, paginas } = await consultarBitacora(pedida);
-  const pagina = Math.min(pedida, paginas);
   const enlace = (n: number) => `/admin/bitacora?pagina=${n}`;
+  if (pedida > paginas) redirect(enlace(paginas));
+  const pagina = pedida;
+  // Filas vacías para que la tabla mida lo mismo en todas las páginas.
+  const relleno = Math.max(0, POR_PAGINA - eventos.length);
 
   return (
     <div className="flex flex-col gap-5">
@@ -86,7 +90,14 @@ export default async function PaginaBitacora({
 
       <div className="bg-card overflow-hidden rounded-2xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[52rem] table-fixed text-sm">
+            <colgroup>
+              <col className="w-36" />
+              <col className="w-52" />
+              <col />
+              <col className="w-44" />
+              <col className="w-28" />
+            </colgroup>
             <thead>
               <tr className="text-muted-foreground border-b text-left">
                 <th className="px-5 py-3.5 font-medium">Resultado</th>
@@ -101,8 +112,8 @@ export default async function PaginaBitacora({
                 const resultado = RESULTADO[evento.resultado];
                 const Icono = resultado?.icono ?? CircleCheck;
                 return (
-                  <tr key={evento.id}>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
+                  <tr key={evento.id} className="h-14">
+                    <td className="px-5 py-2 whitespace-nowrap">
                       <span
                         className={cn(
                           "flex items-center gap-2 font-medium",
@@ -113,37 +124,36 @@ export default async function PaginaBitacora({
                         {resultado?.nombre ?? evento.resultado}
                       </span>
                     </td>
-                    <td className="text-muted-foreground px-5 py-3.5 whitespace-nowrap tabular-nums">
+                    <td className="text-muted-foreground px-5 py-2 whitespace-nowrap tabular-nums">
                       {fechaYHora.format(evento.creadoEn)}
                     </td>
-                    <td className="px-5 py-3.5">
-                      <p className="font-medium">
+                    <td className="px-5 py-2">
+                      <p className="truncate font-medium">
                         {NOMBRE_DE_ACCION[evento.accion] ?? evento.accion}
                       </p>
                       {evento.detalle && (
-                        <p className="text-muted-foreground max-w-md truncate text-xs">
+                        <p className="text-muted-foreground truncate text-xs">
                           {evento.detalle}
                         </p>
                       )}
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap">
+                    <td className="truncate px-5 py-2">
                       {evento.usuario?.nombre ?? "Sin sesión"}
                     </td>
-                    <td className="text-muted-foreground px-5 py-3.5 font-mono text-xs">
+                    <td className="text-muted-foreground truncate px-5 py-2 font-mono text-xs">
                       {evento.ip}
                     </td>
                   </tr>
                 );
               })}
+              {Array.from({ length: relleno }, (_, i) => (
+                <tr key={`relleno-${i}`} aria-hidden className="h-14">
+                  <td colSpan={5} />
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-
-        {eventos.length === 0 && (
-          <p className="text-muted-foreground px-5 py-8 text-center">
-            No hay eventos en esta página.
-          </p>
-        )}
 
         <nav
           aria-label="Páginas"
