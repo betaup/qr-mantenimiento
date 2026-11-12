@@ -1,14 +1,6 @@
-import Link from "next/link";
 import { Campo } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { TarjetaEquipo } from "@/components/visual";
 import { listarEquipos } from "@/lib/datos/equipos";
 import { agregarEquipo } from "./acciones";
 
@@ -16,48 +8,25 @@ export default async function PaginaEquipos() {
   const equipos = await listarEquipos();
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[1fr_20rem]">
+    <div className="grid gap-6 xl:grid-cols-[1fr_21rem]">
       <section className="flex min-w-0 flex-col gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Equipos</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Equipos</h1>
 
         {equipos.length === 0 ? (
           <p className="panel text-muted-foreground">
             Todavía no hay equipos. Agrega el primero con el formulario.
           </p>
         ) : (
-          <div className="panel overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Equipo</TableHead>
-                <TableHead>Modelo</TableHead>
-                <TableHead>Serie</TableHead>
-                <TableHead>Ubicación</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {equipos.map((equipo) => (
-                <TableRow key={equipo.id}>
-                  <TableCell>
-                    <Link
-                      href={`/admin/equipos/${equipo.id}`}
-                      className="font-medium underline-offset-4 hover:underline"
-                    >
-                      {equipo.nombre}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{equipo.modelo}</TableCell>
-                  <TableCell className="font-mono text-[0.8rem]">
-                    {equipo.serie}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {equipo.ubicacion}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          </div>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {equipos.map((equipo) => (
+              <li key={equipo.id}>
+                <TarjetaEquipo
+                  href={`/admin/equipos/${equipo.id}`}
+                  equipo={equipo}
+                />
+              </li>
+            ))}
+          </ul>
         )}
       </section>
 

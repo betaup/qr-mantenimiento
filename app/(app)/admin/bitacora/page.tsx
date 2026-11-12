@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { z } from "zod";
-import { Badge } from "@/components/ui/badge";
+import { Estado } from "@/components/visual";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
@@ -41,9 +41,9 @@ const NOMBRE_DE_ACCION: Record<string, string> = {
 };
 
 const RESULTADO = {
-  EXITO: { nombre: "Éxito", variante: "outline" },
-  DENEGADO: { nombre: "Denegado", variante: "destructive" },
-  FALLO: { nombre: "Fallo", variante: "destructive" },
+  EXITO: { nombre: "Éxito", tono: "verde" },
+  DENEGADO: { nombre: "Denegado", tono: "rojo" },
+  FALLO: { nombre: "Fallo", tono: "naranja" },
 } as const;
 
 const numeroDePagina = z.coerce.number().int().min(1).max(10_000).catch(1);
@@ -59,10 +59,9 @@ export default async function PaginaBitacora({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight">Bitácora</h1>
-        <p className="text-muted-foreground max-w-prose text-sm leading-relaxed">
-          Registro de las acciones de tu empresa. No se puede modificar ni
-          borrar, y cada consulta también queda anotada.
+        <h1 className="text-3xl font-semibold tracking-tight">Bitácora</h1>
+        <p className="text-muted-foreground">
+          No se puede modificar ni borrar. Cada consulta queda anotada.
         </p>
       </div>
 
@@ -95,9 +94,9 @@ export default async function PaginaBitacora({
                     {NOMBRE_DE_ACCION[evento.accion] ?? evento.accion}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={resultado?.variante ?? "outline"}>
+                    <Estado tono={resultado?.tono ?? "gris"}>
                       {resultado?.nombre ?? evento.resultado}
-                    </Badge>
+                    </Estado>
                   </TableCell>
                   <TableCell className="text-muted-foreground max-w-xs text-xs whitespace-normal">
                     {evento.recurso && <p>{evento.recurso}</p>}

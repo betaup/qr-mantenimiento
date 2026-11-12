@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Campo, CampoPasswordAdmin } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, Estado } from "@/components/visual";
 import { obtenerTecnico } from "@/lib/datos/tecnicos";
 import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
 import {
@@ -19,7 +19,7 @@ export default async function PaginaTecnico({
   if (!tecnico) notFound();
 
   return (
-    <div className="flex max-w-xl flex-col gap-8">
+    <div className="flex max-w-xl flex-col gap-5">
       <div className="flex flex-col gap-2">
         <Link
           href="/admin/tecnicos"
@@ -27,22 +27,18 @@ export default async function PaginaTecnico({
         >
           Volver a técnicos
         </Link>
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            {tecnico.nombre}
-          </h1>
-          <Badge
-            variant="outline"
-            className={
-              tecnico.activo
-                ? "bg-brand/25 border-transparent"
-                : "text-muted-foreground"
-            }
-          >
+        <div className="panel flex items-center gap-4">
+          <Avatar nombre={tecnico.nombre} />
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate text-2xl font-semibold tracking-tight">
+              {tecnico.nombre}
+            </h1>
+            <p className="text-muted-foreground truncate">{tecnico.correo}</p>
+          </div>
+          <Estado tono={tecnico.activo ? "verde" : "gris"}>
             {tecnico.activo ? "Activo" : "Desactivado"}
-          </Badge>
+          </Estado>
         </div>
-        <p className="text-muted-foreground">{tecnico.correo}</p>
       </div>
 
       <section className="panel flex flex-col gap-4">

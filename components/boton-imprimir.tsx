@@ -1,5 +1,6 @@
 "use client";
 
+import { Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function BotonImprimir({ children }: { children: string }) {
@@ -7,9 +8,10 @@ export function BotonImprimir({ children }: { children: string }) {
     <Button
       type="button"
       variant="outline"
-      className="h-9 self-start px-3.5 print:hidden"
+      className="bg-card h-9 self-start px-3.5 print:hidden"
       onClick={() => window.print()}
     >
+      <Printer aria-hidden />
       {children}
     </Button>
   );

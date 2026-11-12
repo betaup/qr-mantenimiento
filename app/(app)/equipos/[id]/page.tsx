@@ -2,14 +2,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CampoMotivo, CamposServicio } from "@/components/campos-servicio";
 import { Formulario } from "@/components/formulario";
-import { Badge } from "@/components/ui/badge";
+import { AirVent, Ban, ClipboardCheck, Download, MapPin, PackagePlus, Wrench, type LucideIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { Estado, Etiqueta, IconoEnCaja, type Tono } from "@/components/visual";
 import {
   equipoAccesible,
   historialDe,
   type EntradaDeHistorial,
 } from "@/lib/datos/servicios";
-import { NOMBRE_DE_TIPO, ZONA_HORARIA } from "@/lib/dominio";
+import {
+  NOMBRE_DE_TIPO,
+  ZONA_HORARIA,
+  type TipoServicio,
+} from "@/lib/dominio";
 import { requerirSesion } from "@/lib/auth/guardas";
 import { anular, corregir, registrar } from "./acciones";
 
@@ -18,6 +23,13 @@ const fechaYHora = new Intl.DateTimeFormat("es-MX", {
   timeStyle: "short",
   timeZone: ZONA_HORARIA,
 });
+
+const ICONO_DE_TIPO: Record<TipoServicio, { icono: LucideIcon; tono: Tono }> =
+  {
+    INSTALACION: { icono: PackagePlus, tono: "azul" },
+    MANTENIMIENTO: { icono: ClipboardCheck, tono: "verde" },
+    REPARACION: { icono: Wrench, tono: "naranja" },
+  };
 
 const desplegable =
   "text-sm font-medium underline-offset-4 hover:underline cursor-pointer w-fit";
@@ -35,23 +47,26 @@ export default async function PaginaEquipo({
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
-      <div className="panel flex flex-col gap-3">
+      <div className="panel flex flex-col gap-4">
         <Link
           href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}
           className="text-muted-foreground w-fit text-sm underline-offset-4 hover:underline"
         >
           {esAdmin ? "Volver al equipo" : "Volver a tus equipos"}
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {equipo.nombre}
-        </h1>
-        <dl className="text-sm">
-          <Dato termino="Modelo">{equipo.modelo}</Dato>
-          <Dato termino="Serie">
-            <span className="font-mono">{equipo.serie}</span>
-          </Dato>
-          <Dato termino="Ubicación">{equipo.ubicacion}</Dato>
-        </dl>
+        <div className="flex items-center gap-4">
+          <IconoEnCaja icono={AirVent} grande />
+          <div className="min-w-0">
+            <h1 className="truncate text-2xl font-semibold tracking-tight">
+              {equipo.nombre}
+            </h1>
+            <p className="text-muted-foreground truncate">{equipo.modelo}</p>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Etiqueta mono>{equipo.serie}</Etiqueta>
+          <Etiqueta icono={MapPin}>{equipo.ubicacion}</Etiqueta>
+        </div>
         {/* Enlace normal, no <Link>: es una descarga, no una página. */}
         <a
           href={`/equipos/${equipo.id}/reporte`}
@@ -60,6 +75,7 @@ export default async function PaginaEquipo({
             className: "h-11 w-full sm:h-9 sm:w-fit",
           })}
         >
+          <Download aria-hidden />
           Descargar reporte PDF
         </a>
       </div>
@@ -122,21 +138,6 @@ export default async function PaginaEquipo({
   );
 }
 
-function Dato({
-  termino,
-  children,
-}: {
-  termino: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex gap-2 py-0.5">
-      <dt className="text-muted-foreground w-24 shrink-0">{termino}</dt>
-      <dd>{children}</dd>
-    </div>
-  );
-}
-
 function Entrada({
   entrada,
   equipoId,
@@ -152,20 +153,24 @@ function Entrada({
   const anulado = entrada.anulacion !== null;
 
   return (
-    <li className="flex flex-col gap-3 py-5 last:pb-1">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="font-medium">
-          {entrada.tipo ? NOMBRE_DE_TIPO[entrada.tipo] : "Servicio"}
-        </span>
-        {anulado && <Badge variant="destructive">Anulado</Badge>}
-        {corregido && !anulado && (
-          <Badge className="bg-warning/30 text-foreground">Corregido</Badge>
-        )}
+    <li className="flex gap-4 py-5 last:pb-1">
+      <IconoEnCaja
+        icono={anulado || !entrada.tipo ? Ban : ICONO_DE_TIPO[entrada.tipo].icono}
+        tono={anulado || !entrada.tipo ? "gris" : ICONO_DE_TIPO[entrada.tipo].tono}
+      />
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
+      <div className="flex flex-col gap-0.5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-medium">
+            {entrada.tipo ? NOMBRE_DE_TIPO[entrada.tipo] : "Servicio"}
+          </span>
+          {anulado && <Estado tono="rojo">Anulado</Estado>}
+          {corregido && !anulado && <Estado tono="naranja">Corregido</Estado>}
+        </div>
+        <p className="text-muted-foreground text-sm">
+          {entrada.autor}, {fechaYHora.format(entrada.creadoEn)}
+        </p>
       </div>
-
-      <p className="text-muted-foreground text-sm">
-        {entrada.autor}, {fechaYHora.format(entrada.creadoEn)}
-      </p>
 
       <p
         className={
@@ -254,6 +259,7 @@ function Entrada({
           </div>
         </details>
       )}
+      </div>
     </li>
   );
 }

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { AirVent, History, Layers, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { BotonImprimir } from "@/components/boton-imprimir";
 import { CampoPasswordAdmin } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
 import { buttonVariants } from "@/components/ui/button";
+import { Etiqueta, IconoEnCaja } from "@/components/visual";
 import { obtenerEquipo } from "@/lib/datos/equipos";
 import { imagenDelQr } from "@/lib/qr";
 import { regenerarQrDeEquipo } from "../acciones";
@@ -17,47 +19,44 @@ export default async function PaginaEquipo({
 
   const qr = await imagenDelQr(equipo.qrToken);
 
-  const datos = [
-    ["Modelo", equipo.modelo],
-    ["Ubicación", equipo.ubicacion],
-    ["Sección", equipo.seccion ?? "Sin sección"],
-  ];
-
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-2 print:hidden">
+    <div className="flex flex-col gap-5">
+      <div className="panel flex flex-col gap-4 print:hidden">
         <Link
           href="/admin/equipos"
           className="text-muted-foreground text-sm underline-offset-4 hover:underline"
         >
           Volver a equipos
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {equipo.nombre}
-        </h1>
-        <dl className="text-sm">
-          {datos.map(([termino, valor]) => (
-            <div key={termino} className="flex gap-2 py-0.5">
-              <dt className="text-muted-foreground w-24 shrink-0">{termino}</dt>
-              <dd>{valor}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="flex items-center gap-4">
+          <IconoEnCaja icono={AirVent} grande />
+          <div className="min-w-0">
+            <h1 className="truncate text-2xl font-semibold tracking-tight">
+              {equipo.nombre}
+            </h1>
+            <p className="text-muted-foreground truncate">{equipo.modelo}</p>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Etiqueta mono>{equipo.serie}</Etiqueta>
+          <Etiqueta icono={MapPin}>{equipo.ubicacion}</Etiqueta>
+          {equipo.seccion && <Etiqueta icono={Layers}>{equipo.seccion}</Etiqueta>}
+        </div>
         <Link
           href={`/equipos/${equipo.id}`}
           className={buttonVariants({
             variant: "outline",
-            className: "bg-card mt-1 h-9 w-fit",
+            className: "h-9 w-fit",
           })}
         >
+          <History aria-hidden />
           Ver historial de servicios
         </Link>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[auto_1fr] lg:items-start">
+      <div className="grid gap-5 lg:grid-cols-[auto_1fr] lg:items-start">
         <section className="flex flex-col gap-4">
-          <h2 className="font-semibold print:hidden">Etiqueta</h2>
-
+          
           {/* La etiqueta lleva la serie legible para que el técnico confirme
               que el QR está pegado en el equipo correcto (T6). */}
           <div className="bg-card flex w-64 flex-col items-center gap-3 rounded-xl p-4 text-center print:border">

@@ -1,41 +1,40 @@
-import Link from "next/link";
+import { CalendarX } from "lucide-react";
+import { IconoEnCaja, TarjetaEquipo } from "@/components/visual";
 import { equiposDeHoy } from "@/lib/datos/servicios";
+import { requerirRol } from "@/lib/auth/guardas";
 
 // Sin título propio: se mostraría también a quien no tiene este rol y
 // revelaría que la ruta existe (RS-08).
 export default async function PaginaTecnico() {
+  const { usuario } = await requerirRol("TECNICO");
   const equipos = await equiposDeHoy();
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Tus equipos de hoy
+        <h1 className="text-3xl font-semibold tracking-tight">
+          Hola, {usuario.nombre.split(" ")[0]}
         </h1>
         <p className="text-muted-foreground">
-          Abre uno de la lista o escanea su código QR.
+          {equipos.length === 1
+            ? "Hoy tienes 1 equipo asignado."
+            : `Hoy tienes ${equipos.length} equipos asignados.`}
         </p>
       </div>
 
       {equipos.length === 0 ? (
-        <p className="panel leading-relaxed">
-          Hoy no tienes equipos asignados. Pide al admin de tu empresa que te
-          asigne los que vas a atender.
-        </p>
+        <div className="panel flex items-center gap-4">
+          <IconoEnCaja icono={CalendarX} tono="gris" />
+          <p className="leading-relaxed">
+            Pide al admin de tu empresa que te asigne los equipos que vas a
+            atender.
+          </p>
+        </div>
       ) : (
-        <ul className="bg-card divide-y overflow-hidden rounded-xl">
+        <ul className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
           {equipos.map((equipo) => (
             <li key={equipo.id}>
-              <Link
-                href={`/equipos/${equipo.id}`}
-                className="hover:bg-muted/60 focus-visible:bg-muted/60 flex flex-col gap-0.5 px-5 py-4 outline-none"
-              >
-                <span className="font-medium">{equipo.nombre}</span>
-                <span className="text-muted-foreground text-sm">
-                  {equipo.ubicacion}
-                </span>
-                <span className="font-mono text-sm">{equipo.serie}</span>
-              </Link>
+              <TarjetaEquipo href={`/equipos/${equipo.id}`} equipo={equipo} />
             </li>
           ))}
         </ul>

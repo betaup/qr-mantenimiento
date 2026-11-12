@@ -8,14 +8,14 @@ export default async function LayoutApp({ children }: LayoutProps<"/">) {
   const { usuario } = await requerirSesion();
 
   return (
-    <div className="min-h-dvh lg:grid lg:grid-cols-[17rem_1fr]">
+    <div className="min-h-dvh lg:grid lg:grid-cols-[18rem_1fr]">
       <BarraLateral
         rol={usuario.rol}
         nombre={usuario.nombre}
         empresa={usuario.empresa}
         salir={salir}
       />
-      <main className="min-w-0 px-4 py-5 lg:py-6 lg:pr-6 lg:pl-1">
+      <main className="min-w-0 px-4 py-5 lg:py-6 lg:pr-6 lg:pl-3">
         <div className="mx-auto w-full max-w-6xl">{children}</div>
       </main>
     </div>
