@@ -1,0 +1,88 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Campo, CampoPasswordAdmin } from "@/components/campo";
+import { Formulario } from "@/components/formulario";
+import { Badge } from "@/components/ui/badge";
+import { obtenerTecnico } from "@/lib/datos/tecnicos";
+import { LONGITUD_MINIMA } from "@/lib/auth/reglas";
+import {
+  desactivarTecnico,
+  reactivarTecnico,
+  restablecerPasswordDeTecnico,
+} from "../acciones";
+
+export default async function PaginaTecnico({
+  params,
+}: PageProps<"/admin/tecnicos/[id]">) {
+  const { id } = await params;
+  const tecnico = await obtenerTecnico(id);
+  if (!tecnico) notFound();
+
+  return (
+    <div className="flex max-w-xl flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <Link
+          href="/admin/tecnicos"
+          className="text-muted-foreground text-sm underline-offset-4 hover:underline"
+        >
+          Volver a técnicos
+        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {tecnico.nombre}
+          </h1>
+          <Badge variant={tecnico.activo ? "secondary" : "outline"}>
+            {tecnico.activo ? "Activo" : "Desactivado"}
+          </Badge>
+        </div>
+        <p className="text-muted-foreground">{tecnico.correo}</p>
+      </div>
+
+      <section className="flex flex-col gap-4 rounded-lg border p-5">
+        <div className="flex flex-col gap-1">
+          <h2 className="font-semibold">Restablecer contraseña</h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            Define una contraseña nueva y entrégasela en persona. Sus sesiones
+            abiertas se cierran.
+          </p>
+        </div>
+        <Formulario
+          accion={restablecerPasswordDeTecnico}
+          boton="Restablecer contraseña"
+        >
+          <input type="hidden" name="id" value={tecnico.id} />
+          <Campo
+            name="password"
+            etiqueta="Contraseña nueva"
+            type="password"
+            required
+            autoComplete="new-password"
+            ayuda={`Al menos ${LONGITUD_MINIMA} caracteres.`}
+          />
+          <CampoPasswordAdmin id="passwordAdmin-restablecer" />
+        </Formulario>
+      </section>
+
+      <section className="flex flex-col gap-4 rounded-lg border p-5">
+        <div className="flex flex-col gap-1">
+          <h2 className="font-semibold">
+            {tecnico.activo ? "Desactivar cuenta" : "Reactivar cuenta"}
+          </h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {tecnico.activo
+              ? "No podrá iniciar sesión y sus sesiones abiertas se cierran al instante. Su historial de servicios se conserva."
+              : "Podrá iniciar sesión otra vez con su contraseña actual."}
+          </p>
+        </div>
+        <Formulario
+          accion={tecnico.activo ? desactivarTecnico : reactivarTecnico}
+          boton={tecnico.activo ? "Desactivar cuenta" : "Reactivar cuenta"}
+          variante={tecnico.activo ? "destructive" : "default"}
+        >
+          <input type="hidden" name="id" value={tecnico.id} />
+          <CampoPasswordAdmin id="passwordAdmin-estado" />
+        </Formulario>
+      </section>
+    </div>
+  );
+}

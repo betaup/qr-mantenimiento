@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { ROLES } from "@/lib/dominio";
+import { correo } from "@/lib/validacion";
 import { registrar } from "@/lib/bitacora";
 import { ipDeLaPeticion } from "@/lib/peticion";
 import { rutaDeInicio } from "@/lib/auth/guardas";
@@ -25,7 +26,7 @@ const DEMASIADOS =
   "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.";
 
 const esquema = z.object({
-  correo: z.string().trim().toLowerCase().max(254).pipe(z.email()),
+  correo,
   password: z.string().min(1).max(LONGITUD_MAXIMA),
 });
 

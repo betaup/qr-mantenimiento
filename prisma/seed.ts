@@ -1,14 +1,12 @@
 // Datos de prueba: dos empresas ficticias, aisladas entre sí.
 // Uso: npx prisma db seed   (para empezar de cero: npx prisma migrate reset)
 import "dotenv/config";
-import { randomBytes } from "node:crypto";
 import { hash } from "@node-rs/argon2";
 import { PrismaClient } from "../lib/generated/prisma/client";
 import { fechaDeHoy } from "../lib/dominio";
+import { nuevoQrToken } from "../lib/qr";
 
 const db = new PrismaClient();
-
-const nuevoQrToken = () => randomBytes(32).toString("base64url");
 
 const EMPRESAS = [
   {
