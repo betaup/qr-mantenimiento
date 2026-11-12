@@ -32,6 +32,7 @@ import {
   type TipoServicio,
 } from "@/lib/dominio";
 import { requerirSesion } from "@/lib/auth/guardas";
+import { cn } from "@/lib/utils";
 import { anular, corregir, registrar } from "./acciones";
 
 const fechaYHora = new Intl.DateTimeFormat("es-MX", {
@@ -64,31 +65,33 @@ export default async function PaginaEquipo({
   const esAdmin = usuario.rol === "ADMIN";
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+    <div className="@container/equipo flex min-w-0 flex-col gap-5">
       <Volver href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}>
         {esAdmin ? "Volver al equipo" : "Volver a tus equipos"}
       </Volver>
 
-      <div className="tarjeta-verde flex flex-col gap-4 rounded-2xl p-5">
-        <div className="flex items-center gap-4">
-          <IconoEnCaja icono={IconoDeEquipo} tono="claro" grande />
-          <div className="min-w-0">
-            <h1 className="truncate text-2xl font-semibold tracking-tight">
-              {equipo.nombre}
-            </h1>
-            <p className="text-foreground/60 truncate">{equipo.modelo}</p>
+      <div className="tarjeta-verde flex min-w-0 flex-col gap-4 rounded-2xl p-5 @min-[40rem]/equipo:flex-row @min-[40rem]/equipo:items-center @min-[40rem]/equipo:justify-between">
+        <div className="flex min-w-0 flex-col gap-3">
+          <div className="flex items-center gap-4">
+            <IconoEnCaja icono={IconoDeEquipo} tono="claro" grande />
+            <div className="min-w-0">
+              <h1 className="text-2xl font-semibold tracking-tight wrap-anywhere">
+                {equipo.nombre}
+              </h1>
+              <p className="text-foreground/60 wrap-anywhere">{equipo.modelo}</p>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Etiqueta mono>{equipo.serie}</Etiqueta>
-          <Etiqueta icono={MapPin}>{equipo.ubicacion}</Etiqueta>
+          <div className="flex min-w-0 flex-wrap gap-2">
+            <Etiqueta mono>{equipo.serie}</Etiqueta>
+            <Etiqueta icono={MapPin}>{equipo.ubicacion}</Etiqueta>
+          </div>
         </div>
         {/* Enlace normal, no <Link>: es una descarga, no una página. */}
         <a
           href={`/equipos/${equipo.id}/reporte`}
           className={buttonVariants({
             variant: "outline",
-            className: "h-11 w-full border-transparent bg-white/70 sm:h-9 sm:w-fit",
+            className: "h-11 w-full shrink-0 border-transparent bg-white/70 @min-[40rem]/equipo:w-auto",
           })}
         >
           <Download aria-hidden />
@@ -96,60 +99,94 @@ export default async function PaginaEquipo({
         </a>
       </div>
 
-      {!esAdmin && (
-        <section className="panel flex flex-col gap-4">
-          <h2 className="text-lg font-semibold">Registrar servicio</h2>
-          <Formulario
-            accion={registrar}
-            boton="Registrar servicio"
-            enviando="Registrando…"
-          >
-            <input type="hidden" name="equipoId" value={equipo.id} />
-            <CamposServicio prefijo="nuevo" />
-
-            {/* El QR pudo pegarse en otro equipo: el técnico compara la placa
-                con estos datos antes de registrar (RS-15, T6). */}
-            <label className="bg-muted/60 flex cursor-pointer items-start gap-3 rounded-lg p-3 text-sm leading-relaxed">
-              <input
-                type="checkbox"
-                name="confirmado"
-                required
-                className="accent-primary mt-0.5 size-4 shrink-0"
-              />
-              <span>
-                Confirmo que la placa del equipo dice {equipo.modelo}, serie{" "}
-                <span className="font-mono">{equipo.serie}</span>, y que está
-                en {equipo.ubicacion}.
-              </span>
-            </label>
-          </Formulario>
-        </section>
-      )}
-
-      <section className="panel flex flex-col gap-2">
-        <h2 className="text-lg font-semibold">Historial</h2>
-
-        {historial.length === 0 ? (
-          <p className="text-muted-foreground">
-            Este equipo todavía no tiene servicios registrados.
-          </p>
-        ) : (
-          <ol className="divide-y">
-            {historial.map((entrada) => (
-              <Entrada
-                key={entrada.id}
-                entrada={entrada}
-                equipoId={equipo.id}
-                puedeCorregir={
-                  !entrada.anulacion &&
-                  (esAdmin || entrada.autorId === usuario.id)
-                }
-                puedeAnular={!entrada.anulacion && esAdmin}
-              />
-            ))}
-          </ol>
+      <div
+        className={cn(
+          "grid min-w-0 gap-5",
+          !esAdmin &&
+            "@min-[56rem]/equipo:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] print:grid-cols-1",
         )}
-      </section>
+      >
+        {!esAdmin && (
+          <section className="panel flex min-w-0 flex-col gap-4">
+            <h2 className="text-lg font-semibold">Registrar servicio</h2>
+            <Formulario
+              accion={registrar}
+              boton="Registrar servicio"
+              enviando="Registrando…"
+            >
+              <input type="hidden" name="equipoId" value={equipo.id} />
+              <CamposServicio prefijo="nuevo" />
+
+              {/* El QR pudo pegarse en otro equipo: el técnico compara la placa
+                  con estos datos antes de registrar (RS-15, T6). */}
+              <label className="bg-muted/60 flex cursor-pointer items-start gap-3 rounded-lg p-3 text-sm leading-relaxed wrap-anywhere">
+                <input
+                  type="checkbox"
+                  name="confirmado"
+                  required
+                  className="accent-primary mt-0.5 size-4 shrink-0"
+                />
+                <span>
+                  Confirmo que la placa del equipo dice {equipo.modelo}, serie{" "}
+                  <span className="font-mono">{equipo.serie}</span>, y que está
+                  en {equipo.ubicacion}.
+                </span>
+              </label>
+            </Formulario>
+          </section>
+        )}
+
+        <section
+          className={cn(
+            "panel flex min-h-0 min-w-0 flex-col gap-2",
+            !esAdmin &&
+              "@min-[56rem]/equipo:[contain:size] print:[contain:none]",
+          )}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <h2 id="historial-equipo" className="text-lg font-semibold">
+              Historial
+            </h2>
+            <span className="text-muted-foreground text-sm">
+              {historial.length} {historial.length === 1 ? "registro" : "registros"}
+            </span>
+          </div>
+
+          {/* En dos columnas, el historial ocupa la altura del formulario y
+              se desplaza por dentro. En móvil e impresión conserva su altura. */}
+          <div
+            role="region"
+            aria-labelledby="historial-equipo"
+            tabIndex={historial.length > 0 ? 0 : undefined}
+            className={cn(
+              "min-w-0 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/60",
+              !esAdmin &&
+                "@min-[56rem]/equipo:min-h-0 @min-[56rem]/equipo:flex-1 @min-[56rem]/equipo:overflow-y-auto @min-[56rem]/equipo:overscroll-y-contain @min-[56rem]/equipo:[scrollbar-gutter:stable] print:flex-none print:overflow-visible",
+            )}
+          >
+            {historial.length === 0 ? (
+              <p className="text-muted-foreground">
+                Este equipo todavía no tiene servicios registrados.
+              </p>
+            ) : (
+              <ol className="divide-y wrap-anywhere">
+                {historial.map((entrada) => (
+                  <Entrada
+                    key={entrada.id}
+                    entrada={entrada}
+                    equipoId={equipo.id}
+                    puedeCorregir={
+                      !entrada.anulacion &&
+                      (esAdmin || entrada.autorId === usuario.id)
+                    }
+                    puedeAnular={!entrada.anulacion && esAdmin}
+                  />
+                ))}
+              </ol>
+            )}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

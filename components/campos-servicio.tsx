@@ -18,15 +18,15 @@ export function CamposServicio({
 }) {
   return (
     <>
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className="@container/servicio flex min-w-0 flex-col gap-2">
         <legend className="mb-2 text-sm leading-none font-medium">
           Tipo de servicio
         </legend>
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid gap-2 @min-[28rem]/servicio:grid-cols-3">
           {TIPOS_SERVICIO.map((valor) => (
             <label
               key={valor}
-              className="has-checked:border-brand has-checked:bg-brand/15 has-focus-visible:ring-ring/50 flex min-h-11 cursor-pointer items-center gap-2.5 rounded-lg border px-3 text-sm font-medium has-focus-visible:ring-3"
+              className="has-checked:border-brand has-checked:bg-brand/15 has-focus-visible:ring-ring/50 flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-2.5 text-sm font-medium has-focus-visible:ring-3"
             >
               <input
                 type="radio"
@@ -34,7 +34,7 @@ export function CamposServicio({
                 value={valor}
                 defaultChecked={valor === tipo}
                 required
-                className="accent-primary size-4"
+                className="accent-primary size-4 shrink-0"
               />
               {NOMBRE_DE_TIPO[valor]}
             </label>
@@ -51,7 +51,7 @@ export function CamposServicio({
           minLength={5}
           maxLength={2000}
           defaultValue={descripcion}
-          className="min-h-28"
+          className="max-h-48 min-h-28 resize-y overflow-y-auto"
         />
       </div>
     </>
