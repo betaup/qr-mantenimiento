@@ -65,10 +65,11 @@ export default async function PaginaEquipo({
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
+      <Volver href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}>
+        {esAdmin ? "Volver al equipo" : "Volver a tus equipos"}
+      </Volver>
+
       <div className="tarjeta-verde flex flex-col gap-4 rounded-2xl p-5">
-        <Volver href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}>
-          {esAdmin ? "Volver al equipo" : "Volver a tus equipos"}
-        </Volver>
         <div className="flex items-center gap-4">
           <IconoEnCaja icono={IconoDeEquipo} tono="claro" grande />
           <div className="min-w-0">

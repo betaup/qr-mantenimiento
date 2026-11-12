@@ -26,8 +26,9 @@ export default async function PaginaEquipo({
 
   return (
     <div className="flex flex-col gap-5">
+      <Volver href="/admin/equipos">Volver a equipos</Volver>
+
       <div className="tarjeta-verde flex flex-col gap-4 rounded-2xl p-5 print:hidden">
-        <Volver href="/admin/equipos">Volver a equipos</Volver>
         <div className="flex items-center gap-4">
           <IconoEnCaja icono={IconoDeEquipo} tono="claro" grande />
           <div className="min-w-0">

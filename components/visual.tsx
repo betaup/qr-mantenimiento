@@ -141,7 +141,10 @@ const tarjetaDeLista = "h-48 justify-between gap-6";
 /** Icono de un equipo de clima o refrigeración. */
 export const IconoDeEquipo = Snowflake;
 
-/** Enlace para regresar: una pastilla con flecha, para que se note que se puede usar. */
+/**
+ * Enlace para regresar: una pastilla blanca con flecha, para que se note que
+ * se puede usar. Va arriba de la página, fuera de las tarjetas.
+ */
 export function Volver({
   href,
   children,
@@ -152,7 +155,7 @@ export function Volver({
   return (
     <Link
       href={href}
-      className="bg-secondary hover:bg-foreground hover:text-background focus-visible:ring-ring/60 inline-flex w-fit items-center gap-2 rounded-full py-1.5 pr-3.5 pl-2.5 text-sm font-medium outline-none transition-colors focus-visible:ring-3"
+      className="bg-card hover:bg-foreground hover:text-background focus-visible:ring-ring/60 inline-flex w-fit items-center gap-2 rounded-full py-1.5 pr-3.5 pl-2.5 text-sm font-medium outline-none transition-colors focus-visible:ring-3 print:hidden"
     >
       <ArrowLeft className="size-4" aria-hidden />
       {children}

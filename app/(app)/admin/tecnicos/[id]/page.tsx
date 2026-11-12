@@ -21,10 +21,8 @@ export default async function PaginaTecnico({
 
   return (
     <div className="flex max-w-xl flex-col gap-5">
-      <div className="flex flex-col gap-2">
-        <span className="[&>a]:bg-card">
-          <Volver href="/admin/tecnicos">Volver a técnicos</Volver>
-        </span>
+      <div className="flex flex-col gap-5">
+        <Volver href="/admin/tecnicos">Volver a técnicos</Volver>
         <div
           className={cn(
             "flex items-center gap-4 rounded-2xl p-5",
