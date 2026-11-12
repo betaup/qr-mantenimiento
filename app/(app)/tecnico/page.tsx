@@ -18,17 +18,17 @@ export default async function PaginaTecnico() {
       </div>
 
       {equipos.length === 0 ? (
-        <p className="rounded-lg border border-dashed p-5 leading-relaxed">
+        <p className="panel leading-relaxed">
           Hoy no tienes equipos asignados. Pide al admin de tu empresa que te
           asigne los que vas a atender.
         </p>
       ) : (
-        <ul className="divide-y rounded-lg border">
+        <ul className="bg-card divide-y overflow-hidden rounded-xl">
           {equipos.map((equipo) => (
             <li key={equipo.id}>
               <Link
                 href={`/equipos/${equipo.id}`}
-                className="hover:bg-muted/60 focus-visible:bg-muted/60 flex flex-col gap-0.5 px-4 py-4 outline-none"
+                className="hover:bg-muted/60 focus-visible:bg-muted/60 flex flex-col gap-0.5 px-5 py-4 outline-none"
               >
                 <span className="font-medium">{equipo.nombre}</span>
                 <span className="text-muted-foreground text-sm">

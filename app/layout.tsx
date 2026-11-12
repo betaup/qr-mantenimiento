@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 
-const plexSans = IBM_Plex_Sans({
+const outfit = Outfit({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
 });
 
 // Solo para números de serie y tokens, donde importa distinguir cada carácter.
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${plexSans.variable} ${plexMono.variable}`}>
+    <html lang="es" className={`${outfit.variable} ${plexMono.variable}`}>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );

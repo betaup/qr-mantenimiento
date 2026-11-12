@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { QrCode } from "lucide-react";
 import { rutaDeInicio } from "@/lib/auth/guardas";
 import { obtenerSesion } from "@/lib/auth/sesion";
 import { destinoSeguro } from "@/lib/validacion";
@@ -15,8 +16,12 @@ export default async function PaginaLogin({
   if (sesion) redirect(siguiente ?? rutaDeInicio(sesion.usuario.rol));
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-sm flex-col justify-center gap-8 px-6 py-10">
+    <main className="flex min-h-dvh flex-col items-center justify-center px-4 py-10">
+      <div className="panel flex w-full max-w-sm flex-col gap-7 p-7">
       <div className="flex flex-col gap-2">
+        <span className="bg-brand text-brand-foreground mb-2 flex size-10 items-center justify-center rounded-xl">
+          <QrCode className="size-5" aria-hidden />
+        </span>
         <h1 className="text-2xl font-semibold tracking-tight">
           Mantenimiento QR
         </h1>
@@ -33,6 +38,7 @@ export default async function PaginaLogin({
         Si olvidaste tu contraseña, pide al admin de tu empresa que la
         restablezca.
       </p>
+      </div>
     </main>
   );
 }

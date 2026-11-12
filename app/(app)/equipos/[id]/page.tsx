@@ -34,8 +34,8 @@ export default async function PaginaEquipo({
   const esAdmin = usuario.rol === "ADMIN";
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-10">
-      <div className="flex flex-col gap-3">
+    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+      <div className="panel flex flex-col gap-3">
         <Link
           href={esAdmin ? `/admin/equipos/${equipo.id}` : "/tecnico"}
           className="text-muted-foreground w-fit text-sm underline-offset-4 hover:underline"
@@ -65,7 +65,7 @@ export default async function PaginaEquipo({
       </div>
 
       {!esAdmin && (
-        <section className="flex flex-col gap-4 rounded-lg border p-4 sm:p-5">
+        <section className="panel flex flex-col gap-4">
           <h2 className="text-lg font-semibold">Registrar servicio</h2>
           <Formulario
             accion={registrar}
@@ -94,7 +94,7 @@ export default async function PaginaEquipo({
         </section>
       )}
 
-      <section className="flex flex-col gap-4">
+      <section className="panel flex flex-col gap-2">
         <h2 className="text-lg font-semibold">Historial</h2>
 
         {historial.length === 0 ? (
@@ -102,7 +102,7 @@ export default async function PaginaEquipo({
             Este equipo todavía no tiene servicios registrados.
           </p>
         ) : (
-          <ol className="divide-y border-y">
+          <ol className="divide-y">
             {historial.map((entrada) => (
               <Entrada
                 key={entrada.id}
@@ -152,13 +152,15 @@ function Entrada({
   const anulado = entrada.anulacion !== null;
 
   return (
-    <li className="flex flex-col gap-3 py-5">
+    <li className="flex flex-col gap-3 py-5 last:pb-1">
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-medium">
           {entrada.tipo ? NOMBRE_DE_TIPO[entrada.tipo] : "Servicio"}
         </span>
         {anulado && <Badge variant="destructive">Anulado</Badge>}
-        {corregido && !anulado && <Badge variant="outline">Corregido</Badge>}
+        {corregido && !anulado && (
+          <Badge className="bg-warning/30 text-foreground">Corregido</Badge>
+        )}
       </div>
 
       <p className="text-muted-foreground text-sm">

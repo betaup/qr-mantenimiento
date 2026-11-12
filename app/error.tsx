@@ -15,7 +15,8 @@ export default function ErrorDePagina({
     error instanceof Error && "digest" in error ? String(error.digest) : null;
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-sm flex-col justify-center gap-4 px-6">
+    <main className="flex min-h-dvh flex-col items-center justify-center px-4">
+      <div className="panel flex w-full max-w-sm flex-col gap-4 p-7">
       <h1 className="text-2xl font-semibold tracking-tight">
         No pudimos completar la acción
       </h1>
@@ -31,6 +32,7 @@ export default function ErrorDePagina({
       <Button onClick={() => retry()} className="h-11 text-base">
         Intentar de nuevo
       </Button>
+      </div>
     </main>
   );
 }

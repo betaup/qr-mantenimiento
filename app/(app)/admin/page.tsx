@@ -21,7 +21,9 @@ export default async function PaginaAsignaciones({
   const pedida = esquemaDeFecha.safeParse((await searchParams).fecha);
   const fecha = pedida.success ? pedida.data : hoy;
 
-  const { equipos, tecnicos } = await asignacionesDelDia(fecha);
+  const { equipos, tecnicos, servicios } = await asignacionesDelDia(fecha);
+  const asignados = equipos.filter((e) => e.asignaciones.length > 0).length;
+  const avance = equipos.length ? (asignados / equipos.length) * 100 : 0;
   const editable = fecha >= hoy;
 
   return (
@@ -45,13 +47,58 @@ export default async function PaginaAsignaciones({
               name="fecha"
               type="date"
               defaultValue={fecha}
-              className="h-9"
+              className="bg-card h-9"
             />
           </div>
-          <Button type="submit" variant="outline" className="h-9">
+          <Button type="submit" variant="outline" className="bg-card h-9">
             Ver día
           </Button>
         </form>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="panel flex flex-col gap-3 sm:col-span-2">
+          <p className="text-muted-foreground text-sm">Equipos asignados</p>
+          <p className="text-3xl font-semibold tracking-tight">
+            {asignados}
+            <span className="text-muted-foreground text-lg font-normal">
+              {" "}
+              de {equipos.length}
+            </span>
+          </p>
+          {/* Barra en SVG: la CSP no permite estilos en línea, y el ancho
+              depende de los datos. */}
+          <svg
+            role="img"
+            aria-label={`${asignados} de ${equipos.length} equipos asignados`}
+            className="h-3 w-full overflow-hidden rounded-full"
+          >
+            <defs>
+              <pattern
+                id="trama"
+                width="7"
+                height="7"
+                patternUnits="userSpaceOnUse"
+                patternTransform="rotate(45)"
+              >
+                <rect width="2" height="7" fill="white" fillOpacity="0.35" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" className="fill-secondary" />
+            <rect width={`${avance}%`} height="100%" rx="6" className="fill-brand" />
+            <rect width={`${avance}%`} height="100%" rx="6" fill="url(#trama)" />
+          </svg>
+        </div>
+        <div className="panel flex flex-col gap-3">
+          <p className="text-muted-foreground text-sm">Técnicos activos</p>
+          <p className="text-3xl font-semibold tracking-tight">
+            {tecnicos.length}
+          </p>
+        </div>
+        <div className="panel flex flex-col gap-3">
+          <p className="text-muted-foreground text-sm">Servicios registrados</p>
+          <p className="text-3xl font-semibold tracking-tight">{servicios}</p>
+        </div>
       </div>
 
       <p className="text-muted-foreground max-w-prose text-sm leading-relaxed">
@@ -61,11 +108,11 @@ export default async function PaginaAsignaciones({
       </p>
 
       {equipos.length === 0 ? (
-        <p className="text-muted-foreground">
+        <p className="panel text-muted-foreground">
           Todavía no hay equipos. Agrega uno en la sección Equipos.
         </p>
       ) : (
-        <ul className="divide-y border-y">
+        <ul className="bg-card divide-y rounded-xl px-5">
           {equipos.map((equipo) => {
             const ocupados = new Set(
               equipo.asignaciones.map((a) => a.tecnico.id),

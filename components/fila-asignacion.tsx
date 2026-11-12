@@ -40,7 +40,7 @@ export function FilaAsignacion({
         {asignados.map(({ id, tecnico }) => (
           <span
             key={id}
-            className="bg-secondary flex items-center gap-1 rounded-md py-1 pr-1 pl-2.5 text-sm"
+            className="bg-brand/20 flex items-center gap-1 rounded-md py-1 pr-1 pl-2.5 text-sm"
           >
             {tecnico.nombre}
             {editable && (

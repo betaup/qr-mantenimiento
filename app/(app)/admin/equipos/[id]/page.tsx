@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { BotonImprimir } from "@/components/boton-imprimir";
 import { CampoPasswordAdmin } from "@/components/campo";
 import { Formulario } from "@/components/formulario";
+import { buttonVariants } from "@/components/ui/button";
 import { obtenerEquipo } from "@/lib/datos/equipos";
 import { imagenDelQr } from "@/lib/qr";
 import { regenerarQrDeEquipo } from "../acciones";
@@ -44,7 +45,10 @@ export default async function PaginaEquipo({
         </dl>
         <Link
           href={`/equipos/${equipo.id}`}
-          className="w-fit text-sm font-medium underline-offset-4 hover:underline"
+          className={buttonVariants({
+            variant: "outline",
+            className: "bg-card mt-1 h-9 w-fit",
+          })}
         >
           Ver historial de servicios
         </Link>
@@ -56,7 +60,7 @@ export default async function PaginaEquipo({
 
           {/* La etiqueta lleva la serie legible para que el técnico confirme
               que el QR está pegado en el equipo correcto (T6). */}
-          <div className="flex w-64 flex-col items-center gap-3 rounded-lg border p-4 text-center">
+          <div className="bg-card flex w-64 flex-col items-center gap-3 rounded-xl p-4 text-center print:border">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={qr}
@@ -73,7 +77,7 @@ export default async function PaginaEquipo({
           <BotonImprimir>Imprimir etiqueta</BotonImprimir>
         </section>
 
-        <section className="flex max-w-md flex-col gap-4 rounded-lg border p-5 print:hidden">
+        <section className="panel flex max-w-md flex-col gap-4 print:hidden">
           <div className="flex flex-col gap-1">
             <h2 className="font-semibold">Regenerar código QR</h2>
             <p className="text-muted-foreground text-sm leading-relaxed">

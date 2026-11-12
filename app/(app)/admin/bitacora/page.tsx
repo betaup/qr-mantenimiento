@@ -41,7 +41,7 @@ const NOMBRE_DE_ACCION: Record<string, string> = {
 };
 
 const RESULTADO = {
-  EXITO: { nombre: "Éxito", variante: "secondary" },
+  EXITO: { nombre: "Éxito", variante: "outline" },
   DENEGADO: { nombre: "Denegado", variante: "destructive" },
   FALLO: { nombre: "Fallo", variante: "destructive" },
 } as const;
@@ -67,8 +67,9 @@ export default async function PaginaBitacora({
       </div>
 
       {eventos.length === 0 ? (
-        <p className="text-muted-foreground">No hay eventos en esta página.</p>
+        <p className="panel text-muted-foreground">No hay eventos en esta página.</p>
       ) : (
+        <div className="panel overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -110,6 +111,7 @@ export default async function PaginaBitacora({
             })}
           </TableBody>
         </Table>
+        </div>
       )}
 
       <nav
@@ -123,7 +125,7 @@ export default async function PaginaBitacora({
           {pagina > 1 && (
             <Link
               href={`/admin/bitacora?pagina=${pagina - 1}`}
-              className={buttonVariants({ variant: "outline", className: "h-9" })}
+              className={buttonVariants({ variant: "outline", className: "bg-card h-9" })}
             >
               Más recientes
             </Link>
@@ -131,7 +133,7 @@ export default async function PaginaBitacora({
           {pagina < paginas && (
             <Link
               href={`/admin/bitacora?pagina=${pagina + 1}`}
-              className={buttonVariants({ variant: "outline", className: "h-9" })}
+              className={buttonVariants({ variant: "outline", className: "bg-card h-9" })}
             >
               Más antiguos
             </Link>

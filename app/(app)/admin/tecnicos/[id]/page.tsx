@@ -31,14 +31,21 @@ export default async function PaginaTecnico({
           <h1 className="text-2xl font-semibold tracking-tight">
             {tecnico.nombre}
           </h1>
-          <Badge variant={tecnico.activo ? "secondary" : "outline"}>
+          <Badge
+            variant="outline"
+            className={
+              tecnico.activo
+                ? "bg-brand/25 border-transparent"
+                : "text-muted-foreground"
+            }
+          >
             {tecnico.activo ? "Activo" : "Desactivado"}
           </Badge>
         </div>
         <p className="text-muted-foreground">{tecnico.correo}</p>
       </div>
 
-      <section className="flex flex-col gap-4 rounded-lg border p-5">
+      <section className="panel flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <h2 className="font-semibold">Restablecer contraseña</h2>
           <p className="text-muted-foreground text-sm leading-relaxed">
@@ -63,7 +70,7 @@ export default async function PaginaTecnico({
         </Formulario>
       </section>
 
-      <section className="flex flex-col gap-4 rounded-lg border p-5">
+      <section className="panel flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <h2 className="font-semibold">
             {tecnico.activo ? "Desactivar cuenta" : "Reactivar cuenta"}

@@ -26,7 +26,7 @@ export function CamposServicio({
           {TIPOS_SERVICIO.map((valor) => (
             <label
               key={valor}
-              className="has-checked:border-primary has-checked:bg-primary/5 has-focus-visible:ring-ring/50 flex min-h-11 cursor-pointer items-center gap-2.5 rounded-lg border px-3 text-sm font-medium has-focus-visible:ring-3"
+              className="has-checked:border-brand has-checked:bg-brand/15 has-focus-visible:ring-ring/50 flex min-h-11 cursor-pointer items-center gap-2.5 rounded-lg border px-3 text-sm font-medium has-focus-visible:ring-3"
             >
               <input
                 type="radio"

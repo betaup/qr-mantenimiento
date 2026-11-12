@@ -12,7 +12,7 @@ export async function asignacionesDelDia(fecha: string) {
   const { usuario } = await requerirRol("ADMIN");
   const { empresaId } = usuario;
 
-  const [equipos, tecnicos] = await Promise.all([
+  const [equipos, tecnicos, servicios] = await Promise.all([
     db.equipo.findMany({
       where: { empresaId, activo: true },
       select: {
@@ -33,9 +33,11 @@ export async function asignacionesDelDia(fecha: string) {
       select: { id: true, nombre: true },
       orderBy: { nombre: "asc" },
     }),
+    // Servicios registrados, sin contar correcciones ni anulaciones.
+    db.servicio.count({ where: { empresaId, clase: "ORIGINAL" } }),
   ]);
 
-  return { equipos, tecnicos };
+  return { equipos, tecnicos, servicios };
 }
 
 export async function asignar(datos: {

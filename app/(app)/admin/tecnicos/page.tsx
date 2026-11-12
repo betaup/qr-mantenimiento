@@ -23,10 +23,11 @@ export default async function PaginaTecnicos() {
         <h1 className="text-2xl font-semibold tracking-tight">Técnicos</h1>
 
         {tecnicos.length === 0 ? (
-          <p className="text-muted-foreground">
+          <p className="panel text-muted-foreground">
             Todavía no hay técnicos. Agrega al primero con el formulario.
           </p>
         ) : (
+          <div className="panel overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -50,7 +51,14 @@ export default async function PaginaTecnicos() {
                     {tecnico.correo}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={tecnico.activo ? "secondary" : "outline"}>
+                    <Badge
+                      variant="outline"
+                      className={
+                        tecnico.activo
+                          ? "bg-brand/25 border-transparent"
+                          : "text-muted-foreground"
+                      }
+                    >
                       {tecnico.activo ? "Activo" : "Desactivado"}
                     </Badge>
                   </TableCell>
@@ -58,10 +66,11 @@ export default async function PaginaTecnicos() {
               ))}
             </TableBody>
           </Table>
+          </div>
         )}
       </section>
 
-      <section className="flex flex-col gap-4 self-start rounded-lg border p-5">
+      <section className="panel flex flex-col gap-4 self-start">
         <h2 className="font-semibold">Agregar técnico</h2>
         <Formulario accion={agregarTecnico} boton="Agregar técnico">
           <Campo name="nombre" etiqueta="Nombre" required maxLength={80} />

@@ -4,7 +4,8 @@ import { buttonVariants } from "@/components/ui/button";
 // La misma página para lo que no existe y para lo que no tienes permiso de ver (RS-08).
 export default function NoEncontrado() {
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-sm flex-col justify-center gap-4 px-6">
+    <main className="flex min-h-dvh flex-col items-center justify-center px-4">
+      <div className="panel flex w-full max-w-sm flex-col gap-4 p-7">
       <h1 className="text-2xl font-semibold tracking-tight">
         No encontramos esa página
       </h1>
@@ -14,6 +15,7 @@ export default function NoEncontrado() {
       <Link href="/" className={buttonVariants({ className: "h-11 text-base" })}>
         Ir al inicio
       </Link>
+      </div>
     </main>
   );
 }

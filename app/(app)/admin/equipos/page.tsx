@@ -21,10 +21,11 @@ export default async function PaginaEquipos() {
         <h1 className="text-2xl font-semibold tracking-tight">Equipos</h1>
 
         {equipos.length === 0 ? (
-          <p className="text-muted-foreground">
+          <p className="panel text-muted-foreground">
             Todavía no hay equipos. Agrega el primero con el formulario.
           </p>
         ) : (
+          <div className="panel overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -56,10 +57,11 @@ export default async function PaginaEquipos() {
               ))}
             </TableBody>
           </Table>
+          </div>
         )}
       </section>
 
-      <section className="flex flex-col gap-4 self-start rounded-lg border p-5">
+      <section className="panel flex flex-col gap-4 self-start">
         <h2 className="font-semibold">Agregar equipo</h2>
         <Formulario accion={agregarEquipo} boton="Agregar equipo">
           <Campo name="nombre" etiqueta="Nombre" required maxLength={80} />
