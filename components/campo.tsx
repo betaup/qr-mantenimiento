@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 export const claseDeCampo =
   "bg-secondary placeholder:text-muted-foreground/70 focus-visible:ring-ring/60 h-11 w-full min-w-0 rounded-xl px-3.5 text-base outline-none transition-shadow focus-visible:bg-card focus-visible:ring-3 md:text-sm";
 
-/** Etiqueta, campo de texto con icono y una ayuda opcional. */
 export function Campo({
   etiqueta,
   ayuda,

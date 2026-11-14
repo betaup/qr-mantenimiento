@@ -15,7 +15,6 @@ export function urlDelQr(token: string): string {
   return `${base}/e/${token}`;
 }
 
-/** Imagen PNG del QR como data URL. */
 export function imagenDelQr(token: string): Promise<string> {
   return QRCode.toDataURL(urlDelQr(token), {
     errorCorrectionLevel: "M",

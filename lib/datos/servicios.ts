@@ -39,7 +39,6 @@ function eventoDe(usuario: Usuario) {
   return { usuarioId: usuario.id, empresaId: usuario.empresaId };
 }
 
-/** Equipos que el técnico tiene asignados hoy. */
 export async function equiposDeHoy() {
   const { usuario } = await requerirRol("TECNICO");
   return db.equipo.findMany({

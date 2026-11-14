@@ -51,7 +51,7 @@ const RESULTADO: Record<
 
 const numeroDePagina = z.coerce.number().int().min(1).max(100_000).catch(1);
 
-/** Páginas a mostrar: la primera, la última y las vecinas de la actual. */
+// muestra la primera, la última y las vecinas de la página actual
 function paginasVisibles(actual: number, total: number): (number | null)[] {
   const visibles = new Set([1, total, actual - 1, actual, actual + 1]);
   const numeros = [...visibles]

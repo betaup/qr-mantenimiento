@@ -90,7 +90,6 @@ export function destinoSeguro(valor: unknown): string | null {
   return typeof valor === "string" && RUTA_DE_QR.test(valor) ? valor : null;
 }
 
-/** Primer mensaje útil de un error de validación. */
 export function mensajeDe(error: z.ZodError, porDefecto: string): string {
   const propio = error.issues.find((i) => i.code === "custom");
   return propio?.message ?? porDefecto;

@@ -9,8 +9,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Piezas visuales que se repiten en las pantallas: icono en caja, estado con
-// punto, avatar con iniciales, etiqueta y tarjeta de equipo.
 
 const TONOS = {
   verde: "bg-brand/25 text-brand-foreground",
@@ -54,7 +52,6 @@ const PUNTOS = {
   gris: "bg-neutral-400",
 } as const;
 
-/** Estado corto con un punto de color. */
 export function Estado({
   tono,
   children,
@@ -99,7 +96,6 @@ export function Avatar({
   );
 }
 
-/** Dato corto en una pastilla, con icono opcional. */
 export function Etiqueta({
   icono: Icono,
   mono = false,
@@ -122,7 +118,6 @@ export function Etiqueta({
   );
 }
 
-/** Cuadro con flecha que marca una tarjeta como enlace. El mismo en todas. */
 export function Flecha() {
   return (
     <span className="group-hover:bg-foreground group-hover:text-background flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/60 transition-colors">
@@ -131,14 +126,12 @@ export function Flecha() {
   );
 }
 
-/** Forma común de las tarjetas de color; el fondo lo pone tarjeta-verde o tarjeta-gris. */
 export const tarjeta =
   "group focus-visible:ring-ring/60 flex flex-col rounded-2xl p-5 outline-none focus-visible:ring-3";
 
-/** Tamaño y reparto de las tarjetas de una lista: todas miden lo mismo. */
+// todas las tarjetas de una lista miden igual
 const tarjetaDeLista = "h-48 justify-between gap-6";
 
-/** Icono de un equipo de clima o refrigeración. */
 export const IconoDeEquipo = Snowflake;
 
 /**
@@ -163,7 +156,6 @@ export function Volver({
   );
 }
 
-/** Tarjeta de un equipo: nombre arriba, serie grande abajo, sobre un fondo verde suave. */
 export function TarjetaEquipo({
   href,
   equipo,

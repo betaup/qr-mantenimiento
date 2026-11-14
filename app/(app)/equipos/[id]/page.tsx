@@ -48,8 +48,6 @@ const ICONO_DE_TIPO: Record<TipoServicio, { icono: LucideIcon; tono: Tono }> =
     REPARACION: { icono: Cog, tono: "naranja" },
   };
 
-// Los desplegables se ven como botones, con su icono, para que se note que
-// se pueden abrir.
 const desplegable =
   "hover:bg-secondary focus-visible:ring-ring/60 inline-flex h-9 w-fit cursor-pointer list-none items-center gap-2 rounded-lg border px-3 text-sm font-medium outline-none focus-visible:ring-3 [&::-webkit-details-marker]:hidden";
 

@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { registrar } from "@/lib/bitacora";
 import { requerirRol } from "@/lib/auth/guardas";
 
-// Pocas filas por página: la pantalla no crece sin fin.
 export const POR_PAGINA = 10;
 
 /**

@@ -6,7 +6,6 @@ import {
   type TipoServicio,
 } from "@/lib/dominio";
 
-/** Tipo de servicio y descripción del trabajo. */
 export function CamposServicio({
   prefijo,
   tipo,

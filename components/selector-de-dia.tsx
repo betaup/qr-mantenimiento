@@ -25,7 +25,6 @@ function aTexto(fecha: Date): string {
 
 const corta = new Intl.DateTimeFormat("es-MX", { dateStyle: "medium" });
 
-/** Botón con la fecha que abre un calendario; al elegir un día navega a él. */
 export function SelectorDeDia({ fecha, hoy }: { fecha: string; hoy: string }) {
   const [abierto, setAbierto] = useState(false);
   const router = useRouter();

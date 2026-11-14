@@ -10,7 +10,6 @@ const inicial: EstadoFormulario = {};
 
 type Persona = { id: string; nombre: string };
 
-/** Técnicos asignados a un equipo en un día, con quitar y agregar. */
 export function FilaAsignacion({
   equipoId,
   fecha,

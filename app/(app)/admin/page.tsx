@@ -185,7 +185,6 @@ export default async function PaginaAsignaciones({
   );
 }
 
-/** Indicador: título e icono arriba, el número en grande abajo. */
 function Indicador({
   clase,
   titulo,
