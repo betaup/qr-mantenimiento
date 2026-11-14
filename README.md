@@ -72,6 +72,19 @@ npm run dev                 # http://localhost:3000
 
 El seed crea dos empresas ficticias, cada una con un administrador y dos técnicos. Todas las cuentas usan la contraseña que pongas en `SEED_PASSWORD`.
 
+### Cuentas de prueba
+
+| Empresa | Rol | Correo |
+| --- | --- | --- |
+| Clima Norte | Administrador | `laura@climanorte.test` |
+| Clima Norte | Técnico | `miguel@climanorte.test` |
+| Clima Norte | Técnico | `sofia@climanorte.test` |
+| Frío Regio | Administrador | `carlos@frioregio.test` |
+| Frío Regio | Técnico | `ana@frioregio.test` |
+| Frío Regio | Técnico | `jorge@frioregio.test` |
+
+Para probar rápido, entra como Laura para ver el panel del administrador y como Miguel para ver la vista del técnico. Los equipos del técnico dependen de las asignaciones del día, así que si no ve ninguno, asígnaselos primero desde el panel de Laura.
+
 Para las pruebas y la revisión de código:
 
 ```bash
