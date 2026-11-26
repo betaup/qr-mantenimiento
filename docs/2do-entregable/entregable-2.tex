@@ -484,229 +484,174 @@ El hallazgo más importante es V-01, el único de riesgo alto, porque además de
 
 \subsection{Ficha de cada vulnerabilidad}
 
-\subsubsection*{V-01. La IP del cliente se toma de una cabecera que el cliente puede inventar}
+Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de la vulnerabilidad. La versión completa, con la descripción detallada y la evidencia de cada una, está en el archivo \nolinkurl{evidencias/06-identificacion-de-vulnerabilidades/registro.json}.
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & Revisión manual (H-01), confirmada con la prueba P-38 \\
-\textbf{Componente} & lib/peticion.ts \\
-\textbf{Causa} & La función que obtiene la IP lee la cabecera X-Forwarded-For y confía en el primer valor. Esa cabecera solo es confiable cuando la pone un proxy propio; en nuestro despliegue no hay proxy, así que la escribe el propio cliente. \\
-\textbf{Impacto} & Un atacante puede cambiar de IP en cada intento y esquivar el límite de 20 fallos por dirección, lo que permite probar contraseñas contra muchas cuentas. Además decide qué IP queda en la bitácora, así que el registro pierde valor como evidencia. \\
-\textbf{Probabilidad e impacto} & Alta y medio \\
-\textbf{Riesgo} & Alto \\
-\textbf{CWE} & CWE-348: uso de una fuente menos confiable \\
-\textbf{OWASP Top 10} & A07:2021 Fallas de identificación y autenticación \\
-\textbf{STRIDE} & Suplantación y repudio \\
-\textbf{Amenaza del modelo} & T3, T7 \\
-\textbf{Evidencia} & Figuras 05-pruebas-4 y 05-hallazgo-h01-bitacora \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+% Anchos de las fichas: cuatro columnas iguales y una fila completa.
+\newlength{\celda}\setlength{\celda}{\dimexpr0.25\linewidth-2\tabcolsep-1.25\arrayrulewidth\relax}
+\newlength{\fila}\setlength{\fila}{\dimexpr\linewidth-2\tabcolsep-2\arrayrulewidth\relax}
+\begingroup\small\renewcommand{\arraystretch}{1.3}
 
-\subsubsection*{V-02. El servidor permite quitar asignaciones de días pasados}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-01. La IP del cliente se toma de una cabecera que el cliente puede inventar}} \\
+\hline
+\cellcolor{red!25}\textbf{Riesgo:} Alto & \textbf{Probabilidad:} Alta & \textbf{Impacto:} Medio & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-348 & \textbf{OWASP:} A07:2021 & \textbf{STRIDE:} Suplantación y repudio & \textbf{Amenaza:} T3, T7 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} Se confía en la cabecera X-Forwarded-For, que en nuestro despliegue escribe el propio cliente.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Permite esquivar el límite de intentos por IP y dejar direcciones falsas en la bitácora.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} Revisión manual (H-01), confirmada con la prueba P-38. \textbf{Componente:} lib/peticion.ts.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & Revisión manual (H-02), confirmada con la prueba P-17 \\
-\textbf{Componente} & lib/datos/asignaciones.ts \\
-\textbf{Causa} & La restricción de fechas existe solo en la pantalla. La función del servidor que quita una asignación revisa la empresa pero no la fecha. \\
-\textbf{Impacto} & Un administrador puede borrar asignaciones de días pasados y cambiar el registro de quién tenía cada equipo. No afecta a los servicios, que no se pueden borrar, y queda anotado en la bitácora. \\
-\textbf{Probabilidad e impacto} & Baja y medio \\
-\textbf{Riesgo} & Bajo \\
-\textbf{CWE} & CWE-602: seguridad aplicada solo del lado del cliente \\
-\textbf{OWASP Top 10} & A01:2021 Control de acceso roto \\
-\textbf{STRIDE} & Manipulación \\
-\textbf{Amenaza del modelo} & T7 \\
-\textbf{Evidencia} & Figuras 04-hallazgo-h02 y 05-pruebas-2 \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-03. tinypool vulnerable a contaminación de prototipos con ejecución de código}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-02. El servidor permite quitar asignaciones de días pasados}} \\
+\hline
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Medio & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-602 & \textbf{OWASP:} A01:2021 & \textbf{STRIDE:} Manipulación & \textbf{Amenaza:} T7 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} La restricción de fechas solo existe en la pantalla; el servidor no la revisa.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Un administrador puede borrar asignaciones pasadas. Los servicios no se ven afectados.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} Revisión manual (H-02), confirmada con la prueba P-17. \textbf{Componente:} lib/datos/asignaciones.ts.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & npm audit (GHSA-5gmw-xhrv-c9v3 y GHSA-85c8-ppgw-ccpr) \\
-\textbf{Componente} & tinypool 1.1.1, que llega por vitest 3.2.7 \\
-\textbf{Causa} & Versión antigua de la librería que reparte las pruebas en procesos. Las opciones de esos procesos se pueden contaminar a través del prototipo de los objetos. \\
-\textbf{Impacto} & En el peor caso permite ejecutar código en la máquina que corre las pruebas o en el servidor de integración continua. No llega a la aplicación en producción. \\
-\textbf{Probabilidad e impacto} & Baja y alto \\
-\textbf{Riesgo} & Medio \\
-\textbf{CWE} & CWE-1321: contaminación de prototipos \\
-\textbf{OWASP Top 10} & A06:2021 Componentes vulnerables y desactualizados \\
-\textbf{STRIDE} & Elevación de privilegios \\
-\textbf{Amenaza del modelo} & T10 \\
-\textbf{Evidencia} & Figura 04-npm-audit \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-04. Vulnerabilidades de denegación de servicio en las dependencias de Prisma}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-03. tinypool vulnerable a contaminación de prototipos con ejecución de código}} \\
+\hline
+\cellcolor{orange!30}\textbf{Riesgo:} Medio & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Alto & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-1321 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Elevación de privilegios & \textbf{Amenaza:} T10 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} Versión antigua de tinypool cuyas opciones se pueden contaminar por el prototipo.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Podría ejecutar código en la máquina de pruebas o en la integración continua, no en producción.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} npm audit (GHSA-5gmw-xhrv-c9v3 y GHSA-85c8-ppgw-ccpr). \textbf{Componente:} tinypool 1.1.1, que llega por vitest 3.2.7.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & npm audit (GHSA-ggr8-5vv4-36mx y GHSA-7589-6fvf-x4pw) \\
-\textbf{Componente} & deepmerge-ts 7.1.5 y effect 3.21.0, que llegan por prisma 6.19.3 \\
-\textbf{Causa} & La configuración del programa de línea de comandos de Prisma usa versiones con una recursión sin límite y una expresión regular lenta. \\
-\textbf{Impacto} & Una entrada preparada podría bloquear el proceso. Solo se ejecuta al usar los comandos de Prisma, como las migraciones, y no al atender peticiones de los usuarios. \\
-\textbf{Probabilidad e impacto} & Baja y bajo \\
-\textbf{Riesgo} & Bajo \\
-\textbf{CWE} & CWE-674 y CWE-1333: recursión sin control y expresión regular ineficiente \\
-\textbf{OWASP Top 10} & A06:2021 Componentes vulnerables y desactualizados \\
-\textbf{STRIDE} & Denegación de servicio \\
-\textbf{Amenaza del modelo} & T10 \\
-\textbf{Evidencia} & Figuras 04-npm-audit y 04-npm-audit-produccion \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-05. vitest permite leer archivos e inyectar código desde su servidor de simulación}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-04. Vulnerabilidades de denegación de servicio en las dependencias de Prisma}} \\
+\hline
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-674, CWE-1333 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Denegación de servicio & \textbf{Amenaza:} T10 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} El CLI de Prisma usa versiones con recursión sin límite y una expresión regular lenta.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Una entrada preparada podría bloquear un comando de Prisma. No afecta las peticiones de usuarios.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} npm audit (GHSA-ggr8-5vv4-36mx y GHSA-7589-6fvf-x4pw). \textbf{Componente:} deepmerge-ts 7.1.5 y effect 3.21.0, que llegan por prisma 6.19.3.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & npm audit (GHSA-82fw-gwwq-j7x9 y GHSA-qxg6-89mg-rqv8) \\
-\textbf{Componente} & vitest y @vitest/mocker 3.2.7 \\
-\textbf{Causa} & Versión antigua del ejecutor de pruebas cuyo servidor interno no valida las rutas ni las peticiones que recibe. \\
-\textbf{Impacto} & Mientras se ejecutan las pruebas, alguien con acceso a ese servidor podría leer archivos de la máquina o inyectar código. Solo aplica en desarrollo. \\
-\textbf{Probabilidad e impacto} & Baja y medio \\
-\textbf{Riesgo} & Bajo \\
-\textbf{CWE} & CWE-22 y CWE-94: recorrido de rutas e inyección de código \\
-\textbf{OWASP Top 10} & A06:2021 Componentes vulnerables y desactualizados \\
-\textbf{STRIDE} & Divulgación de información y manipulación \\
-\textbf{Amenaza del modelo} & T10 \\
-\textbf{Evidencia} & Figura 04-npm-audit \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-06. minimatch vulnerable a denegación de servicio con ciertos patrones}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-05. vitest permite leer archivos e inyectar código desde su servidor de simulación}} \\
+\hline
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Medio & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-22, CWE-94 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Divulgación de información y manipulación & \textbf{Amenaza:} T10 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} El servidor interno de vitest no valida rutas ni peticiones.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Durante las pruebas se podrían leer archivos o inyectar código. Solo en desarrollo.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} npm audit (GHSA-82fw-gwwq-j7x9 y GHSA-qxg6-89mg-rqv8). \textbf{Componente:} vitest y @vitest/mocker 3.2.7.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & npm audit (GHSA-g3hv-75wg-m249) \\
-\textbf{Componente} & minimatch, que llega por shadcn y por las reglas de ESLint \\
-\textbf{Causa} & Versión con un algoritmo que crece demasiado al procesar patrones de archivos preparados. \\
-\textbf{Impacto} & Un patrón malicioso podría bloquear la herramienta que lo procesa. Solo lo usan herramientas de desarrollo, nunca con datos de los usuarios. \\
-\textbf{Probabilidad e impacto} & Baja y bajo \\
-\textbf{Riesgo} & Bajo \\
-\textbf{CWE} & CWE-405: consumo asimétrico de recursos \\
-\textbf{OWASP Top 10} & A06:2021 Componentes vulnerables y desactualizados \\
-\textbf{STRIDE} & Denegación de servicio \\
-\textbf{Amenaza del modelo} & T10 \\
-\textbf{Evidencia} & Figura 04-npm-audit-produccion \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-07. Una herramienta de desarrollo quedó instalada como librería de producción}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-06. minimatch vulnerable a denegación de servicio con ciertos patrones}} \\
+\hline
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-405 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Denegación de servicio & \textbf{Amenaza:} T10 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} Versión de minimatch que crece demasiado con patrones preparados.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Podría bloquear una herramienta de desarrollo. Nunca procesa datos de usuarios.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} npm audit (GHSA-g3hv-75wg-m249). \textbf{Componente:} minimatch, que llega por shadcn y por las reglas de ESLint.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & Revisión de dependencias (H-03) \\
-\textbf{Componente} & package.json, paquete shadcn 4.23.0 \\
-\textbf{Causa} & Al instalar los componentes de la interfaz, la herramienta shadcn se agregó como dependencia de producción en lugar de dependencia de desarrollo. \\
-\textbf{Impacto} & Arrastra a producción un árbol de unos 200 paquetes, algunos compartidos con otras librerías, que el sistema no necesita para funcionar, entre ellos minimatch vulnerable. Más código instalado significa más superficie de ataque. \\
-\textbf{Probabilidad e impacto} & Baja y bajo \\
-\textbf{Riesgo} & Bajo \\
-\textbf{CWE} & CWE-1104: uso de componentes de terceros innecesarios \\
-\textbf{OWASP Top 10} & A05:2021 Configuración de seguridad incorrecta \\
-\textbf{STRIDE} & Manipulación \\
-\textbf{Amenaza del modelo} & T10 \\
-\textbf{Evidencia} & Figura 04-npm-audit-produccion \\
-\textbf{Estado} & Abierto \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-08. Un formulario demasiado grande responde con error 500 en lugar de 413}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-07. Una herramienta de desarrollo quedó instalada como librería de producción}} \\
+\hline
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Abierto \\
+\hline
+\textbf{CWE:} CWE-1104 & \textbf{OWASP:} A05:2021 & \textbf{STRIDE:} Manipulación & \textbf{Amenaza:} T10 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} shadcn se instaló como dependencia de producción en vez de desarrollo.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Agrega unos 200 paquetes innecesarios a producción y con ellos más superficie de ataque.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} Revisión de dependencias (H-03). \textbf{Componente:} package.json, paquete shadcn 4.23.0.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & Prueba dinámica P-31 \\
-\textbf{Componente} & Configuración de las acciones del servidor de Next.js \\
-\textbf{Causa} & Cuando el cuerpo pasa de 100 kB, Next.js corta la petición con una excepción genérica en lugar de un código de respuesta específico. \\
-\textbf{Impacto} & Ninguno sobre los datos: el formulario se rechaza y no se procesa, y la respuesta no revela información. Solo dificulta distinguir este caso de un error real en los registros. \\
-\textbf{Probabilidad e impacto} & Media y nulo \\
-\textbf{Riesgo} & Informativo \\
-\textbf{CWE} & CWE-755: manejo inadecuado de condiciones excepcionales \\
-\textbf{OWASP Top 10} & A05:2021 Configuración de seguridad incorrecta \\
-\textbf{STRIDE} & Denegación de servicio \\
-\textbf{Amenaza del modelo} & T9 \\
-\textbf{Evidencia} & Figura 05-pruebas-3 y registro del servidor \\
-\textbf{Estado} & Aceptado \\
-\end{longtable}
-\endgroup
+\vspace{8pt}
 
-\subsubsection*{V-09. Cualquiera que conozca un correo puede bloquear esa cuenta por 15 minutos}
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-08. Un formulario demasiado grande responde con error 500 en lugar de 413}} \\
+\hline
+\cellcolor{gray!15}\textbf{Riesgo:} Informativo & \textbf{Probabilidad:} Media & \textbf{Impacto:} Nulo & \textbf{Estado:} Aceptado \\
+\hline
+\textbf{CWE:} CWE-755 & \textbf{OWASP:} A05:2021 & \textbf{STRIDE:} Denegación de servicio & \textbf{Amenaza:} T9 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} Next.js corta los cuerpos de más de 100 kB con una excepción genérica.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Ninguno sobre los datos: se rechaza y no revela nada, solo usa un código de error impreciso.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} Prueba dinámica P-31. \textbf{Componente:} Configuración de las acciones del servidor de Next.js.} \\
+\hline
+\end{tabular}
 
-\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{L{0.24}L{0.70}}
-\toprule
-\endfirsthead
-\toprule
-\endhead
-\bottomrule
-\endfoot
-\textbf{Origen} & Prueba dinámica P-37 y riesgo aceptado en el Entregable 1 \\
-\textbf{Componente} & lib/auth/limite.ts \\
-\textbf{Causa} & El bloqueo por cuenta, que protege contra la fuerza bruta, se activa con 5 fallos aunque los haga otra persona. \\
-\textbf{Impacto} & Un atacante puede impedir que un técnico entre durante 15 minutos. No obtiene acceso ni datos. \\
-\textbf{Probabilidad e impacto} & Media y bajo \\
-\textbf{Riesgo} & Bajo \\
-\textbf{CWE} & CWE-645: bloqueo de cuentas demasiado restrictivo \\
-\textbf{OWASP Top 10} & A07:2021 Fallas de identificación y autenticación \\
-\textbf{STRIDE} & Denegación de servicio \\
-\textbf{Amenaza del modelo} & T3 \\
-\textbf{Evidencia} & Figura 05-pruebas-4 \\
-\textbf{Estado} & Aceptado \\
-\end{longtable}
+\vspace{8pt}
+
+\noindent\begin{tabular}{|p{\celda}|p{\celda}|p{\celda}|p{\celda}|}
+\hline
+\multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-09. Cualquiera que conozca un correo puede bloquear esa cuenta por 15 minutos}} \\
+\hline
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Media & \textbf{Impacto:} Bajo & \textbf{Estado:} Aceptado \\
+\hline
+\textbf{CWE:} CWE-645 & \textbf{OWASP:} A07:2021 & \textbf{STRIDE:} Denegación de servicio & \textbf{Amenaza:} T3 \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Causa:} El bloqueo por cuenta se activa con 5 fallos aunque los haga otra persona.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Impacto:} Alguien puede impedir que un técnico entre 15 minutos, sin obtener acceso ni datos.} \\
+\hline
+\multicolumn{4}{|p{\fila}|}{\textbf{Origen:} Prueba dinámica P-37 y riesgo aceptado en el Entregable 1. \textbf{Componente:} lib/auth/limite.ts.} \\
+\hline
+\end{tabular}
+
+\vspace{8pt}
 \endgroup
 
 \subsection{Prioridad de corrección}
