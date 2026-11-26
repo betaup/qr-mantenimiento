@@ -24,7 +24,7 @@
     "rate-limiter-flexible": "^11.4.1",
     "react": "19.3.0",
     "react-day-picker": "^10.0.2",
-    "react-dom": "19.3.0",
+    "react-dom": "19.3.1",
     "server-only": "^0.0.1",
     "tw-animate-css": "^1.4.0",
     "zod": "^4.6.7"
