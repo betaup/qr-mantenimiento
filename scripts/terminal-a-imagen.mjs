@@ -12,7 +12,8 @@ const color = (linea) => {
     .replace(/\b(high)\b/gi, '<span class="alta">$1</span>')
     .replace(/\b(moderate)\b/gi, '<span class="mod">$1</span>')
     .replace(/\b(warning)\b/g, '<span class="mod">$1</span>')
-    .replace(/(✖.*)/, '<span class="alta">$1</span>')
+    .replace(/(✖ FALLA.*)/, '<span class="crit">$1</span>')
+    .replace(/(✖(?! FALLA).*)/, '<span class="alta">$1</span>')
     .replace(/(✓.*|passed.*)/, '<span class="cmd">$1</span>');
 };
 

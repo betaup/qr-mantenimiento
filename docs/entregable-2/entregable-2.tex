@@ -267,7 +267,156 @@ Estos cuatro hallazgos pasan al registro de vulnerabilidades de la sección 5, d
 % ─────────────────────────────────────────────────────────────────────────────
 \section{4. Pruebas dinámicas de seguridad}
 
-\textit{Sección en desarrollo.}
+Las pruebas dinámicas atacan el sistema mientras está funcionando, para comprobar con hechos que las defensas del diseño se comportan como esperábamos. A diferencia del análisis estático, aquí no revisamos el código sino lo que responde el sistema cuando alguien intenta abusar de él.
+
+\subsection{Entorno y método}
+
+Para no alterar la base de datos de desarrollo, que guarda una bitácora que ya no se puede borrar, creamos una base exclusiva para las pruebas con las mismas dos empresas ficticias. Compilamos el sistema en modo de producción y lo levantamos en el puerto 3100. Las pruebas se ejecutan con un script que controla un navegador Chrome sin interfaz y que hace peticiones directas al servidor, de modo que se pueden repetir con los mismos pasos y comparar los resultados antes y después de cada corrección.
+
+\begin{verbatim}
+./scripts/preparar-pruebas.sh
+npm run build
+DATABASE_URL=file:./pruebas.db npx next start -p 3100
+node --env-file=.env scripts/pruebas-seguridad.mjs
+\end{verbatim}
+
+El script usa tres técnicas. Para las sesiones inicia sesión de verdad desde el navegador, igual que lo haría un usuario. Para atacar las acciones del servidor deja que la pantalla dispare una acción, la captura antes de que llegue y la vuelve a enviar con datos cambiados, que es lo mismo que podría hacer un atacante desde las herramientas de desarrollo del navegador. Para la inmutabilidad intenta modificar la base de datos directamente, sin pasar por la aplicación. Cada prueba compara el resultado obtenido con el esperado y lo marca como \textbf{Pasa} o \textbf{Falla}. Los resultados completos se guardan en \nolinkurl{docs/seguridad/evidencias/pruebas-dinamicas-inicial.json}.
+
+\subsection{Resumen de resultados}
+
+Ejecutamos 38 pruebas que cubren nueve de las once amenazas del modelo y los dos hallazgos de la revisión manual. Las amenazas T10 y T11, de dependencias y secretos, no se prueban atacando el sistema en funcionamiento, sino con el análisis de la sección 3 y con los controles de integración continua de la sección 8.
+
+\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{L{0.14}L{0.52}L{0.12}L{0.12}}
+\toprule
+\textbf{Amenaza} & \textbf{Qué se probó} & \textbf{Pasan} & \textbf{Fallan} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Amenaza} & \textbf{Qué se probó} & \textbf{Pasan} & \textbf{Fallan} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+T1 & Enumeración de códigos QR & 2 & 0 \\
+T2 & Acceso entre empresas, roles y equipos no asignados & 14 & 0 \\
+T3 & Fuerza bruta y enumeración de cuentas & 2 & 0 \\
+T4 & Cookies, revocación y cierre de sesión & 4 & 0 \\
+T5 & Inyección, XSS y política CSP & 2 & 0 \\
+T6 & Confirmación del equipo antes de registrar & 1 & 0 \\
+T7 & Inmutabilidad de servicios y bitácora & 4 & 0 \\
+T8 & Rutas y peticiones malformadas & 5 & 0 \\
+T9 & Tope de reportes y tamaño de formularios & 2 & 0 \\
+H-01 & IP falsificada con X-Forwarded-For & 0 & 1 \\
+H-02 & Asignaciones de días pasados & 0 & 1 \\
+\midrule
+\textbf{Total} & & \textbf{36} & \textbf{2} \\
+\end{longtable}
+\endgroup
+
+El resultado más importante es que todas las defensas del diseño original resistieron, incluida la matriz completa de autorización, y que las dos pruebas que fallan son justamente las que confirman los hallazgos de la revisión manual. Las figuras \ref{fig:p2-1} a \ref{fig:p2-4} muestran la salida completa del script.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{p2-pruebas-1-autorizacion.png}
+  \caption{Pruebas de sesiones, cookies y matriz de autorización.}
+  \label{fig:p2-1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{p2-pruebas-2-acciones-xss.png}
+  \caption{Pruebas de acciones manipuladas, XSS, confirmación del equipo e inmutabilidad.}
+  \label{fig:p2-2}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{p2-pruebas-3-errores-qr.png}
+  \caption{Pruebas de errores, saturación, enumeración de QR y revocación de sesiones.}
+  \label{fig:p2-3}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{p2-pruebas-4-fuerza-bruta.png}
+  \caption{Pruebas de fuerza bruta y resumen final.}
+  \label{fig:p2-4}
+\end{figure}
+
+\subsection{Detalle de las pruebas}
+
+\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{L{0.07}L{0.08}L{0.36}L{0.34}L{0.08}}
+\toprule
+\textbf{ID} & \textbf{Amenaza} & \textbf{Prueba} & \textbf{Resultado obtenido} & \textbf{} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Amenaza} & \textbf{Prueba} & \textbf{Resultado obtenido} & \textbf{} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+P-01 & T4 & La cookie de sesión lleva HttpOnly, Secure y SameSite & httponly, secure, samesite=lax; token de 43 caracteres & \textbf{Pasa} \\
+P-02 & T4 & En la base solo se guarda el hash del token & No aparece & \textbf{Pasa} \\
+P-03 & T2 & Sin sesión entra a /admin & HTTP 307 & \textbf{Pasa} \\
+P-04 & T2 & Técnico entra al panel /admin & HTTP 404 & \textbf{Pasa} \\
+P-05 & T2 & Técnico entra a /admin/equipos & HTTP 404 & \textbf{Pasa} \\
+P-06 & T2 & Técnico entra a /admin/bitacora & HTTP 404 & \textbf{Pasa} \\
+P-07 & T2 & Admin entra a la vista del técnico & HTTP 404 & \textbf{Pasa} \\
+P-08 & T2 & Admin A abre un equipo de la empresa B & HTTP 404 & \textbf{Pasa} \\
+P-09 & T2 & Admin A abre un técnico de la empresa B & HTTP 404 & \textbf{Pasa} \\
+P-10 & T2 & Admin A abre el historial de un equipo de B & HTTP 404 & \textbf{Pasa} \\
+P-11 & T2 & Admin A descarga el PDF de un equipo de B & HTTP 404 & \textbf{Pasa} \\
+P-12 & T2 & Técnico abre un equipo que no tiene asignado & HTTP 404 & \textbf{Pasa} \\
+P-13 & T2 & Técnico B abre un equipo de la empresa A & HTTP 404 & \textbf{Pasa} \\
+P-14 & T2 & Técnico abre su equipo asignado (control) & HTTP 200 & \textbf{Pasa} \\
+P-15 & T2 & Admin A asigna un técnico de la empresa B alterando la petición & Rechazada; asignaciones 4 $\rightarrow$ 4 & \textbf{Pasa} \\
+P-16 & T2 & Admin A quita una asignación de la empresa B alterando la petición & La asignación sigue & \textbf{Pasa} \\
+P-17 & H-02 & Admin quita una asignación de un día pasado alterando la petición & La asignación se borró & \textbf{\textcolor{red!70!black}{Falla}} \\
+P-18 & T5 & Código malicioso en la descripción de un servicio & guardado: sí; visible como texto: sí; ejecutado: no & \textbf{Pasa} \\
+P-19 & T5 & La página envía una política CSP con nonce & CSP con nonce, sin unsafe-inline & \textbf{Pasa} \\
+P-20 & T6 & Registrar un servicio sin confirmar la placa del equipo & "Confirma que estás frente a este equipo antes de registrar."; servicios 3 $\rightarrow$ 3 & \textbf{Pasa} \\
+P-21 & T7 & Modificar un servicio directo en la base & Rechazado: Los servicios no se pueden modificar & \textbf{Pasa} \\
+P-22 & T7 & Borrar un servicio directo en la base & Rechazado: Los servicios no se pueden borrar & \textbf{Pasa} \\
+P-23 & T7 & Modificar la bitácora directo en la base & Rechazado: La bitacora no se puede modificar & \textbf{Pasa} \\
+P-24 & T7 & Borrar la bitácora directo en la base & Rechazado: La bitacora no se puede borrar & \textbf{Pasa} \\
+P-25 & T8 & Ruta malformada /equipos/' OR 1=1-- & HTTP 404; sin detalles internos & \textbf{Pasa} \\
+P-26 & T8 & Ruta malformada /admin/equipos/../../etc/passwd & HTTP 404; sin detalles internos & \textbf{Pasa} \\
+P-27 & T8 & Ruta malformada /e/\textless{}script\textgreater{}alert(1)\textless{}/script\textgreater{} & HTTP 404; sin detalles internos & \textbf{Pasa} \\
+P-28 & T8 & Ruta malformada /equipos/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA & HTTP 404; sin detalles internos & \textbf{Pasa} \\
+P-29 & T8 & Acción del servidor con un cuerpo malformado & HTTP 500; sin detalles internos & \textbf{Pasa} \\
+P-30 & T9 & Pedir 11 reportes PDF seguidos & 200 200 200 200 200 200 200 200 200 200 429 & \textbf{Pasa} \\
+P-31 & T9 & Enviar un formulario de 200 kB & HTTP 500; asignaciones 4 $\rightarrow$ 4 & \textbf{Pasa} \\
+P-32 & T1 & Sin sesión: un QR real y uno inventado responden igual & real: HTTP 307; inventado: HTTP 307 & \textbf{Pasa} \\
+P-33 & T1 & Con sesión: 20 códigos inventados y después uno real & 20 × 404; código real: HTTP 404 & \textbf{Pasa} \\
+P-34 & T4 & El admin desactiva a un técnico que tiene la sesión abierta & HTTP 307 $\rightarrow$ /login & \textbf{Pasa} \\
+P-35 & T4 & Reusar la cookie después de cerrar sesión & HTTP 307 $\rightarrow$ /login & \textbf{Pasa} \\
+P-36 & T3 & Correo existente y correo inexistente con contraseña incorrecta & mismo mensaje: sí; existente 16 ms, inexistente 15 ms & \textbf{Pasa} \\
+P-37 & T3 & Quinto fallo en una cuenta y después la contraseña correcta & Bloqueada & \textbf{Pasa} \\
+P-38 & H-01 & 25 intentos con una IP falsa distinta en X-Forwarded-For & intentos bloqueados: 0 de 25; IPs falsas guardadas en la bitácora: 25 & \textbf{\textcolor{red!70!black}{Falla}} \\
+\end{longtable}
+\endgroup
+
+\subsection{Hallazgos confirmados}
+
+La prueba P-17 confirmó el hallazgo H-02. Capturamos la acción que quita una asignación de hoy, le cambiamos el identificador por el de una asignación de ayer y la reenviamos con la sesión del administrador. El servidor la aceptó y la asignación desapareció, aunque la pantalla nunca ofrece esa opción para días pasados. La defensa estaba solo en la interfaz y no en el servidor.
+
+La prueba P-38 confirmó el hallazgo H-01 y mostró que su impacto es mayor de lo que estimamos. Hicimos 25 intentos de inicio de sesión fallidos, cada uno con una dirección IP inventada en la cabecera \texttt{X-Forwarded-For}. Ninguno se bloqueó, aunque el límite es de 20 fallos por dirección, y la bitácora guardó las 25 direcciones falsas como si fueran reales (figura \ref{fig:h01-bitacora}). Esto permite probar contraseñas contra muchas cuentas sin que el límite por IP lo detenga, y además le quita valor de evidencia a la bitácora, porque quien ataca decide qué dirección queda registrada.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{p2-h01-bitacora-ips-falsas.png}
+  \caption{La bitácora guardó las 25 direcciones IP falsas de la prueba P-38.}
+  \label{fig:h01-bitacora}
+\end{figure}
+
+\subsection{Observaciones}
+
+En la prueba P-31 el formulario de 200 kB se rechazó como esperábamos y no se procesó, pero el servidor respondió con un error 500 en lugar del 413 que corresponde a un cuerpo demasiado grande. En el registro del servidor aparece el motivo real, \texttt{Body exceeded 100kb limit}. Como la respuesta no revela información y el límite sí funciona, lo registramos como observación de severidad informativa.
+
+En la prueba P-36 los tiempos de respuesta con un correo existente y con uno inexistente fueron de 16 y 15 milisegundos. La diferencia es mínima porque, cuando el correo no existe, el sistema compara la contraseña contra un hash de relleno, así que el tiempo no delata qué cuentas existen.
 
 \section{5. Registro y clasificación de vulnerabilidades}
 
