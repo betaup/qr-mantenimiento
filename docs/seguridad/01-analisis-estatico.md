@@ -25,6 +25,8 @@ npm audit --omit=dev
 
 ESLint marcó **6 avisos**, todos de la regla `security/detect-object-injection`, y **ningún error**. TypeScript no reportó errores.
 
+![ESLint antes de revisar](img/p1-eslint-inicial.png)
+
 | Archivo | Línea | Código | Clasificación |
 | --- | --- | --- | --- |
 | `components/barra-lateral.tsx` | 63 | `SECCIONES[rol]` | Falso positivo |
@@ -36,9 +38,15 @@ ESLint marcó **6 avisos**, todos de la regla `security/detect-object-injection`
 
 La regla avisa cada vez que se lee un objeto con una clave variable, porque si la clave la controla un atacante podría leer propiedades como `__proto__`. En los seis casos la clave tiene un tipo cerrado (`Rol`, `TipoServicio` o el tono de un componente) y nunca viene directamente de una petición: el rol sale de la sesión y los tipos se validan antes con Zod. Por eso los clasificamos como falsos positivos y los marcamos en el código con un comentario que explica la razón, para que el análisis quede limpio y cualquier aviso nuevo se note.
 
+![ESLint y TypeScript después de revisar](img/p1-eslint-final.png)
+
 ## Resultado de la revisión de dependencias
 
 `npm audit` reportó **17 paquetes vulnerables**: 2 críticos, 4 altos y 11 moderados. Al separar las dependencias de producción quedan 8 (4 altos y 4 moderados).
+
+![npm audit](img/p1-npm-audit.png)
+
+![npm audit, solo producción](img/p1-npm-audit-produccion.png)
 
 | Paquete | Versión instalada | Severidad | Aviso | Llega por | Alcance |
 | --- | --- | --- | --- | --- | --- |
@@ -65,6 +73,10 @@ Observaciones:
 | H-02 | `quitarAsignacion` no revisa la fecha. La pantalla solo permite quitar asignaciones de hoy en adelante, pero una petición hecha a mano puede borrar asignaciones de días pasados y alterar lo que muestra el historial de asignaciones. | `lib/datos/asignaciones.ts` | Baja |
 | H-03 | La herramienta `shadcn` está en las dependencias de producción, lo que suma superficie de ataque y vulnerabilidades sin ninguna necesidad. | `package.json` | Baja |
 | H-04 | Hay 17 dependencias con vulnerabilidades conocidas, 2 de ellas críticas. | `package.json` | Alta |
+
+![Hallazgo H-01](img/p1-h01-ip.png)
+
+![Hallazgo H-02](img/p1-h02-asignaciones.png)
 
 Estos hallazgos pasan al registro de vulnerabilidades (Parte 3), donde se clasifican con más detalle, y se corrigen en la Parte 4. Antes de corregirlos se confirmarán con pruebas dinámicas en la Parte 2.
 
