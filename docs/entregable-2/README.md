@@ -12,9 +12,9 @@ Para compilarlo en Overleaf basta con subir `entregable-2.tex` junto con la carp
 
 | # | Criterio | Semana | Evidencia | Sección del documento | Estado |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Autenticación, autorización y control de acceso | 3 | [01](evidencias/01-autenticacion-y-control-de-acceso) | 2 | Pendiente |
-| 2 | Validación y procesamiento seguro de datos | 3 | [02](evidencias/02-validacion-y-procesamiento-de-datos) | 2 | Pendiente |
-| 3 | Protección de información sensible | 3 | [03](evidencias/03-proteccion-de-informacion-sensible) | 2 | Pendiente |
+| 1 | Autenticación, autorización y control de acceso | 3 | [01](evidencias/01-autenticacion-y-control-de-acceso) | 2.1 | Pendiente |
+| 2 | Validación y procesamiento seguro de datos | 3 | [02](evidencias/02-validacion-y-procesamiento-de-datos) | 2.2 | Pendiente |
+| 3 | Protección de información sensible | 3 | [03](evidencias/03-proteccion-de-informacion-sensible) | 2.3 | Pendiente |
 | 4 | Análisis estático y de dependencias | 4 | [04](evidencias/04-analisis-estatico-y-dependencias) | 3 | Listo |
 | 5 | Pruebas dinámicas de seguridad | 4 | [05](evidencias/05-pruebas-dinamicas) | 4 | Listo |
 | 6 | Identificación y clasificación de vulnerabilidades | 4 | [06](evidencias/06-identificacion-de-vulnerabilidades) | 5 | Pendiente |
