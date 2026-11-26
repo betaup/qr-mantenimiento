@@ -1,0 +1,12 @@
+# Revisa cada semana si hay versiones nuevas de las librerias y de las acciones
+# de GitHub, y abre una solicitud de cambio cuando hay una actualizacion.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

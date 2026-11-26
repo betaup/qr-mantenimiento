@@ -1,0 +1,98 @@
+# Revisiones de seguridad que corren solas en cada cambio. Si alguna falla, el
+# cambio queda marcado en rojo en GitHub y no se deberia integrar.
+name: Seguridad
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Cada lunes, para detectar vulnerabilidades nuevas aunque no haya cambios.
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "24"
+  DATABASE_URL: file:./ci.db
+  APP_URL: http://localhost:3100
+
+jobs:
+  calidad:
+    name: Analisis estatico y pruebas unitarias
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npx prisma generate
+      - name: ESLint con reglas de seguridad
+        run: npm run lint
+      - name: TypeScript
+        run: npx tsc --noEmit
+      - name: Pruebas unitarias
+        run: npm test
+      - name: Compilacion
+        run: npm run build
+
+  dependencias:
+    name: Revision de dependencias
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: npm audit
+        run: npm audit --audit-level=moderate
+
+  secretos:
+    name: Busqueda de secretos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: gitleaks en todo el historial
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pruebas-dinamicas:
+    name: Pruebas dinamicas de seguridad
+    needs: calidad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Contrasena de prueba aleatoria
+        run: echo "SEED_PASSWORD=$(openssl rand -base64 18)" >> "$GITHUB_ENV"
+      - run: npx prisma generate
+      - run: npm run build
+      - name: Base de datos de prueba
+        run: ./scripts/preparar-pruebas.sh
+      - name: Levantar el sistema
+        run: |
+          PORT=3100 DATABASE_URL=file:./pruebas.db npm start > servidor.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3100/login && break; sleep 1; done
+      - name: Ejecutar las pruebas
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run test:seguridad
+      - name: Guardar resultados
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-pruebas-dinamicas
+          path: |
+            docs/2do-entregable/evidencias/05-pruebas-dinamicas/resultados-*.json
+            servidor.log

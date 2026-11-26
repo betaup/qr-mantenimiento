@@ -8,7 +8,7 @@
     "start": "NODE_ENV=production node server.mjs",
     "lint": "eslint",
     "test": "vitest run",
-    "test:seguridad": "node --env-file=.env scripts/pruebas-seguridad.mjs"
+    "test:seguridad": "node --env-file-if-exists=.env scripts/pruebas-seguridad.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
