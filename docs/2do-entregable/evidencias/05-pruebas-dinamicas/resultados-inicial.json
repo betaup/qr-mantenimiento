@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-26T00:37:38.857Z",
+  "fecha": "2026-11-26T01:13:58.430Z",
   "base": "http://localhost:3100",
   "resultados": [
     {
@@ -287,7 +287,7 @@
       "amenaza": "T3",
       "prueba": "Correo existente y correo inexistente con contraseña incorrecta",
       "esperado": "El mismo mensaje y un tiempo de respuesta parecido",
-      "obtenido": "mismo mensaje: sí; existente 16 ms, inexistente 15 ms",
+      "obtenido": "mismo mensaje: sí; existente 18 ms, inexistente 16 ms",
       "resultado": "PASA"
     },
     {

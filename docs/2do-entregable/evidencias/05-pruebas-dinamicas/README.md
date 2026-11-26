@@ -54,7 +54,7 @@ De las 38 pruebas, 36 pasaron y 2 fallaron. Todas las defensas del diseño resis
 ## Observaciones
 
 - En la prueba P-31 enviamos un formulario de 200 kB. El sistema lo rechazó como esperábamos, pero respondió con un error 500 en lugar del 413 que corresponde. No revela información, así que lo dejamos solo como observación.
-- En la prueba P-36 medimos cuánto tarda el inicio de sesión con un correo que existe y con uno que no. Tardaron 16 y 15 milisegundos, así que el tiempo de respuesta no delata qué cuentas existen.
+- En la prueba P-36 medimos cuánto tarda el inicio de sesión con un correo que existe y con uno que no. Tardaron 18 y 16 milisegundos, así que el tiempo de respuesta no delata qué cuentas existen.
 
 ## Archivos de esta carpeta
 
