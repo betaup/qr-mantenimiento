@@ -47,21 +47,22 @@ async function main() {
   }
 
   // Argon2id es el algoritmo por defecto de @node-rs/argon2 (RS-01).
-  const passwordHash = await hash(password);
+  // Un hash por cuenta, cada uno con su propia sal.
+  const nuevoHash = () => hash(password);
   const hoy = fechaDeHoy();
 
   for (const e of EMPRESAS) {
     const empresa = await db.empresa.create({ data: { nombre: e.nombre } });
 
     const admin = await db.usuario.create({
-      data: { empresaId: empresa.id, nombre: e.admin, correo: correoDe(e.admin, e.dominio), passwordHash, rol: "ADMIN" },
+      data: { empresaId: empresa.id, nombre: e.admin, correo: correoDe(e.admin, e.dominio), passwordHash: await nuevoHash(), rol: "ADMIN" },
     });
 
     const tecnicos = [];
     for (const nombre of e.tecnicos) {
       tecnicos.push(
         await db.usuario.create({
-          data: { empresaId: empresa.id, nombre, correo: correoDe(nombre, e.dominio), passwordHash, rol: "TECNICO" },
+          data: { empresaId: empresa.id, nombre, correo: correoDe(nombre, e.dominio), passwordHash: await nuevoHash(), rol: "TECNICO" },
         }),
       );
     }
