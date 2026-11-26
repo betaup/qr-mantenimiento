@@ -34,7 +34,7 @@ jobs:
       - name: ESLint con reglas de seguridad
         run: npm run lint
       - name: TypeScript
-        run: npx tsc --noEmit
+        run: npx next typegen && npx tsc --noEmit
       - name: Pruebas unitarias
         run: npm test
       - name: Compilacion
