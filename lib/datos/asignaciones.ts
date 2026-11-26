@@ -1,6 +1,7 @@
 import "server-only";
 import { db } from "@/lib/db";
 import { registrar } from "@/lib/bitacora";
+import { fechaDeHoy } from "@/lib/dominio";
 import { fallo, hecho, type Respuesta } from "@/lib/formularios";
 import { requerirRol } from "@/lib/auth/guardas";
 
@@ -86,8 +87,13 @@ export async function quitarAsignacion(id: string): Promise<Respuesta> {
 
   const asignacion = await db.asignacion.findFirst({ where: { id, empresaId } });
   if (!asignacion) return fallo("Esa asignación no existe.");
+  // La pantalla ya no muestra el boton en dias pasados, pero el servidor
+  // tambien lo revisa: el historial de asignaciones no se reescribe (V-02).
+  if (asignacion.fecha < fechaDeHoy()) {
+    return fallo("Las asignaciones de días pasados ya no se pueden cambiar.");
+  }
 
-  await db.asignacion.deleteMany({ where: { id, empresaId } });
+  await db.asignacion.deleteMany({ where: { id, empresaId, fecha: { gte: fechaDeHoy() } } });
 
   await registrar({
     accion: "ASIGNACION_BAJA",
