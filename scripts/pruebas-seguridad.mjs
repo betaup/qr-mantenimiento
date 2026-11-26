@@ -3,7 +3,7 @@
 // Uso:
 //   ./scripts/preparar-pruebas.sh
 //   npm run build && PORT=3100 DATABASE_URL=file:./pruebas.db npm start
-//   node --env-file=.env scripts/pruebas-seguridad.mjs
+//   npm run test:seguridad
 //
 // Cada prueba ataca una amenaza del modelo (T1 a T11) o un hallazgo del analisis
 // estatico (H-01, H-02) y compara lo que paso con lo que deberia pasar. Al final
@@ -16,10 +16,11 @@ import { randomBytes } from "node:crypto";
 
 const BASE = process.env.BASE ?? "http://localhost:3100";
 const PASSWORD = process.env.SEED_PASSWORD;
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+// En GitHub Actions se usa el Chrome del servidor; en local, el de macOS.
+const CHROME = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const db = new DatabaseSync("prisma/pruebas.db");
 
-if (!PASSWORD) throw new Error("Falta SEED_PASSWORD: ejecuta con node --env-file=.env");
+if (!PASSWORD) throw new Error("Falta SEED_PASSWORD en .env o en las variables de entorno");
 
 // Registro de resultados
 const resultados = [];
@@ -49,7 +50,12 @@ async function pedir(ruta, { sesion, metodo = "GET", cabeceras = {}, cuerpo } = 
 }
 
 // Navegador: inicio de sesion real y captura de acciones del servidor
-const navegador = await puppeteer.launch({ executablePath: CHROME, headless: true });
+const navegador = await puppeteer.launch({
+  executablePath: CHROME,
+  headless: true,
+  // En los servidores de GitHub Chrome no puede usar su sandbox y no inicia sin esto.
+  args: process.env.CI ? ["--no-sandbox"] : [],
+});
 
 async function iniciarSesion(correo) {
   const contexto = await navegador.createBrowserContext();
