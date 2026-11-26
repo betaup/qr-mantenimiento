@@ -1,6 +1,6 @@
-# Parte 2. Pruebas dinámicas de seguridad
+# 5. Pruebas dinámicas de seguridad
 
-Fecha de ejecución: 25 de noviembre de 2026. Resultados completos en `evidencias/pruebas-dinamicas-inicial.json`.
+Fecha de ejecución: 25 de noviembre de 2026. Resultados completos en `resultados-inicial.json`, en esta misma carpeta.
 
 ## Cómo repetirlas
 
@@ -33,10 +33,10 @@ El script inicia sesión de verdad desde un navegador Chrome sin interfaz, captu
 | H-01 | IP falsificada con X-Forwarded-For | 0 | 1 |
 | H-02 | Asignaciones de días pasados | 0 | 1 |
 
-![Sesiones y autorización](img/p2-pruebas-1-autorizacion.png)
-![Acciones, XSS e integridad](img/p2-pruebas-2-acciones-xss.png)
-![Errores, saturación, QR y sesiones](img/p2-pruebas-3-errores-qr.png)
-![Fuerza bruta y resumen](img/p2-pruebas-4-fuerza-bruta.png)
+![Sesiones y autorización](../../img/05-pruebas-1-autorizacion.png)
+![Acciones, XSS e integridad](../../img/05-pruebas-2-acciones-xss.png)
+![Errores, saturación, QR y sesiones](../../img/05-pruebas-3-errores-qr.png)
+![Fuerza bruta y resumen](../../img/05-pruebas-4-fuerza-bruta.png)
 
 ## Detalle
 
@@ -86,7 +86,7 @@ El script inicia sesión de verdad desde un navegador Chrome sin interfaz, captu
 - **H-02 (P-17).** Al reenviar la acción de quitar una asignación con el identificador de una asignación de ayer, el servidor la borró. La restricción de fechas solo existía en la pantalla.
 - **H-01 (P-38).** 25 intentos fallidos, cada uno con una IP inventada en `X-Forwarded-For`, y ninguno se bloqueó. La bitácora guardó las 25 IPs falsas, así que quien ataca decide qué dirección queda registrada.
 
-![Bitácora con las IPs falsas](img/p2-h01-bitacora-ips-falsas.png)
+![Bitácora con las IPs falsas](../../img/05-hallazgo-h01-bitacora.png)
 
 ## Observaciones
 

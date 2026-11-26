@@ -1,6 +1,6 @@
-# Parte 1. Análisis estático y de dependencias
+# 4. Análisis estático y de dependencias
 
-Fecha de ejecución: 25 de noviembre de 2026. Las salidas completas de cada herramienta están en la carpeta `evidencias/`.
+Fecha de ejecución: 25 de noviembre de 2026. Las salidas completas de cada herramienta están en esta misma carpeta.
 
 ## Herramientas
 
@@ -15,9 +15,9 @@ Fecha de ejecución: 25 de noviembre de 2026. Las salidas completas de cada herr
 Comandos usados:
 
 ```bash
-npx eslint . -f json -o docs/seguridad/evidencias/eslint-security-inicial.json
+npx eslint . -f json -o docs/entregable-2/evidencias/04-analisis-estatico-y-dependencias/eslint-inicial.json
 npx tsc --noEmit
-npm audit --json > docs/seguridad/evidencias/npm-audit-inicial.json
+npm audit --json > docs/entregable-2/evidencias/04-analisis-estatico-y-dependencias/npm-audit-inicial.json
 npm audit --omit=dev
 ```
 
@@ -25,7 +25,7 @@ npm audit --omit=dev
 
 ESLint marcó **6 avisos**, todos de la regla `security/detect-object-injection`, y **ningún error**. TypeScript no reportó errores.
 
-![ESLint antes de revisar](img/p1-eslint-inicial.png)
+![ESLint antes de revisar](../../img/04-eslint-inicial.png)
 
 | Archivo | Línea | Código | Clasificación |
 | --- | --- | --- | --- |
@@ -38,15 +38,15 @@ ESLint marcó **6 avisos**, todos de la regla `security/detect-object-injection`
 
 La regla avisa cada vez que se lee un objeto con una clave variable, porque si la clave la controla un atacante podría leer propiedades como `__proto__`. En los seis casos la clave tiene un tipo cerrado (`Rol`, `TipoServicio` o el tono de un componente) y nunca viene directamente de una petición: el rol sale de la sesión y los tipos se validan antes con Zod. Por eso los clasificamos como falsos positivos y los marcamos en el código con un comentario que explica la razón, para que el análisis quede limpio y cualquier aviso nuevo se note.
 
-![ESLint y TypeScript después de revisar](img/p1-eslint-final.png)
+![ESLint y TypeScript después de revisar](../../img/04-eslint-final.png)
 
 ## Resultado de la revisión de dependencias
 
 `npm audit` reportó **17 paquetes vulnerables**: 2 críticos, 4 altos y 11 moderados. Al separar las dependencias de producción quedan 8 (4 altos y 4 moderados).
 
-![npm audit](img/p1-npm-audit.png)
+![npm audit](../../img/04-npm-audit.png)
 
-![npm audit, solo producción](img/p1-npm-audit-produccion.png)
+![npm audit, solo producción](../../img/04-npm-audit-produccion.png)
 
 | Paquete | Versión instalada | Severidad | Aviso | Llega por | Alcance |
 | --- | --- | --- | --- | --- | --- |
@@ -74,9 +74,9 @@ Observaciones:
 | H-03 | La herramienta `shadcn` está en las dependencias de producción, lo que suma superficie de ataque y vulnerabilidades sin ninguna necesidad. | `package.json` | Baja |
 | H-04 | Hay 17 dependencias con vulnerabilidades conocidas, 2 de ellas críticas. | `package.json` | Alta |
 
-![Hallazgo H-01](img/p1-h01-ip.png)
+![Hallazgo H-01](../../img/04-hallazgo-h01-ip.png)
 
-![Hallazgo H-02](img/p1-h02-asignaciones.png)
+![Hallazgo H-02](../../img/04-hallazgo-h02-asignaciones.png)
 
 Estos hallazgos pasan al registro de vulnerabilidades (Parte 3), donde se clasifican con más detalle, y se corrigen en la Parte 4. Antes de corregirlos se confirmarán con pruebas dinámicas en la Parte 2.
 

@@ -25,8 +25,6 @@
 \usepackage{url}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
-% Las imágenes de evidencia viven en la carpeta de seguridad del proyecto.
-\graphicspath{{../seguridad/img/}{../capturas/}}
 % ── Formato de secciones ──────────────────────────────────────────────────────
 % Como las secciones no llevan número automático, cada título necesita su
 % propio ancla (\phantomsection) para que el índice enlace al lugar correcto.
@@ -52,7 +50,7 @@
 \fancyhf{}
 \renewcommand{\headrulewidth}{0.4pt}
 \fancyhead[L]{\small\textit{\materia}}
-\fancyhead[R]{\small\textit{Reyna, B.J.}}
+\fancyhead[R]{\small\textit{Equipo 5}}
 \fancyfoot[C]{\small\thepage}
 % ── Espaciado ─────────────────────────────────────────────────────────────────
 \setlength{\parindent}{0pt}
@@ -143,7 +141,7 @@ ESLint encontró seis avisos y ningún error, todos de la regla \texttt{detect-o
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p1-eslint-inicial.png}
+  \includegraphics[width=\linewidth]{img/04-eslint-inicial.png}
   \caption{Resultado inicial de ESLint con las reglas de seguridad.}
   \label{fig:eslint-inicial}
 \end{figure}
@@ -173,7 +171,7 @@ Revisamos los seis casos uno por uno y concluimos que son falsos positivos. En t
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p1-eslint-final.png}
+  \includegraphics[width=\linewidth]{img/04-eslint-final.png}
   \caption{ESLint y TypeScript sin errores ni avisos después de revisar los falsos positivos.}
   \label{fig:eslint-final}
 \end{figure}
@@ -184,14 +182,14 @@ La revisión de dependencias fue más reveladora. npm audit reportó 17 paquetes
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p1-npm-audit.png}
+  \includegraphics[width=\linewidth]{img/04-npm-audit.png}
   \caption{Inicio y resumen del reporte de npm audit sobre todas las dependencias.}
   \label{fig:audit}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p1-npm-audit-produccion.png}
+  \includegraphics[width=\linewidth]{img/04-npm-audit-produccion.png}
   \caption{Reporte de npm audit solo sobre las dependencias de producción.}
   \label{fig:audit-prod}
 \end{figure}
@@ -229,7 +227,7 @@ El primero, H-01, está en la función que obtiene la dirección IP del cliente 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p1-h01-ip.png}
+  \includegraphics[width=\linewidth]{img/04-hallazgo-h01-ip.png}
   \caption{H-01. La IP se toma de una cabecera que controla el cliente.}
   \label{fig:h01}
 \end{figure}
@@ -238,7 +236,7 @@ El segundo, H-02, está en la función que quita una asignación (figura \ref{fi
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p1-h02-asignaciones.png}
+  \includegraphics[width=\linewidth]{img/04-hallazgo-h02-asignaciones.png}
   \caption{H-02. La función que quita asignaciones no revisa la fecha.}
   \label{fig:h02}
 \end{figure}
@@ -280,7 +278,7 @@ DATABASE_URL=file:./pruebas.db npx next start -p 3100
 node --env-file=.env scripts/pruebas-seguridad.mjs
 \end{verbatim}
 
-El script usa tres técnicas. Para las sesiones inicia sesión de verdad desde el navegador, igual que lo haría un usuario. Para atacar las acciones del servidor deja que la pantalla dispare una acción, la captura antes de que llegue y la vuelve a enviar con datos cambiados, que es lo mismo que podría hacer un atacante desde las herramientas de desarrollo del navegador. Para la inmutabilidad intenta modificar la base de datos directamente, sin pasar por la aplicación. Cada prueba compara el resultado obtenido con el esperado y lo marca como \textbf{Pasa} o \textbf{Falla}. Los resultados completos se guardan en \nolinkurl{docs/seguridad/evidencias/pruebas-dinamicas-inicial.json}.
+El script usa tres técnicas. Para las sesiones inicia sesión de verdad desde el navegador, igual que lo haría un usuario. Para atacar las acciones del servidor deja que la pantalla dispare una acción, la captura antes de que llegue y la vuelve a enviar con datos cambiados, que es lo mismo que podría hacer un atacante desde las herramientas de desarrollo del navegador. Para la inmutabilidad intenta modificar la base de datos directamente, sin pasar por la aplicación. Cada prueba compara el resultado obtenido con el esperado y lo marca como \textbf{Pasa} o \textbf{Falla}. Los resultados completos se guardan en \nolinkurl{evidencias/05-pruebas-dinamicas/resultados-inicial.json}.
 
 \subsection{Resumen de resultados}
 
@@ -314,34 +312,34 @@ H-02 & Asignaciones de días pasados & 0 & 1 \\
 \end{longtable}
 \endgroup
 
-El resultado más importante es que todas las defensas del diseño original resistieron, incluida la matriz completa de autorización, y que las dos pruebas que fallan son justamente las que confirman los hallazgos de la revisión manual. Las figuras \ref{fig:p2-1} a \ref{fig:p2-4} muestran la salida completa del script.
+El resultado más importante es que todas las defensas del diseño original resistieron, incluida la matriz completa de autorización, y que las dos pruebas que fallan son justamente las que confirman los hallazgos de la revisión manual. Las figuras \ref{fig:pruebas-1} a \ref{fig:pruebas-4} muestran la salida completa del script.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p2-pruebas-1-autorizacion.png}
+  \includegraphics[width=\linewidth]{img/05-pruebas-1-autorizacion.png}
   \caption{Pruebas de sesiones, cookies y matriz de autorización.}
-  \label{fig:p2-1}
+  \label{fig:pruebas-1}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p2-pruebas-2-acciones-xss.png}
+  \includegraphics[width=\linewidth]{img/05-pruebas-2-acciones-xss.png}
   \caption{Pruebas de acciones manipuladas, XSS, confirmación del equipo e inmutabilidad.}
-  \label{fig:p2-2}
+  \label{fig:pruebas-2}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p2-pruebas-3-errores-qr.png}
+  \includegraphics[width=\linewidth]{img/05-pruebas-3-errores-qr.png}
   \caption{Pruebas de errores, saturación, enumeración de QR y revocación de sesiones.}
-  \label{fig:p2-3}
+  \label{fig:pruebas-3}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p2-pruebas-4-fuerza-bruta.png}
+  \includegraphics[width=\linewidth]{img/05-pruebas-4-fuerza-bruta.png}
   \caption{Pruebas de fuerza bruta y resumen final.}
-  \label{fig:p2-4}
+  \label{fig:pruebas-4}
 \end{figure}
 
 \subsection{Detalle de las pruebas}
@@ -407,7 +405,7 @@ La prueba P-38 confirmó el hallazgo H-01 y mostró que su impacto es mayor de l
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{p2-h01-bitacora-ips-falsas.png}
+  \includegraphics[width=\linewidth]{img/05-hallazgo-h01-bitacora.png}
   \caption{La bitácora guardó las 25 direcciones IP falsas de la prueba P-38.}
   \label{fig:h01-bitacora}
 \end{figure}
