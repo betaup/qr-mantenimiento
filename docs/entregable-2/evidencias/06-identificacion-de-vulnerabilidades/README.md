@@ -1,5 +1,5 @@
 # 6. Identificación y clasificación de vulnerabilidades
 
-Documentación de hallazgos, su clasificación y el análisis de sus causas.
+Aquí estará el registro de todas las vulnerabilidades que encontramos, con su causa, su impacto y su nivel de riesgo.
 
-Pendiente: la evidencia de este criterio se agrega en la Parte 3.
+Esta parte todavía está en preparación.
