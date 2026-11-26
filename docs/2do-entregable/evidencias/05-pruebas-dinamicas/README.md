@@ -13,7 +13,7 @@ Para repetir las pruebas:
 ```bash
 ./scripts/preparar-pruebas.sh
 npm run build
-DATABASE_URL=file:./pruebas.db npx next start -p 3100
+PORT=3100 DATABASE_URL=file:./pruebas.db npm start
 npm run test:seguridad
 ```
 

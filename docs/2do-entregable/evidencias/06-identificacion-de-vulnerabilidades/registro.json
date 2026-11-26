@@ -14,7 +14,7 @@
     "stride": "Suplantación y repudio",
     "amenaza": "T3, T7",
     "evidencia": "Figuras 05-pruebas-4 y 05-hallazgo-h01-bitacora",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-02",
@@ -31,7 +31,7 @@
     "stride": "Manipulación",
     "amenaza": "T7",
     "evidencia": "Figuras 04-hallazgo-h02 y 05-pruebas-2",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-03",
@@ -48,7 +48,7 @@
     "stride": "Elevación de privilegios",
     "amenaza": "T10",
     "evidencia": "Figura 04-npm-audit",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-04",
@@ -65,7 +65,7 @@
     "stride": "Denegación de servicio",
     "amenaza": "T10",
     "evidencia": "Figuras 04-npm-audit y 04-npm-audit-produccion",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-05",
@@ -82,7 +82,7 @@
     "stride": "Divulgación de información y manipulación",
     "amenaza": "T10",
     "evidencia": "Figura 04-npm-audit",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-06",
@@ -99,7 +99,7 @@
     "stride": "Denegación de servicio",
     "amenaza": "T10",
     "evidencia": "Figura 04-npm-audit-produccion",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-07",
@@ -116,7 +116,7 @@
     "stride": "Manipulación",
     "amenaza": "T10",
     "evidencia": "Figura 04-npm-audit-produccion",
-    "estado": "Abierto"
+    "estado": "Corregido"
   },
   {
     "id": "V-08",

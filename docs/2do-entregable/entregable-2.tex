@@ -286,7 +286,7 @@ Para no alterar la base de datos de desarrollo, que guarda una bitácora que ya 
 \begin{verbatim}
 ./scripts/preparar-pruebas.sh
 npm run build
-DATABASE_URL=file:./pruebas.db npx next start -p 3100
+PORT=3100 DATABASE_URL=file:./pruebas.db npm start
 node --env-file=.env scripts/pruebas-seguridad.mjs
 \end{verbatim}
 
@@ -430,7 +430,7 @@ En la prueba P-36 los tiempos de respuesta con un correo existente y con uno ine
 
 \section{5. Registro y clasificación de vulnerabilidades}
 
-En esta sección reunimos todo lo que encontramos en el análisis estático, la revisión de dependencias y las pruebas dinámicas, y lo clasificamos con el mismo criterio para decidir qué corregir primero. Registramos nueve hallazgos. De ellos, siete quedan abiertos para corregirse en la sección 6 y dos los aceptamos de forma justificada.
+En esta sección reunimos todo lo que encontramos en el análisis estático, la revisión de dependencias y las pruebas dinámicas, y lo clasificamos con el mismo criterio para decidir qué corregir primero. Registramos nueve hallazgos. Siete los corregimos, como se describe en la sección 6, y dos los aceptamos de forma justificada.
 
 \subsection{Cómo los clasificamos}
 
@@ -468,13 +468,13 @@ Un hallazgo que no afecta a los datos ni a la disponibilidad lo marcamos como in
 \endhead
 \bottomrule
 \endfoot
-V-01 & La IP del cliente se toma de una cabecera que el cliente puede inventar & \cellcolor{red!25}Alto & Abierto \\
-V-02 & El servidor permite quitar asignaciones de días pasados & \cellcolor{yellow!25}Bajo & Abierto \\
-V-03 & tinypool vulnerable a contaminación de prototipos con ejecución de código & \cellcolor{orange!30}Medio & Abierto \\
-V-04 & Vulnerabilidades de denegación de servicio en las dependencias de Prisma & \cellcolor{yellow!25}Bajo & Abierto \\
-V-05 & vitest permite leer archivos e inyectar código desde su servidor de simulación & \cellcolor{yellow!25}Bajo & Abierto \\
-V-06 & minimatch vulnerable a denegación de servicio con ciertos patrones & \cellcolor{yellow!25}Bajo & Abierto \\
-V-07 & Una herramienta de desarrollo quedó instalada como librería de producción & \cellcolor{yellow!25}Bajo & Abierto \\
+V-01 & La IP del cliente se toma de una cabecera que el cliente puede inventar & \cellcolor{red!25}Alto & Corregido \\
+V-02 & El servidor permite quitar asignaciones de días pasados & \cellcolor{yellow!25}Bajo & Corregido \\
+V-03 & tinypool vulnerable a contaminación de prototipos con ejecución de código & \cellcolor{orange!30}Medio & Corregido \\
+V-04 & Vulnerabilidades de denegación de servicio en las dependencias de Prisma & \cellcolor{yellow!25}Bajo & Corregido \\
+V-05 & vitest permite leer archivos e inyectar código desde su servidor de simulación & \cellcolor{yellow!25}Bajo & Corregido \\
+V-06 & minimatch vulnerable a denegación de servicio con ciertos patrones & \cellcolor{yellow!25}Bajo & Corregido \\
+V-07 & Una herramienta de desarrollo quedó instalada como librería de producción & \cellcolor{yellow!25}Bajo & Corregido \\
 V-08 & Un formulario demasiado grande responde con error 500 en lugar de 413 & \cellcolor{gray!15}Informativo & Aceptado \\
 V-09 & Cualquiera que conozca un correo puede bloquear esa cuenta por 15 minutos & \cellcolor{yellow!25}Bajo & Aceptado \\
 \end{longtable}
@@ -495,7 +495,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-01. La IP del cliente se toma de una cabecera que el cliente puede inventar}} \\
 \hline
-\cellcolor{red!25}\textbf{Riesgo:} Alto & \textbf{Probabilidad:} Alta & \textbf{Impacto:} Medio & \textbf{Estado:} Abierto \\
+\cellcolor{red!25}\textbf{Riesgo:} Alto & \textbf{Probabilidad:} Alta & \textbf{Impacto:} Medio & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-348 & \textbf{OWASP:} A07:2021 & \textbf{STRIDE:} Suplantación y repudio & \textbf{Amenaza:} T3, T7 \\
 \hline
@@ -513,7 +513,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-02. El servidor permite quitar asignaciones de días pasados}} \\
 \hline
-\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Medio & \textbf{Estado:} Abierto \\
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Medio & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-602 & \textbf{OWASP:} A01:2021 & \textbf{STRIDE:} Manipulación & \textbf{Amenaza:} T7 \\
 \hline
@@ -531,7 +531,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-03. tinypool vulnerable a contaminación de prototipos con ejecución de código}} \\
 \hline
-\cellcolor{orange!30}\textbf{Riesgo:} Medio & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Alto & \textbf{Estado:} Abierto \\
+\cellcolor{orange!30}\textbf{Riesgo:} Medio & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Alto & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-1321 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Elevación de privilegios & \textbf{Amenaza:} T10 \\
 \hline
@@ -549,7 +549,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-04. Vulnerabilidades de denegación de servicio en las dependencias de Prisma}} \\
 \hline
-\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Abierto \\
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-674, CWE-1333 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Denegación de servicio & \textbf{Amenaza:} T10 \\
 \hline
@@ -567,7 +567,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-05. vitest permite leer archivos e inyectar código desde su servidor de simulación}} \\
 \hline
-\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Medio & \textbf{Estado:} Abierto \\
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Medio & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-22, CWE-94 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Divulgación de información y manipulación & \textbf{Amenaza:} T10 \\
 \hline
@@ -585,7 +585,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-06. minimatch vulnerable a denegación de servicio con ciertos patrones}} \\
 \hline
-\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Abierto \\
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-405 & \textbf{OWASP:} A06:2021 & \textbf{STRIDE:} Denegación de servicio & \textbf{Amenaza:} T10 \\
 \hline
@@ -603,7 +603,7 @@ Cada ficha resume en una sola tabla la clasificación, la causa y el impacto de 
 \hline
 \multicolumn{4}{|p{\fila}|}{\cellcolor{gray!12}\textbf{V-07. Una herramienta de desarrollo quedó instalada como librería de producción}} \\
 \hline
-\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Abierto \\
+\cellcolor{yellow!25}\textbf{Riesgo:} Bajo & \textbf{Probabilidad:} Baja & \textbf{Impacto:} Bajo & \textbf{Estado:} Corregido \\
 \hline
 \textbf{CWE:} CWE-1104 & \textbf{OWASP:} A05:2021 & \textbf{STRIDE:} Manipulación & \textbf{Amenaza:} T10 \\
 \hline
@@ -662,7 +662,120 @@ Aceptamos V-08 y V-09. En V-08 el formulario grande ya se rechaza como debe y la
 
 \section{6. Corrección y revalidación}
 
-\textit{Sección en desarrollo.}
+Con el registro de la sección 5 ordenado por prioridad, corregimos las siete vulnerabilidades abiertas. Para cada una explicamos qué cambiamos y por qué, y después repetimos las mismas pruebas que la habían detectado para comprobar que la corrección funciona. Todas las correcciones se hicieron el 25 de noviembre de 2026.
+
+\subsection{V-01. Dirección IP falsificada}
+
+La causa era que la aplicación confiaba en la cabecera \texttt{X-Forwarded-For}. Al revisar cómo la maneja Next.js descubrimos que el servidor solo la llena con la dirección real de la conexión cuando la petición no la trae. Si el cliente la envía, Next.js la deja pasar tal cual, así que desde la aplicación ya no había forma de conocer la IP verdadera.
+
+Por eso la corrección no podía estar solo en la función que lee la IP. Agregamos un servidor de producción muy pequeño, \nolinkurl{server.mjs}, que recibe cada petición antes que Next.js y reemplaza esa cabecera por la dirección real de la conexión. Además cambiamos la función para que tome el último valor de la cabecera en lugar del primero, que es el que agrega el servidor y no el cliente (figura \ref{fig:v01}). Si en el futuro el sistema se publica detrás de un proxy propio, basta con activar la variable \texttt{CONFIAR\_EN\_PROXY} para conservar la cabecera que ese proxy agrega.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-correccion-v01.png}
+  \caption{Cambio en la función que obtiene la IP del cliente.}
+  \label{fig:v01}
+\end{figure}
+
+Después de la corrección, la bitácora registra la dirección real de todos los intentos y ninguna de las 25 direcciones inventadas de la prueba P-38 (figura \ref{fig:bitacora-real}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-bitacora-ip-real.png}
+  \caption{La bitácora guarda solo la dirección real después de corregir V-01.}
+  \label{fig:bitacora-real}
+\end{figure}
+
+\subsection{V-02. Asignaciones de días pasados}
+
+La restricción ya existía en la pantalla, así que la llevamos también al servidor. La función que quita una asignación ahora revisa la fecha y rechaza las de días pasados con un mensaje claro. Como segunda barrera, la consulta que borra la asignación incluye la condición de fecha, de modo que aunque se saltara la primera revisión no borraría nada del pasado (figura \ref{fig:v02}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-correccion-v02.png}
+  \caption{Revisión de la fecha en la función que quita asignaciones.}
+  \label{fig:v02}
+\end{figure}
+
+\subsection{V-03 a V-07. Librerías vulnerables}
+
+Las vulnerabilidades de las librerías las corregimos actualizando versiones. En cada caso elegimos la solución que eliminaba la vulnerabilidad sin romper el sistema.
+
+\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{L{0.22}L{0.15}L{0.15}L{0.40}}
+\toprule
+\textbf{Librería} & \textbf{Antes} & \textbf{Después} & \textbf{Cómo y por qué} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Librería} & \textbf{Antes} & \textbf{Después} & \textbf{Cómo y por qué} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+vitest y tinypool (V-03, V-05) & vitest 3.2.7 & vitest 5.1.2 & Actualizamos el ejecutor de pruebas a la versión más reciente, que ya trae una versión corregida de tinypool. Requirió actualizar también los tipos de Node.js a la versión 24. \\
+deepmerge-ts (V-04) & 7.1.5 & 8.0.2 & Corregirlo con npm audit implicaba pasar a Prisma 7, un cambio mayor que modifica cómo se conecta a la base. En su lugar forzamos la versión corregida dentro de Prisma 6 con la opción \texttt{overrides} de npm. \\
+effect (V-04) & 3.21.0 & 3.22.5 & Igual que la anterior, con \texttt{overrides}. Comprobamos que Prisma siga generando el cliente y aplicando migraciones. \\
+minimatch (V-06) & 7 a 11.0.0 & 11.0.9 & Se actualizó con \texttt{npm audit fix}, sin cambios de versión mayor. \\
+shadcn (V-07) & Producción & Desarrollo & La movimos a las dependencias de desarrollo, que es donde corresponde, porque solo se usa para crear componentes. \\
+\end{longtable}
+\endgroup
+
+Al revisar las dependencias otra vez encontramos algo que no esperábamos: \texttt{puppeteer-core}, la librería que agregamos para automatizar las pruebas dinámicas y generar las imágenes de evidencia, traía 9 vulnerabilidades altas en su versión 24. Es decir, la herramienta que usamos para probar la seguridad había agregado sus propios riesgos. La actualizamos a la versión 25.19.0, que las corrige. Esto nos recordó que las herramientas de desarrollo también hay que revisarlas.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-versiones.png}
+  \caption{Versiones instaladas después de actualizar.}
+  \label{fig:versiones}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-npm-audit.png}
+  \caption{npm audit sin vulnerabilidades después de las correcciones.}
+  \label{fig:audit-final}
+\end{figure}
+
+\subsection{Revalidación}
+
+Después de corregir, repetimos todas las verificaciones en el mismo entorno de pruebas de la sección 4, con una base de datos nueva. Las 38 pruebas dinámicas pasaron, incluidas P-17 y P-38, que antes fallaban (figura \ref{fig:antes-despues}). En la prueba P-38 se bloquearon 14 de los 25 intentos: los primeros 11 todavía cabían en el límite de 20 fallos por dirección, porque la misma dirección ya llevaba 9 fallos de las pruebas anteriores, y a partir de ahí todos se rechazaron. Los resultados completos están en \nolinkurl{evidencias/07-correccion-y-revalidacion/resultados-revalidacion.json}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-pruebas-antes-despues.png}
+  \caption{Pruebas P-17 y P-38 antes y después de corregir.}
+  \label{fig:antes-despues}
+\end{figure}
+
+También comprobamos que las correcciones no rompieran nada más: el análisis de ESLint y de TypeScript sigue limpio y las pruebas unitarias pasan (figura \ref{fig:calidad}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{img/07-calidad.png}
+  \caption{ESLint, TypeScript y pruebas unitarias después de corregir.}
+  \label{fig:calidad}
+\end{figure}
+\begingroup\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{L{0.08}L{0.30}L{0.30}L{0.12}L{0.12}}
+\toprule
+\textbf{ID} & \textbf{Corrección} & \textbf{Cómo se revalidó} & \textbf{Antes} & \textbf{Después} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Corrección} & \textbf{Cómo se revalidó} & \textbf{Antes} & \textbf{Después} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+V-01 & Servidor propio que fija la IP real & Prueba P-38 y consulta a la bitácora & Falla & Pasa \\
+V-02 & Revisión de fecha en el servidor & Prueba P-17 & Falla & Pasa \\
+V-03 & vitest 5.1.2 & npm audit & Crítica & Sin hallazgos \\
+V-04 & overrides de deepmerge-ts y effect & npm audit & Alta & Sin hallazgos \\
+V-05 & vitest 5.1.2 & npm audit & Moderada & Sin hallazgos \\
+V-06 & minimatch 11.0.9 & npm audit & Moderada & Sin hallazgos \\
+V-07 & shadcn en desarrollo & npm audit solo de producción & Moderada & Sin hallazgos \\
+\end{longtable}
+\endgroup
 
 \section{7. Verificación de requisitos y mitigación de amenazas}
 

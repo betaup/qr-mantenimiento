@@ -2,7 +2,7 @@
 //
 // Uso:
 //   ./scripts/preparar-pruebas.sh
-//   npm run build && DATABASE_URL=file:./pruebas.db npx next start -p 3100
+//   npm run build && PORT=3100 DATABASE_URL=file:./pruebas.db npm start
 //   node --env-file=.env scripts/pruebas-seguridad.mjs
 //
 // Cada prueba ataca una amenaza del modelo (T1 a T11) o un hallazgo del analisis
