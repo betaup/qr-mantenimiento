@@ -19,7 +19,7 @@ Organizamos la evidencia en una carpeta por criterio, con el mismo número y nom
 | 3. Protección de información sensible | 3 | [03](evidencias/03-proteccion-de-informacion-sensible) | 2.3 | Pendiente |
 | 4. Análisis estático y de dependencias | 4 | [04](evidencias/04-analisis-estatico-y-dependencias) | 3 | Terminado |
 | 5. Pruebas dinámicas de seguridad | 4 | [05](evidencias/05-pruebas-dinamicas) | 4 | Terminado |
-| 6. Identificación y clasificación de vulnerabilidades | 4 | [06](evidencias/06-identificacion-de-vulnerabilidades) | 5 | Pendiente |
+| 6. Identificación y clasificación de vulnerabilidades | 4 | [06](evidencias/06-identificacion-de-vulnerabilidades) | 5 | Terminado |
 | 7. Corrección y revalidación de vulnerabilidades | 4 | [07](evidencias/07-correccion-y-revalidacion) | 6 | Pendiente |
 | 8. Verificación de requisitos y mitigación de amenazas | 5 | [08](evidencias/08-verificacion-de-requisitos) | 7 | Pendiente |
 | 9. Integración continua y automatización de seguridad | 5 | [09](evidencias/09-integracion-continua) | 8 | Pendiente |
