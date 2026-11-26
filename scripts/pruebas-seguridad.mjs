@@ -1,12 +1,12 @@
-// Pruebas dinámicas de seguridad contra una instancia local del sistema.
+// Pruebas dinamicas de seguridad contra una instancia local del sistema.
 //
 // Uso:
 //   ./scripts/preparar-pruebas.sh
 //   npm run build && DATABASE_URL=file:./pruebas.db npx next start -p 3100
 //   node --env-file=.env scripts/pruebas-seguridad.mjs
 //
-// Cada prueba ataca una amenaza del modelo (T1 a T11) o un hallazgo del análisis
-// estático (H-01, H-02) y compara lo que pasó con lo que debería pasar. Al final
+// Cada prueba ataca una amenaza del modelo (T1 a T11) o un hallazgo del analisis
+// estatico (H-01, H-02) y compara lo que paso con lo que deberia pasar. Al final
 // guarda los resultados en docs/entregable-2/evidencias/05-pruebas-dinamicas.
 
 import puppeteer from "puppeteer-core";
@@ -21,7 +21,7 @@ const db = new DatabaseSync("prisma/pruebas.db");
 
 if (!PASSWORD) throw new Error("Falta SEED_PASSWORD: ejecuta con node --env-file=.env");
 
-// ── Registro de resultados ────────────────────────────────────────────────────
+// Registro de resultados
 const resultados = [];
 function registrar(id, amenaza, prueba, esperado, obtenido, pasa) {
   resultados.push({ id, amenaza, prueba, esperado, obtenido, resultado: pasa ? "PASA" : "FALLA" });
@@ -31,12 +31,12 @@ function registrar(id, amenaza, prueba, esperado, obtenido, pasa) {
 }
 const seccion = (titulo) => console.log(`\n── ${titulo} ${"─".repeat(Math.max(0, 70 - titulo.length))}`);
 
-// ── Utilidades de base de datos ───────────────────────────────────────────────
+// Utilidades de base de datos
 const uno = (sql, ...p) => db.prepare(sql).get(...p);
 const idDe = (tabla, campo, valor) => uno(`select id from ${tabla} where ${campo} = ?`, valor).id;
 const cuenta = (sql, ...p) => Object.values(uno(sql, ...p))[0];
 
-// ── Peticiones HTTP con una sesión ────────────────────────────────────────────
+// Peticiones HTTP con una sesion
 async function pedir(ruta, { sesion, metodo = "GET", cabeceras = {}, cuerpo } = {}) {
   const r = await fetch(BASE + ruta, {
     method: metodo,
@@ -48,7 +48,7 @@ async function pedir(ruta, { sesion, metodo = "GET", cabeceras = {}, cuerpo } = 
   return { estado: r.status, destino: r.headers.get("location"), cabeceras: r.headers, texto };
 }
 
-// ── Navegador: inicio de sesión real y captura de acciones del servidor ───────
+// Navegador: inicio de sesion real y captura de acciones del servidor
 const navegador = await puppeteer.launch({ executablePath: CHROME, headless: true });
 
 async function iniciarSesion(correo) {
@@ -67,8 +67,8 @@ async function iniciarSesion(correo) {
   return { contexto, pagina, token: cookie?.value, setCookie };
 }
 
-// Hace que la página dispare una acción del servidor y captura la petición sin
-// dejar que llegue: así se puede repetir después con datos cambiados, como haría
+// Hace que la pagina dispare una accion del servidor y captura la peticion sin
+// dejar que llegue: asi se puede repetir despues con datos cambiados, como haria
 // un atacante con las herramientas de desarrollo del navegador.
 async function capturarAccion(pagina, disparar) {
   await pagina.setRequestInterception(true);
@@ -88,7 +88,7 @@ async function capturarAccion(pagina, disparar) {
   return accion;
 }
 
-// Cambia el valor de un campo dentro del cuerpo multipart de una acción.
+// Cambia el valor de un campo dentro del cuerpo multipart de una accion.
 function cambiarCampo(cuerpo, campo, valor) {
   // eslint-disable-next-line security/detect-non-literal-regexp -- el nombre del campo lo escribe este mismo script
   const patron = new RegExp(`(name="(?:_?\\d+_)?${campo}"\\r\\n\\r\\n)[^\\r]*`);
@@ -107,7 +107,7 @@ async function repetirAccion(accion, { sesion, cuerpo = accion.cuerpo, cabeceras
   return { ...r, ms: performance.now() - t0 };
 }
 
-// ── Datos de prueba ───────────────────────────────────────────────────────────
+// Datos de prueba
 const eqA = idDe("Equipo", "serie", "CN-MS-0001"); // asignado a Miguel hoy
 const eqANoAsignado = idDe("Equipo", "serie", "CN-CH-0003");
 const eqB = idDe("Equipo", "serie", "FR-MS-0002"); // de la otra empresa
@@ -115,7 +115,6 @@ const tokenA = uno("select qrToken from Equipo where id = ?", eqA).qrToken;
 const tecA = idDe("Usuario", "correo", "sofia@climanorte.test");
 const tecB = idDe("Usuario", "correo", "ana@frioregio.test");
 
-// =============================================================================
 seccion("Sesiones y cookies (T4)");
 const laura = await iniciarSesion("laura@climanorte.test");
 const miguel = await iniciarSesion("miguel@climanorte.test");
@@ -133,7 +132,6 @@ const ana = await iniciarSesion("ana@frioregio.test");
     "El token no aparece tal cual en la tabla Sesion", enBase === 0 ? "No aparece" : "Aparece en texto plano", enBase === 0);
 }
 
-// =============================================================================
 seccion("Matriz de autorización (T2)");
 const casos = [
   ["Sin sesión entra a /admin", undefined, "/admin", 307],
@@ -155,7 +153,6 @@ for (const [nombre, sesion, ruta, esperado] of casos) {
   registrar(`P-${String(n++).padStart(2, "0")}`, "T2", nombre, `HTTP ${esperado}`, `HTTP ${r.estado}`, r.estado === esperado);
 }
 
-// =============================================================================
 seccion("Acciones del servidor manipuladas (T2 y H-02)");
 await laura.pagina.goto(BASE + "/admin", { waitUntil: "networkidle0" });
 const accionAsignar = await capturarAccion(laura.pagina, () =>
@@ -185,7 +182,7 @@ const accionQuitar = await capturarAccion(laura.pagina, () =>
     "Se rechaza y la asignación sigue", `${sigue ? "La asignación sigue" : "Se borró"}`, sigue === 1);
 }
 {
-  // H-02: una asignación de un día pasado, que la pantalla ya no deja quitar.
+  // H-02: una asignacion de un dia pasado, que la pantalla ya no deja quitar.
   const ayer = new Date(Date.now() - 30 * 3600_000).toISOString().slice(0, 10);
   const idPasada = "prueba-pasada-" + randomBytes(4).toString("hex");
   db.prepare("insert into Asignacion (id, empresaId, equipoId, tecnicoId, fecha, creadoEn) values (?, (select empresaId from Equipo where id = ?), ?, ?, ?, ?)")
@@ -196,7 +193,6 @@ const accionQuitar = await capturarAccion(laura.pagina, () =>
     "Se rechaza: el historial de asignaciones no cambia", sigue ? "La asignación sigue" : "La asignación se borró", sigue === 1);
 }
 
-// =============================================================================
 seccion("Inyección y XSS (T5)");
 const carga = `<img src=x onerror="window.__xss=1"><script>window.__xss=1</script>' OR 1=1 --`;
 {
@@ -229,14 +225,13 @@ const carga = `<img src=x onerror="window.__xss=1"><script>window.__xss=1</scrip
   await pagina.close();
 }
 
-// =============================================================================
 seccion("Confirmación del equipo (T6)");
 {
   const antes = cuenta("select count(*) from Servicio");
   await miguel.pagina.goto(`${BASE}/equipos/${eqA}`, { waitUntil: "networkidle0" });
   const mensaje = await miguel.pagina.evaluate(async () => {
     const form = document.querySelector("[name=confirmado]").form;
-    form.noValidate = true; // salta la validación del navegador para llegar al servidor
+    form.noValidate = true; // salta la validacion del navegador para llegar al servidor
     form.querySelector("[name=tipo][value=REPARACION]").checked = true;
     const area = form.querySelector("[name=descripcion]");
     Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value").set.call(area, "Cambio de capacitor del compresor.");
@@ -250,7 +245,6 @@ seccion("Confirmación del equipo (T6)");
     "El servidor lo rechaza y no se guarda", `"${mensaje}"; servicios ${antes} → ${despues}`, antes === despues && mensaje.includes("Confirma"));
 }
 
-// =============================================================================
 seccion("Inmutabilidad del historial (T7)");
 for (const [nombre, sql] of [
   ["Modificar un servicio directo en la base", "update Servicio set descripcion = 'alterado'"],
@@ -263,7 +257,6 @@ for (const [nombre, sql] of [
   registrar(`P-${n++}`, "T7", nombre, "La base de datos lo rechaza", error ? `Rechazado: ${error}` : "Se aplicó el cambio", Boolean(error));
 }
 
-// =============================================================================
 seccion("Errores y fuga de información (T8)");
 const filtra = (t) => /prisma|sqlite|at \/|node_modules|stack|Error:/i.test(t);
 for (const ruta of [`/equipos/'%20OR%201=1--`, `/admin/equipos/..%2F..%2Fetc%2Fpasswd`, `/e/%3Cscript%3Ealert(1)%3C%2Fscript%3E`, `/equipos/${"A".repeat(5000)}`]) {
@@ -279,7 +272,6 @@ for (const ruta of [`/equipos/'%20OR%201=1--`, `/admin/equipos/..%2F..%2Fetc%2Fp
     r.estado >= 400 && !filtra(r.texto));
 }
 
-// =============================================================================
 seccion("Saturación (T9)");
 {
   const estados = [];
@@ -296,7 +288,6 @@ seccion("Saturación (T9)");
     `HTTP ${r.estado}; asignaciones ${antes} → ${despues}`, r.estado === 413 || (r.estado >= 400 && antes === despues));
 }
 
-// =============================================================================
 seccion("Enumeración de códigos QR (T1)");
 {
   const valido = await pedir(`/e/${tokenA}`);
@@ -313,7 +304,6 @@ seccion("Enumeración de códigos QR (T1)");
     estados.every((e) => e === 404) && despues.estado === 404);
 }
 
-// =============================================================================
 seccion("Revocación de sesiones (T4)");
 {
   const p = await laura.contexto.newPage();
@@ -337,7 +327,6 @@ seccion("Revocación de sesiones (T4)");
     "La cookie ya no sirve", `HTTP ${r.estado} → ${r.destino ?? "sin redirección"}`, r.estado === 307 && r.destino?.includes("/login"));
 }
 
-// =============================================================================
 seccion("Fuerza bruta en el inicio de sesión (T3 y H-01)");
 const paginaLogin = await (await navegador.createBrowserContext()).newPage();
 await paginaLogin.goto(BASE + "/login", { waitUntil: "networkidle0" });
@@ -384,7 +373,6 @@ const BLOQUEO = "Demasiados intentos";
     `intentos bloqueados: ${total} de 25; IPs falsas guardadas en la bitácora: ${ips}`, total > 0 && ips === 0);
 }
 
-// =============================================================================
 await navegador.close();
 const pasan = resultados.filter((r) => r.resultado === "PASA").length;
 console.log(`\n${pasan} de ${resultados.length} pruebas pasan, ${resultados.length - pasan} fallan`);
@@ -393,7 +381,7 @@ const carpeta = "docs/entregable-2/evidencias/05-pruebas-dinamicas";
 mkdirSync(carpeta, { recursive: true });
 const fecha = new Date().toISOString().slice(0, 10);
 const archivo = `${carpeta}/resultados-${process.env.ETIQUETA ?? fecha}.json`;
-// eslint-disable-next-line security/detect-non-literal-fs-filename -- ruta armada aquí, dentro de docs/
+// eslint-disable-next-line security/detect-non-literal-fs-filename -- ruta armada aqui, dentro de docs/
 writeFileSync(archivo, JSON.stringify({ fecha: new Date().toISOString(), base: BASE, resultados }, null, 2));
 console.log(`Resultados guardados en ${archivo}`);
 process.exitCode = pasan === resultados.length ? 0 : 1;

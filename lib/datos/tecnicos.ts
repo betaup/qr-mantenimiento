@@ -7,8 +7,8 @@ import { hashearPassword } from "@/lib/auth/password";
 import { PASSWORD_INCORRECTA, reautenticar } from "@/lib/auth/reautenticar";
 import { invalidarSesionesDe } from "@/lib/auth/sesion";
 
-// Capa de acceso a datos: cada función verifica el rol y filtra por la
-// empresa de la sesión (RS-06). Nunca recibe la empresa como parámetro.
+// Capa de acceso a datos: cada funcion verifica el rol y filtra por la
+// empresa de la sesion (RS-06). Nunca recibe la empresa como parametro.
 
 const NO_EXISTE = "Ese técnico no existe.";
 

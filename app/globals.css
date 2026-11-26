@@ -52,7 +52,6 @@
 }
 
 :root {
-    /* Página gris claro, tarjetas blancas, verde como acento y botones negros. */
     --background: oklch(0.962 0 0);
     --foreground: oklch(0.2 0 0);
     --card: oklch(1 0 0);
@@ -145,8 +144,7 @@
   padding: 1.25rem;
 }
 
-/* Tarjeta de color: manchas suaves del verde de la marca. Dentro de ella,
-   las pastillas, los campos y las líneas pasan a blanco translúcido. */
+/* Tarjeta verde. Dentro de ella los campos y las lineas pasan a blanco translucido. */
 @utility tarjeta-verde {
   --secondary: oklch(1 0 0 / 0.62);
   --border: oklch(0.2 0 0 / 0.1);
@@ -167,8 +165,7 @@
     radial-gradient(at 70% 100%, oklch(0.95 0 0 / 0.9) 0, transparent 55%);
 }
 
-/* Variantes para los indicadores: azul hielo y ámbar, vecinos del verde en
-   un sistema de clima (frío y calor), y una oscura con brillo verde. */
+/* Variantes de color para los indicadores del panel. */
 @utility tarjeta-hielo {
   --secondary: oklch(1 0 0 / 0.62);
   --border: oklch(0.2 0 0 / 0.1);

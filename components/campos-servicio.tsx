@@ -60,7 +60,7 @@ export function CamposServicio({
   );
 }
 
-/** Motivo obligatorio de una corrección o anulación (RS-13). */
+/** Motivo obligatorio de una correccion o anulacion (RS-13). */
 export function CampoMotivo({ prefijo }: { prefijo: string }) {
   return (
     <div className="flex flex-col gap-1.5">

@@ -13,7 +13,7 @@ type Evento = {
 };
 
 /**
- * Agrega un evento a la bitácora (RS-17). Guarda quién, qué, cuándo, empresa
+ * Agrega un evento a la bitacora (RS-17). Guarda quien, que, cuando, empresa
  * y resultado; nunca contraseñas, tokens ni contenido sensible (RS-20).
  */
 export async function registrar(evento: Evento) {

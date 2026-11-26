@@ -7,7 +7,7 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
-// Solo para números de serie y tokens, donde importa distinguir cada carácter.
+// Solo para numeros de serie y tokens, donde importa distinguir cada caracter.
 const plexMono = IBM_Plex_Mono({
   variable: "--font-mono",
   subsets: ["latin"],

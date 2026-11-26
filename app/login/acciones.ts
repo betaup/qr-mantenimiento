@@ -85,6 +85,6 @@ export async function iniciarSesion(
     empresaId: usuario.empresaId,
   });
 
-  // Si venía de escanear un QR, regresa a ese equipo.
+  // Si venia de escanear un QR, regresa a ese equipo.
   redirect(destinoSeguro(formulario.get("siguiente")) ?? rutaDeInicio(rol));
 }

@@ -37,8 +37,8 @@ export async function crearSesion(usuario: { id: string; rol: Rol }) {
 }
 
 /**
- * Sesión de la petición actual, o null. Es la única fuente de la identidad:
- * el usuario y su empresa salen de aquí, nunca de lo que envía el cliente (RS-06).
+ * Sesion de la peticion actual, o null. Es la unica fuente de la identidad:
+ * el usuario y su empresa salen de aqui, nunca de lo que envia el cliente (RS-06).
  */
 export const obtenerSesion = cache(async (): Promise<SesionActual | null> => {
   const token = (await cookies()).get(COOKIE)?.value;
@@ -78,7 +78,7 @@ export const obtenerSesion = cache(async (): Promise<SesionActual | null> => {
   };
 });
 
-/** Cierra la sesión actual en el servidor y borra la cookie (RS-05). */
+/** Cierra la sesion actual en el servidor y borra la cookie (RS-05). */
 export async function cerrarSesion() {
   const almacen = await cookies();
   const token = almacen.get(COOKIE)?.value;

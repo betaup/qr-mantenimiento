@@ -1,4 +1,4 @@
-// Reglas puras de autenticación: sin base de datos ni cookies, para poder
+// Reglas puras de autenticacion: sin base de datos ni cookies, para poder
 // probarlas de forma aislada.
 import { createHash, randomBytes } from "node:crypto";
 import type { Rol } from "@/lib/dominio";
@@ -7,13 +7,13 @@ const MINUTO = 60_000;
 const HORA = 60 * MINUTO;
 const DIA = 24 * HORA;
 
-/** Plazos de expiración por rol, en milisegundos (RS-04). */
+/** Plazos de expiracion por rol, en milisegundos (RS-04). */
 export const PLAZOS: Record<Rol, { inactividad: number; absoluto: number }> = {
   TECNICO: { inactividad: 8 * HORA, absoluto: 7 * DIA },
   ADMIN: { inactividad: 30 * MINUTO, absoluto: 12 * HORA },
 };
 
-/** Token de sesión: 256 bits de un generador criptográfico. */
+/** Token de sesion: 256 bits de un generador criptografico. */
 export function nuevoToken(): string {
   return randomBytes(32).toString("base64url");
 }
@@ -36,7 +36,7 @@ export function sesionVigente(
 export const LONGITUD_MINIMA = 12;
 export const LONGITUD_MAXIMA = 200;
 
-// Muestra corta de las más usadas; se comparan sin mayúsculas.
+// Muestra corta de las mas usadas; se comparan sin mayusculas.
 const COMUNES = new Set([
   "123456789012", "1234567890123", "contraseña123", "contrasena123",
   "password1234", "password12345", "qwertyuiop12", "qwerty123456",

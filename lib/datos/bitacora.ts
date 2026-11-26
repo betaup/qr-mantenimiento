@@ -6,8 +6,8 @@ import { requerirRol } from "@/lib/auth/guardas";
 export const POR_PAGINA = 10;
 
 /**
- * Eventos de la empresa del admin, del más reciente al más antiguo.
- * La consulta también queda registrada (RS-17).
+ * Eventos de la empresa del admin, del mas reciente al mas antiguo.
+ * La consulta tambien queda registrada (RS-17).
  */
 export async function consultarBitacora(pagina: number) {
   const { usuario } = await requerirRol("ADMIN");

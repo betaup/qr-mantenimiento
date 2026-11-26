@@ -141,10 +141,7 @@ const tarjetaDeLista = "h-48 justify-between gap-6";
 
 export const IconoDeEquipo = Snowflake;
 
-/**
- * Enlace para regresar: una pastilla blanca con flecha, para que se note que
- * se puede usar. Va arriba de la página, fuera de las tarjetas.
- */
+// Enlace para regresar, arriba de la pagina.
 export function Volver({
   href,
   children,
@@ -199,11 +196,7 @@ export function TarjetaEquipo({
   );
 }
 
-/**
- * Tarjeta de un técnico, con la misma estructura que la de un equipo. Va en
- * azul hielo para distinguir a las personas de los equipos; en gris si la
- * cuenta está desactivada.
- */
+// Tecnicos en azul para distinguirlos de los equipos; en gris si estan desactivados.
 export function TarjetaTecnico({
   href,
   tecnico,

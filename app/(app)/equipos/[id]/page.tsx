@@ -84,7 +84,7 @@ export default async function PaginaEquipo({
             <Etiqueta icono={MapPin}>{equipo.ubicacion}</Etiqueta>
           </div>
         </div>
-        {/* Enlace normal, no <Link>: es una descarga, no una página. */}
+        {/* Enlace normal, no <Link>: es una descarga, no una pagina. */}
         <a
           href={`/equipos/${equipo.id}/reporte`}
           className={buttonVariants({
@@ -115,7 +115,7 @@ export default async function PaginaEquipo({
               <input type="hidden" name="equipoId" value={equipo.id} />
               <CamposServicio prefijo="nuevo" />
 
-              {/* El QR pudo pegarse en otro equipo: el técnico compara la placa
+              {/* El QR pudo pegarse en otro equipo: el tecnico compara la placa
                   con estos datos antes de registrar (RS-15, T6). */}
               <label className="bg-muted/60 flex cursor-pointer items-start gap-3 rounded-lg p-3 text-sm leading-relaxed wrap-anywhere">
                 <input
@@ -150,8 +150,7 @@ export default async function PaginaEquipo({
             </span>
           </div>
 
-          {/* En dos columnas, el historial ocupa la altura del formulario y
-              se desplaza por dentro. En móvil e impresión conserva su altura. */}
+          {/* En dos columnas el historial se desplaza por dentro. */}
           <div
             role="region"
             aria-labelledby="historial-equipo"

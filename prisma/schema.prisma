@@ -1,6 +1,6 @@
 // Modelo de datos del sistema QR de mantenimiento.
 // SQLite no tiene enums: los campos con valores fijos son String y se validan
-// en la aplicación (ver lib/dominio.ts).
+// en la aplicacion (ver lib/dominio.ts).
 
 generator client {
   provider = "prisma-client"
@@ -43,7 +43,7 @@ model Usuario {
   @@index([empresaId])
 }
 
-// La cookie lleva el token; aquí solo se guarda su hash (RS-04).
+// La cookie lleva el token; aqui solo se guarda su hash (RS-04).
 model Sesion {
   id          String   @id @default(cuid())
   tokenHash   String   @unique

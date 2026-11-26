@@ -1,7 +1,7 @@
 import "server-only";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 
-// Límite de intentos fallidos de inicio de sesión (RS-02).
+// Limite de intentos fallidos de inicio de sesion (RS-02).
 // Vive en memoria: suficiente para una sola instancia local, y se reinicia
 // al reiniciar el servidor.
 const VENTANA_SEGUNDOS = 15 * 60;
@@ -38,7 +38,7 @@ export async function loginBloqueado(correo: string, ip: string) {
 }
 
 export async function registrarFalloDeLogin(correo: string, ip: string) {
-  // consume() rechaza al pasar el límite; aquí solo interesa contar.
+  // consume() rechaza al pasar el limite; aqui solo interesa contar.
   await Promise.allSettled([limites.cuenta.consume(correo), limites.ip.consume(ip)]);
 }
 

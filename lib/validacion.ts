@@ -1,5 +1,5 @@
-// Esquemas de validación de entradas (RS-10). Todo lo que llega de un
-// formulario pasa por aquí antes de tocar la base de datos.
+// Esquemas de validacion de entradas (RS-10). Todo lo que llega de un
+// formulario pasa por aqui antes de tocar la base de datos.
 import { z } from "zod";
 import { LONGITUD_MAXIMA, validarPassword } from "@/lib/auth/reglas";
 import { TIPOS_SERVICIO, fechaDeHoy } from "@/lib/dominio";
@@ -19,7 +19,7 @@ const passwordNueva = z
     if (motivo) contexto.addIssue({ code: "custom", message: motivo });
   });
 
-/** Fecha YYYY-MM-DD que además existe en el calendario. */
+/** Fecha YYYY-MM-DD que ademas existe en el calendario. */
 export const fecha = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -65,7 +65,7 @@ export const servicioNuevo = z.object({
   equipoId: id,
   tipo,
   descripcion,
-  // El técnico confirma que está frente al equipo correcto (RS-15).
+  // El tecnico confirma que esta frente al equipo correcto (RS-15).
   confirmado: z.literal("on"),
 });
 
@@ -83,8 +83,8 @@ export const soloId = z.object({ id });
 const RUTA_DE_QR = /^\/e\/[A-Za-z0-9_-]{20,64}$/;
 
 /**
- * Destino al que volver después de iniciar sesión. Solo se acepta la ruta de
- * un QR, así el parámetro no sirve para redirigir a otro sitio.
+ * Destino al que volver despues de iniciar sesion. Solo se acepta la ruta de
+ * un QR, asi el parametro no sirve para redirigir a otro sitio.
  */
 export function destinoSeguro(valor: unknown): string | null {
   return typeof valor === "string" && RUTA_DE_QR.test(valor) ? valor : null;

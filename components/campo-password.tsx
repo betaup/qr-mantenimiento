@@ -18,10 +18,7 @@ function passwordAleatoria(): string {
 const botonDeCampo =
   "text-muted-foreground hover:bg-card hover:text-foreground focus-visible:ring-ring/60 flex size-8 cursor-pointer items-center justify-center rounded-lg outline-none focus-visible:ring-3";
 
-/**
- * Contraseña nueva para un técnico: se puede ver, ocultar o generar al azar.
- * Una generada se muestra para que el admin la anote y la entregue.
- */
+// Contraseña nueva: se puede ver, ocultar o generar al azar.
 export function CampoPassword({
   name,
   etiqueta,

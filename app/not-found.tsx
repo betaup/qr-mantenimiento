@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
-// La misma página para lo que no existe y para lo que no tienes permiso de ver (RS-08).
+// La misma pagina para lo que no existe y para lo que no tienes permiso de ver (RS-08).
 export default function NoEncontrado() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center px-4">

@@ -1,7 +1,7 @@
 "use client";
 
-// Último recurso: reemplaza al layout raíz si este falla, por eso define su
-// propio <html> y no usa los estilos de la aplicación. Sin detalles (RS-19).
+// Ultimo recurso: reemplaza al layout raiz si este falla, por eso define su
+// propio <html> y no usa los estilos de la aplicacion. Sin detalles (RS-19).
 export default function ErrorGlobal({ retry }: { retry: () => void }) {
   return (
     <html lang="es">

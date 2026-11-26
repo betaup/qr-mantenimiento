@@ -58,8 +58,8 @@ export default async function PaginaEquipo({
       <div className="grid gap-5 lg:grid-cols-[auto_1fr] lg:items-start">
         <section className="flex flex-col gap-4">
           
-          {/* La etiqueta lleva la serie legible para que el técnico confirme
-              que el QR está pegado en el equipo correcto (T6). */}
+          {/* La etiqueta lleva la serie legible para que el tecnico confirme
+              que el QR esta pegado en el equipo correcto (T6). */}
           <div className="bg-card flex w-64 flex-col items-center gap-3 rounded-xl p-4 text-center print:border">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

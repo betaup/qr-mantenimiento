@@ -26,8 +26,7 @@ const formato = new Intl.DateTimeFormat("es-MX", {
   timeZone: "UTC",
 });
 
-// Sin título propio: se mostraría también a quien no tiene este rol y
-// revelaría que la ruta existe (RS-08).
+// Sin metadata propia: un titulo delataria que la ruta existe (RS-08).
 export default async function PaginaAsignaciones({
   searchParams,
 }: PageProps<"/admin">) {
@@ -80,7 +79,7 @@ export default async function PaginaAsignaciones({
                 {Math.round(avance)}% del día
               </p>
             </div>
-            {/* Barra en SVG: la CSP no permite estilos en línea, y el ancho
+            {/* Barra en SVG: la CSP no permite estilos en linea, y el ancho
                 depende de los datos. */}
             <svg
               role="img"
