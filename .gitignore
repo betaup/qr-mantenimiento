@@ -46,3 +46,12 @@ next-env.d.ts
 # base de datos local
 *.db
 *.db-journal
+
+# archivos que genera LaTeX al compilar
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
