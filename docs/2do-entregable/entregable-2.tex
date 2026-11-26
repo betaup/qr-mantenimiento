@@ -403,7 +403,7 @@ P-32 & T1 & Sin sesión: un QR real y uno inventado responden igual & real: HTTP
 P-33 & T1 & Con sesión: 20 códigos inventados y después uno real & 20 × 404; código real: HTTP 404 & \textbf{Pasa} \\
 P-34 & T4 & El admin desactiva a un técnico que tiene la sesión abierta & HTTP 307 $\rightarrow$ /login & \textbf{Pasa} \\
 P-35 & T4 & Reusar la cookie después de cerrar sesión & HTTP 307 $\rightarrow$ /login & \textbf{Pasa} \\
-P-36 & T3 & Correo existente y correo inexistente con contraseña incorrecta & mismo mensaje: sí; existente 16 ms, inexistente 15 ms & \textbf{Pasa} \\
+P-36 & T3 & Correo existente y correo inexistente con contraseña incorrecta & mismo mensaje: sí; existente 18 ms, inexistente 16 ms & \textbf{Pasa} \\
 P-37 & T3 & Quinto fallo en una cuenta y después la contraseña correcta & Bloqueada & \textbf{Pasa} \\
 P-38 & H-01 & 25 intentos con una IP falsa distinta en X-Forwarded-For & intentos bloqueados: 0 de 25; IPs falsas guardadas en la bitácora: 25 & \textbf{\textcolor{red!70!black}{Falla}} \\
 \end{longtable}
@@ -426,7 +426,7 @@ La prueba P-38 confirmó el hallazgo H-01 y mostró que su impacto es mayor de l
 
 En la prueba P-31 el formulario de 200 kB se rechazó como esperábamos y no se procesó, pero el servidor respondió con un error 500 en lugar del 413 que corresponde a un cuerpo demasiado grande. En el registro del servidor aparece el motivo real, \texttt{Body exceeded 100kb limit}. Como la respuesta no revela información y el límite sí funciona, lo registramos como observación de severidad informativa.
 
-En la prueba P-36 los tiempos de respuesta con un correo existente y con uno inexistente fueron de 16 y 15 milisegundos. La diferencia es mínima porque, cuando el correo no existe, el sistema compara la contraseña contra un hash de relleno, así que el tiempo no delata qué cuentas existen.
+En la prueba P-36 los tiempos de respuesta con un correo existente y con uno inexistente fueron de 18 y 16 milisegundos. La diferencia es mínima porque, cuando el correo no existe, el sistema compara la contraseña contra un hash de relleno, así que el tiempo no delata qué cuentas existen.
 
 \section{5. Registro y clasificación de vulnerabilidades}
 
