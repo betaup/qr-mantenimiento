@@ -1,4 +1,4 @@
-// Datos de prueba: dos empresas ficticias, aisladas entre sí.
+// Datos de prueba: dos empresas ficticias, aisladas entre si.
 // Uso: npx prisma db seed   (para empezar de cero: npx prisma migrate reset)
 import "dotenv/config";
 import { hash } from "@node-rs/argon2";
@@ -71,7 +71,7 @@ async function main() {
       equipos.push(await db.equipo.create({ data: { ...eq, empresaId: empresa.id, qrToken: nuevoQrToken() } }));
     }
 
-    // El primer técnico tiene hoy los dos primeros equipos; el tercero queda sin asignar.
+    // El primer tecnico tiene hoy los dos primeros equipos; el tercero queda sin asignar.
     for (const equipo of equipos.slice(0, 2)) {
       await db.asignacion.create({
         data: { empresaId: empresa.id, equipoId: equipo.id, tecnicoId: tecnicos[0].id, fecha: hoy },

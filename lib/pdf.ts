@@ -3,8 +3,8 @@ import PDFDocument from "pdfkit";
 import type { EntradaDeHistorial } from "@/lib/datos/servicios";
 import { NOMBRE_DE_TIPO, ZONA_HORARIA } from "@/lib/dominio";
 
-// Reporte PDF desde una plantilla fija (RS-12). Todo lo que escribió un
-// usuario se dibuja como texto plano: aquí no se interpreta HTML ni formato.
+// Reporte PDF desde una plantilla fija (RS-12). Todo lo que escribio un
+// usuario se dibuja como texto plano: aqui no se interpreta HTML ni formato.
 
 const fechaYHora = new Intl.DateTimeFormat("es-MX", {
   dateStyle: "medium",
@@ -13,8 +13,8 @@ const fechaYHora = new Intl.DateTimeFormat("es-MX", {
 });
 
 /**
- * Deja solo caracteres que la tipografía del PDF puede dibujar (Latin-1) y
- * quita los de control, salvo el salto de línea.
+ * Deja solo caracteres que la tipografia del PDF puede dibujar (Latin-1) y
+ * quita los de control, salvo el salto de linea.
  */
 function textoPlano(valor: string): string {
   return valor
@@ -41,7 +41,7 @@ export function reporteDeEquipo(datos: {
   const pdf = new PDFDocument({
     size: "LETTER",
     margin: 54,
-    // Metadatos mínimos: sin autor ni datos del servidor (RS-20).
+    // Metadatos minimos: sin autor ni datos del servidor (RS-20).
     info: {
       Title: "Historial de mantenimiento",
       Producer: "Mantenimiento QR",

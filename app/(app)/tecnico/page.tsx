@@ -3,8 +3,7 @@ import { IconoEnCaja, TarjetaEquipo } from "@/components/visual";
 import { equiposDeHoy } from "@/lib/datos/servicios";
 import { requerirRol } from "@/lib/auth/guardas";
 
-// Sin título propio: se mostraría también a quien no tiene este rol y
-// revelaría que la ruta existe (RS-08).
+// Sin metadata propia: un titulo delataria que la ruta existe (RS-08).
 export default async function PaginaTecnico() {
   const { usuario } = await requerirRol("TECNICO");
   const equipos = await equiposDeHoy();

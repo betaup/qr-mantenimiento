@@ -7,8 +7,8 @@ import { requerirRol, requerirSesion } from "@/lib/auth/guardas";
 import { escaneoBloqueado, registrarEscaneoDenegado } from "@/lib/auth/limite";
 import type { SesionActual } from "@/lib/auth/sesion";
 
-// Capa de acceso a datos: cada función verifica la sesión y filtra por su
-// empresa (RS-06). El técnico, además, solo llega a los equipos que tiene
+// Capa de acceso a datos: cada funcion verifica la sesion y filtra por su
+// empresa (RS-06). El tecnico, ademas, solo llega a los equipos que tiene
 // asignados hoy (RS-07).
 
 type Usuario = SesionActual["usuario"];
@@ -22,7 +22,7 @@ const datosDeEquipo = {
   seccion: true,
 } as const;
 
-/** Condición de acceso a equipos según quién pregunta. */
+/** Condicion de acceso a equipos segun quien pregunta. */
 function alcanceDe(usuario: Usuario) {
   return {
     empresaId: usuario.empresaId,
@@ -94,7 +94,7 @@ export async function resolverEscaneo(token: string): Promise<string | null> {
 
   if (!equipo) {
     await registrarEscaneoDenegado(usuario.id);
-    // El token no se guarda: podría ser el de un equipo ajeno.
+    // El token no se guarda: podria ser el de un equipo ajeno.
     await registrar({ ...eventoDe(usuario), accion: "QR_ESCANEO", resultado: "DENEGADO" });
     return null;
   }
@@ -111,8 +111,8 @@ export async function resolverEscaneo(token: string): Promise<string | null> {
 export type EntradaDeHistorial = Awaited<ReturnType<typeof historialDe>>[number];
 
 /**
- * Historial de un equipo, del más reciente al más antiguo. Cada entrada es
- * un servicio original con sus correcciones y su anulación, si las tiene.
+ * Historial de un equipo, del mas reciente al mas antiguo. Cada entrada es
+ * un servicio original con sus correcciones y su anulacion, si las tiene.
  */
 export async function historialDe(equipoId: string) {
   const { usuario } = await requerirSesion();
@@ -153,7 +153,7 @@ export async function historialDe(equipoId: string) {
         autorId: original.autorId,
         autor: original.autor.nombre,
         creadoEn: original.creadoEn,
-        // Lo que vale hoy: la última corrección, o el registro original.
+        // Lo que vale hoy: la ultima correccion, o el registro original.
         tipo: (vigente.tipo ?? original.tipo) as TipoServicio | null,
         descripcion: vigente.descripcion,
         original: {
@@ -230,7 +230,7 @@ async function servicioCorregible(id: string, usuario: Usuario) {
 
 /**
  * Corrige un servicio creando un registro nuevo; el original no se toca
- * (RS-13). El admin corrige cualquiera de su empresa; el técnico, solo los
+ * (RS-13). El admin corrige cualquiera de su empresa; el tecnico, solo los
  * suyos y mientras tenga el equipo asignado.
  */
 export async function corregirServicio(datos: {

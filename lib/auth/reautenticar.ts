@@ -10,11 +10,8 @@ import { LONGITUD_MAXIMA } from "@/lib/auth/reglas";
 export const PASSWORD_INCORRECTA =
   "Tu contraseña no es correcta. No se hizo ningún cambio.";
 
-/**
- * Pide de nuevo la contraseña de quien tiene la sesión antes de una acción
- * sensible (RS-09). Así una sesión robada no basta para hacerla.
- * Comparte el límite de intentos del inicio de sesión.
- */
+// Pide de nuevo la contraseña antes de una accion sensible, para que una sesion
+// robada no baste (RS-09). Comparte el limite de intentos del inicio de sesion.
 export async function reautenticar(password: unknown): Promise<boolean> {
   const { usuario } = await requerirSesion();
   const cuenta = await db.usuario.findUnique({ where: { id: usuario.id } });

@@ -7,7 +7,7 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   // Reglas de seguridad: patrones peligrosos como eval, expresiones
-  // regulares vulnerables o accesos dinámicos a objetos y archivos.
+  // regulares vulnerables o accesos dinamicos a objetos y archivos.
   security.configs.recommended,
   globalIgnores([
     ".next/**",

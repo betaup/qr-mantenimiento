@@ -1,7 +1,7 @@
 import path from "node:path";
 import { PrismaClient } from "@/lib/generated/prisma/client";
 
-// DATABASE_URL es relativa a la carpeta prisma/ (así la interpreta el CLI).
+// DATABASE_URL es relativa a la carpeta prisma/ (asi la interpreta el CLI).
 // Dentro de Next.js hay que volverla absoluta para que encuentre el archivo.
 function urlDeLaBase(): string {
   const url = process.env.DATABASE_URL ?? "file:./dev.db";
@@ -11,8 +11,8 @@ function urlDeLaBase(): string {
     : url;
 }
 
-// Una sola instancia: en desarrollo, la recarga en caliente crearía una
-// conexión nueva en cada cambio.
+// Una sola instancia: en desarrollo, la recarga en caliente crearia una
+// conexion nueva en cada cambio.
 const global = globalThis as unknown as { prisma?: PrismaClient };
 
 export const db =

@@ -18,8 +18,8 @@ import type { Rol } from "@/lib/dominio";
 
 type Seccion = { href: string; nombre: string; icono: LucideIcon; tambien?: string };
 
-// La página de un equipo (/equipos/…) pertenece a "Equipos" para el admin y
-// a "Mis equipos" para el técnico.
+// La pagina de un equipo (/equipos/…) pertenece a "Equipos" para el admin y
+// a "Mis equipos" para el tecnico.
 const SECCIONES: Record<Rol, Seccion[]> = {
   ADMIN: [
     { href: "/admin", nombre: "Asignaciones", icono: CalendarCheck },
@@ -60,7 +60,7 @@ export function BarraLateral({
   salir: () => Promise<void>;
 }) {
   const ruta = usePathname();
-  // eslint-disable-next-line security/detect-object-injection -- rol viene de la sesión y solo puede ser ADMIN o TECNICO
+  // eslint-disable-next-line security/detect-object-injection -- rol viene de la sesion y solo puede ser ADMIN o TECNICO
   const secciones = SECCIONES[rol];
   // eslint-disable-next-line security/detect-object-injection -- rol es un tipo cerrado
   const nombreDeRol = NOMBRE_DE_ROL[rol];

@@ -4,10 +4,10 @@ import { registrar } from "@/lib/bitacora";
 import { fallo, hecho, type Respuesta } from "@/lib/formularios";
 import { requerirRol } from "@/lib/auth/guardas";
 
-// Capa de acceso a datos: cada función verifica el rol y filtra por la
-// empresa de la sesión (RS-06). Nunca recibe la empresa como parámetro.
+// Capa de acceso a datos: cada funcion verifica el rol y filtra por la
+// empresa de la sesion (RS-06). Nunca recibe la empresa como parametro.
 
-/** Equipos de la empresa con los técnicos que los tienen asignados ese día. */
+/** Equipos de la empresa con los tecnicos que los tienen asignados ese dia. */
 export async function asignacionesDelDia(fecha: string) {
   const { usuario } = await requerirRol("ADMIN");
   const { empresaId } = usuario;
@@ -48,7 +48,7 @@ export async function asignar(datos: {
   const { usuario } = await requerirRol("ADMIN");
   const { empresaId } = usuario;
 
-  // El equipo y el técnico deben ser de la empresa del admin: los ids llegan
+  // El equipo y el tecnico deben ser de la empresa del admin: los ids llegan
   // del formulario y no son de fiar.
   const [equipo, tecnico] = await Promise.all([
     db.equipo.findFirst({

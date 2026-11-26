@@ -2,8 +2,8 @@ import { BarraLateral } from "@/components/barra-lateral";
 import { requerirSesion } from "@/lib/auth/guardas";
 import { salir } from "./acciones";
 
-// El layout no se vuelve a ejecutar al navegar entre páginas, así que cada
-// página repite su propia verificación de sesión y rol.
+// El layout no se vuelve a ejecutar al navegar entre paginas, asi que cada
+// pagina repite su propia verificacion de sesion y rol.
 export default async function LayoutApp({ children }: LayoutProps<"/">) {
   const { usuario } = await requerirSesion();
 

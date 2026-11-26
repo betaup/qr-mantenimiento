@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 
-// Error genérico (RS-19): al navegador no llega el detalle ni la traza. El
-// detalle queda en los logs del servidor, ligado al código que se muestra.
+// Error generico (RS-19): al navegador no llega el detalle ni la traza. El
+// detalle queda en los logs del servidor, ligado al codigo que se muestra.
 export default function ErrorDePagina({
   error,
   retry,

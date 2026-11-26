@@ -14,10 +14,7 @@ import type { AccionDeFormulario, EstadoFormulario } from "@/lib/formularios";
 
 const inicial: EstadoFormulario = {};
 
-/**
- * Formulario que llama a una acción del servidor y muestra su resultado.
- * Conserva lo escrito si la acción falla y se limpia cuando termina bien.
- */
+// Conserva lo escrito si la accion falla y se limpia cuando termina bien.
 export function Formulario({
   accion,
   boton,
@@ -32,9 +29,7 @@ export function Formulario({
   boton: string;
   enviando?: string;
   variante?: "default" | "outline" | "destructive";
-  /** Icono del botón, ya como elemento: <Plus />. */
   icono?: ReactNode;
-  /** Botón a todo el ancho del formulario. */
   completo?: boolean;
   className?: string;
   children?: ReactNode;

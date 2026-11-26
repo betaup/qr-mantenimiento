@@ -1,5 +1,5 @@
-// Valores fijos del dominio. SQLite no tiene enums, así que estos arreglos
-// son la única fuente de los valores permitidos.
+// Valores fijos del dominio. SQLite no tiene enums, asi que estos arreglos
+// son la unica fuente de los valores permitidos.
 
 export const ROLES = ["ADMIN", "TECNICO"] as const;
 export type Rol = (typeof ROLES)[number];

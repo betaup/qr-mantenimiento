@@ -51,13 +51,13 @@ const RESULTADO: Record<
 
 const numeroDePagina = z.coerce.number().int().min(1).max(100_000).catch(1);
 
-// muestra la primera, la última y las vecinas de la página actual
+// muestra la primera, la ultima y las vecinas de la pagina actual
 function paginasVisibles(actual: number, total: number): (number | null)[] {
   const visibles = new Set([1, total, actual - 1, actual, actual + 1]);
   const numeros = [...visibles]
     .filter((n) => n >= 1 && n <= total)
     .sort((a, b) => a - b);
-  // null marca un salto entre números no consecutivos.
+  // null marca un salto entre numeros no consecutivos.
   return numeros.flatMap((n, i) =>
     i > 0 && n - numeros[i - 1] > 1 ? [null, n] : [n],
   );
@@ -66,8 +66,7 @@ function paginasVisibles(actual: number, total: number): (number | null)[] {
 const botonDePagina =
   "focus-visible:ring-ring/60 flex h-9 min-w-9 items-center justify-center gap-1 rounded-lg border px-2.5 text-sm font-medium outline-none focus-visible:ring-3";
 
-// Sin título propio: se mostraría también a quien no tiene este rol y
-// revelaría que la ruta existe (RS-08).
+// Sin metadata propia: un titulo delataria que la ruta existe (RS-08).
 export default async function PaginaBitacora({
   searchParams,
 }: PageProps<"/admin/bitacora">) {
@@ -76,7 +75,7 @@ export default async function PaginaBitacora({
   const enlace = (n: number) => `/admin/bitacora?pagina=${n}`;
   if (pedida > paginas) redirect(enlace(paginas));
   const pagina = pedida;
-  // Filas vacías para que la tabla mida lo mismo en todas las páginas.
+  // Filas vacias para que la tabla mida lo mismo en todas las paginas.
   const relleno = Math.max(0, POR_PAGINA - eventos.length);
 
   return (

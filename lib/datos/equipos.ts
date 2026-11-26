@@ -6,8 +6,8 @@ import { nuevoQrToken } from "@/lib/qr";
 import { requerirRol } from "@/lib/auth/guardas";
 import { PASSWORD_INCORRECTA, reautenticar } from "@/lib/auth/reautenticar";
 
-// Capa de acceso a datos: cada función verifica el rol y filtra por la
-// empresa de la sesión (RS-06). Nunca recibe la empresa como parámetro.
+// Capa de acceso a datos: cada funcion verifica el rol y filtra por la
+// empresa de la sesion (RS-06). Nunca recibe la empresa como parametro.
 
 export async function listarEquipos() {
   const { usuario } = await requerirRol("ADMIN");

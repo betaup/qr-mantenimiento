@@ -2,14 +2,14 @@ import { randomBytes } from "node:crypto";
 import QRCode from "qrcode";
 
 /**
- * Token del QR: 256 bits de un generador criptográfico, sin relación con el
+ * Token del QR: 256 bits de un generador criptografico, sin relacion con el
  * id interno del equipo (RS-16).
  */
 export function nuevoQrToken(): string {
   return randomBytes(32).toString("base64url");
 }
 
-/** La dirección base sale de la configuración, nunca de la cabecera Host. */
+/** La direccion base sale de la configuracion, nunca de la cabecera Host. */
 export function urlDelQr(token: string): string {
   const base = (process.env.APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
   return `${base}/e/${token}`;

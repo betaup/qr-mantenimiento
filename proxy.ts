@@ -1,15 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-// Política de seguridad de contenido (RS-11). Cada respuesta lleva un nonce
-// nuevo: solo se ejecutan los scripts que Next.js marca con él, así que un
-// script inyectado en un campo de texto no corre aunque llegara a la página.
+// Politica de seguridad de contenido (RS-11). Cada respuesta lleva un nonce
+// nuevo: solo se ejecutan los scripts que Next.js marca con el, asi que un
+// script inyectado en un campo de texto no corre aunque llegara a la pagina.
 export function proxy(peticion: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const desarrollo = process.env.NODE_ENV === "development";
 
   const politica = [
     "default-src 'self'",
-    // En desarrollo React necesita eval para sus herramientas de depuración.
+    // En desarrollo React necesita eval para sus herramientas de depuracion.
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${desarrollo ? " 'unsafe-eval'" : ""}`,
     `style-src 'self' ${desarrollo ? "'unsafe-inline'" : `'nonce-${nonce}'`}`,
     "img-src 'self' data:", // el QR se dibuja como data URL

@@ -47,7 +47,7 @@ export function Campo({
   );
 }
 
-/** Confirmación con la contraseña del admin para una acción sensible (RS-09). */
+/** Confirmacion con la contraseña del admin para una accion sensible (RS-09). */
 export function CampoPasswordAdmin({ id }: { id: string }) {
   return (
     <Campo

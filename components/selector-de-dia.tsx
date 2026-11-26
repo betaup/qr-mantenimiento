@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-// Las fechas viajan como texto YYYY-MM-DD. Aquí se convierten a un Date
+// Las fechas viajan como texto YYYY-MM-DD. Aqui se convierten a un Date
 // local solo para dibujar el calendario, sin pasar por zonas horarias.
 function aFecha(texto: string): Date {
   const [anio, mes, dia] = texto.split("-").map(Number);
