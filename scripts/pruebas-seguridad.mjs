@@ -27,6 +27,8 @@ const resultados = [];
 function registrar(id, amenaza, prueba, esperado, obtenido, pasa) {
   resultados.push({ id, amenaza, prueba, esperado, obtenido, resultado: pasa ? "PASA" : "FALLA" });
   console.log(`${pasa ? "✓ PASA " : "✖ FALLA"}  ${id}  ${prueba}`);
+  // en GitHub Actions la falla aparece como anotacion del job
+  if (!pasa && process.env.GITHUB_ACTIONS) console.log(`::error title=${id}::${prueba}. Esperado: ${esperado}. Obtenido: ${obtenido}`);
   console.log(`         esperado: ${esperado}`);
   console.log(`         obtenido: ${obtenido}`);
 }
