@@ -37,6 +37,7 @@ export function IconoEnCaja({
       className={cn(
         "flex shrink-0 items-center justify-center rounded-xl",
         grande ? "size-14" : "size-11",
+        // eslint-disable-next-line security/detect-object-injection -- tono es un tipo cerrado definido en este archivo
         TONOS[tono],
       )}
     >
@@ -61,7 +62,13 @@ export function Estado({
 }) {
   return (
     <span className="bg-secondary inline-flex w-fit shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap">
-      <span className={cn("size-1.5 rounded-full", PUNTOS[tono])} />
+      <span
+        className={cn(
+          "size-1.5 rounded-full",
+          // eslint-disable-next-line security/detect-object-injection -- tono es un tipo cerrado
+          PUNTOS[tono],
+        )}
+      />
       {children}
     </span>
   );

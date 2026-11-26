@@ -35,7 +35,10 @@ export function CamposServicio({
                 required
                 className="accent-primary size-4 shrink-0"
               />
-              {NOMBRE_DE_TIPO[valor]}
+              {
+                // eslint-disable-next-line security/detect-object-injection -- valor sale de TIPOS_SERVICIO
+                NOMBRE_DE_TIPO[valor]
+              }
             </label>
           ))}
         </div>

@@ -60,7 +60,10 @@ export function BarraLateral({
   salir: () => Promise<void>;
 }) {
   const ruta = usePathname();
+  // eslint-disable-next-line security/detect-object-injection -- rol viene de la sesión y solo puede ser ADMIN o TECNICO
   const secciones = SECCIONES[rol];
+  // eslint-disable-next-line security/detect-object-injection -- rol es un tipo cerrado
+  const nombreDeRol = NOMBRE_DE_ROL[rol];
 
   const esActual = ({ href, tambien }: Seccion) =>
     href === "/admin"
@@ -148,7 +151,7 @@ export function BarraLateral({
               <div className="min-w-0 leading-tight">
                 <p className="truncate font-medium">{nombre}</p>
                 <p className="text-muted-foreground truncate text-sm">
-                  {NOMBRE_DE_ROL[rol]}, {empresa}
+                  {nombreDeRol}, {empresa}
                 </p>
               </div>
             </div>

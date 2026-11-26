@@ -29,6 +29,7 @@ export function sesionVigente(
   ahora: Date = new Date(),
 ): boolean {
   if (ahora >= sesion.expiraEn) return false;
+  // eslint-disable-next-line security/detect-object-injection -- rol es un tipo cerrado (ADMIN o TECNICO)
   return ahora.getTime() - sesion.ultimoUsoEn.getTime() < PLAZOS[rol].inactividad;
 }
 
