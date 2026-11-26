@@ -1,0 +1,310 @@
+{
+  "fecha": "2026-11-26T01:48:15.883Z",
+  "base": "http://localhost:3100",
+  "resultados": [
+    {
+      "id": "P-01",
+      "amenaza": "T4",
+      "prueba": "La cookie de sesión lleva HttpOnly, Secure y SameSite",
+      "esperado": "HttpOnly, Secure, SameSite=Lax y token de 256 bits",
+      "obtenido": "httponly, secure, samesite=lax; token de 43 caracteres",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-02",
+      "amenaza": "T4",
+      "prueba": "En la base solo se guarda el hash del token",
+      "esperado": "El token no aparece tal cual en la tabla Sesion",
+      "obtenido": "No aparece",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-03",
+      "amenaza": "T2",
+      "prueba": "Sin sesión entra a /admin",
+      "esperado": "HTTP 307",
+      "obtenido": "HTTP 307",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-04",
+      "amenaza": "T2",
+      "prueba": "Técnico entra al panel /admin",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-05",
+      "amenaza": "T2",
+      "prueba": "Técnico entra a /admin/equipos",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-06",
+      "amenaza": "T2",
+      "prueba": "Técnico entra a /admin/bitacora",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-07",
+      "amenaza": "T2",
+      "prueba": "Admin entra a la vista del técnico",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-08",
+      "amenaza": "T2",
+      "prueba": "Admin A abre un equipo de la empresa B",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-09",
+      "amenaza": "T2",
+      "prueba": "Admin A abre un técnico de la empresa B",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-10",
+      "amenaza": "T2",
+      "prueba": "Admin A abre el historial de un equipo de B",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-11",
+      "amenaza": "T2",
+      "prueba": "Admin A descarga el PDF de un equipo de B",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-12",
+      "amenaza": "T2",
+      "prueba": "Técnico abre un equipo que no tiene asignado",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-13",
+      "amenaza": "T2",
+      "prueba": "Técnico B abre un equipo de la empresa A",
+      "esperado": "HTTP 404",
+      "obtenido": "HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-14",
+      "amenaza": "T2",
+      "prueba": "Técnico abre su equipo asignado (control)",
+      "esperado": "HTTP 200",
+      "obtenido": "HTTP 200",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-15",
+      "amenaza": "T2",
+      "prueba": "Admin A asigna un técnico de la empresa B alterando la petición",
+      "esperado": "Se rechaza y no se crea la asignación",
+      "obtenido": "Rechazada; asignaciones 4 → 4",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-16",
+      "amenaza": "T2",
+      "prueba": "Admin A quita una asignación de la empresa B alterando la petición",
+      "esperado": "Se rechaza y la asignación sigue",
+      "obtenido": "La asignación sigue",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-17",
+      "amenaza": "H-02",
+      "prueba": "Admin quita una asignación de un día pasado alterando la petición",
+      "esperado": "Se rechaza: el historial de asignaciones no cambia",
+      "obtenido": "La asignación sigue",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-18",
+      "amenaza": "T5",
+      "prueba": "Código malicioso en la descripción de un servicio",
+      "esperado": "Se guarda como texto, se muestra como texto y no se ejecuta",
+      "obtenido": "guardado: sí; visible como texto: sí; ejecutado: no",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-19",
+      "amenaza": "T5",
+      "prueba": "La página envía una política CSP con nonce",
+      "esperado": "script-src con nonce y sin unsafe-inline",
+      "obtenido": "CSP con nonce, sin unsafe-inline",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-20",
+      "amenaza": "T6",
+      "prueba": "Registrar un servicio sin confirmar la placa del equipo",
+      "esperado": "El servidor lo rechaza y no se guarda",
+      "obtenido": "\"Confirma que estás frente a este equipo antes de registrar.\"; servicios 3 → 3",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-21",
+      "amenaza": "T7",
+      "prueba": "Modificar un servicio directo en la base",
+      "esperado": "La base de datos lo rechaza",
+      "obtenido": "Rechazado: Los servicios no se pueden modificar",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-22",
+      "amenaza": "T7",
+      "prueba": "Borrar un servicio directo en la base",
+      "esperado": "La base de datos lo rechaza",
+      "obtenido": "Rechazado: Los servicios no se pueden borrar",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-23",
+      "amenaza": "T7",
+      "prueba": "Modificar la bitácora directo en la base",
+      "esperado": "La base de datos lo rechaza",
+      "obtenido": "Rechazado: La bitacora no se puede modificar",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-24",
+      "amenaza": "T7",
+      "prueba": "Borrar la bitácora directo en la base",
+      "esperado": "La base de datos lo rechaza",
+      "obtenido": "Rechazado: La bitacora no se puede borrar",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-25",
+      "amenaza": "T8",
+      "prueba": "Ruta malformada /equipos/' OR 1=1--",
+      "esperado": "Respuesta 404 genérica, sin detalles internos",
+      "obtenido": "HTTP 404; sin detalles internos",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-26",
+      "amenaza": "T8",
+      "prueba": "Ruta malformada /admin/equipos/../../etc/passwd",
+      "esperado": "Respuesta 404 genérica, sin detalles internos",
+      "obtenido": "HTTP 404; sin detalles internos",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-27",
+      "amenaza": "T8",
+      "prueba": "Ruta malformada /e/<script>alert(1)</script>",
+      "esperado": "Respuesta 404 genérica, sin detalles internos",
+      "obtenido": "HTTP 404; sin detalles internos",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-28",
+      "amenaza": "T8",
+      "prueba": "Ruta malformada /equipos/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "esperado": "Respuesta 404 genérica, sin detalles internos",
+      "obtenido": "HTTP 404; sin detalles internos",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-29",
+      "amenaza": "T8",
+      "prueba": "Acción del servidor con un cuerpo malformado",
+      "esperado": "Error genérico, sin traza ni detalles internos",
+      "obtenido": "HTTP 500; sin detalles internos",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-30",
+      "amenaza": "T9",
+      "prueba": "Pedir 11 reportes PDF seguidos",
+      "esperado": "Los primeros 10 se generan y el 11 responde 429",
+      "obtenido": "200 200 200 200 200 200 200 200 200 200 429",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-31",
+      "amenaza": "T9",
+      "prueba": "Enviar un formulario de 200 kB",
+      "esperado": "Se rechaza por tamaño y no se procesa",
+      "obtenido": "HTTP 500; asignaciones 5 → 5",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-32",
+      "amenaza": "T1",
+      "prueba": "Sin sesión: un QR real y uno inventado responden igual",
+      "esperado": "Ambos redirigen al inicio de sesión sin revelar nada",
+      "obtenido": "real: HTTP 307; inventado: HTTP 307",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-33",
+      "amenaza": "T1",
+      "prueba": "Con sesión: 20 códigos inventados y después uno real",
+      "esperado": "Los 20 responden 404 y luego el escaneo queda bloqueado",
+      "obtenido": "20 × 404; código real: HTTP 404",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-34",
+      "amenaza": "T4",
+      "prueba": "El admin desactiva a un técnico que tiene la sesión abierta",
+      "esperado": "La siguiente petición del técnico lo manda al inicio de sesión",
+      "obtenido": "HTTP 307 → /login",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-35",
+      "amenaza": "T4",
+      "prueba": "Reusar la cookie después de cerrar sesión",
+      "esperado": "La cookie ya no sirve",
+      "obtenido": "HTTP 307 → /login",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-36",
+      "amenaza": "T3",
+      "prueba": "Correo existente y correo inexistente con contraseña incorrecta",
+      "esperado": "El mismo mensaje y un tiempo de respuesta parecido",
+      "obtenido": "mismo mensaje: sí; existente 18 ms, inexistente 16 ms",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-37",
+      "amenaza": "T3",
+      "prueba": "Quinto fallo en una cuenta y después la contraseña correcta",
+      "esperado": "La cuenta queda bloqueada aunque la contraseña sea correcta",
+      "obtenido": "Bloqueada",
+      "resultado": "PASA"
+    },
+    {
+      "id": "P-38",
+      "amenaza": "H-01",
+      "prueba": "25 intentos con una IP falsa distinta en X-Forwarded-For",
+      "esperado": "El límite de 20 fallos por IP se aplica igual y la bitácora guarda la IP real",
+      "obtenido": "intentos bloqueados: 14 de 25; IPs falsas guardadas en la bitácora: 0",
+      "resultado": "PASA"
+    }
+  ]
+}

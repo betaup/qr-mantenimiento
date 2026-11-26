@@ -24,13 +24,13 @@ Algo que aprendimos al clasificar es que la severidad que publica cada aviso no 
 
 | ID | Vulnerabilidad | Clasificación | Riesgo | Estado |
 | --- | --- | --- | --- | --- |
-| V-01 | La IP del cliente se toma de una cabecera que el cliente puede inventar | CWE-348, A07 | Alto | Abierto |
-| V-02 | El servidor permite quitar asignaciones de días pasados | CWE-602, A01 | Bajo | Abierto |
-| V-03 | tinypool vulnerable a contaminación de prototipos | CWE-1321, A06 | Medio | Abierto |
-| V-04 | Denegación de servicio en las dependencias de Prisma | CWE-674 y CWE-1333, A06 | Bajo | Abierto |
-| V-05 | vitest permite leer archivos e inyectar código en su servidor de pruebas | CWE-22 y CWE-94, A06 | Bajo | Abierto |
-| V-06 | minimatch vulnerable a denegación de servicio | CWE-405, A06 | Bajo | Abierto |
-| V-07 | Una herramienta de desarrollo quedó como librería de producción | CWE-1104, A05 | Bajo | Abierto |
+| V-01 | La IP del cliente se toma de una cabecera que el cliente puede inventar | CWE-348, A07 | Alto | Corregido |
+| V-02 | El servidor permite quitar asignaciones de días pasados | CWE-602, A01 | Bajo | Corregido |
+| V-03 | tinypool vulnerable a contaminación de prototipos | CWE-1321, A06 | Medio | Corregido |
+| V-04 | Denegación de servicio en las dependencias de Prisma | CWE-674 y CWE-1333, A06 | Bajo | Corregido |
+| V-05 | vitest permite leer archivos e inyectar código en su servidor de pruebas | CWE-22 y CWE-94, A06 | Bajo | Corregido |
+| V-06 | minimatch vulnerable a denegación de servicio | CWE-405, A06 | Bajo | Corregido |
+| V-07 | Una herramienta de desarrollo quedó como librería de producción | CWE-1104, A05 | Bajo | Corregido |
 | V-08 | Un formulario demasiado grande responde con error 500 en lugar de 413 | CWE-755, A05 | Informativo | Aceptado |
 | V-09 | Cualquiera que conozca un correo puede bloquear esa cuenta 15 minutos | CWE-645, A07 | Bajo | Aceptado |
 
@@ -42,9 +42,9 @@ La ficha completa de cada una, con su causa, impacto y evidencia, está en el ar
 
 Las vulnerabilidades de librerías, de V-03 a V-07, son las más numerosas, pero casi todas están en herramientas que solo usamos al desarrollar.
 
-## Qué vamos a hacer
+## Qué hicimos con cada uno
 
-Corregiremos primero V-01, después las librerías actualizando sus versiones y por último V-02.
+Corregimos primero V-01, después las librerías actualizando sus versiones y por último V-02. Las correcciones y las pruebas que lo comprueban están en la carpeta 07.
 
 Aceptamos dos hallazgos. En V-08 el formulario grande ya se rechaza y la respuesta no revela nada, así que cambiar el código de error no mejora la seguridad. En V-09 el bloqueo de la cuenta es justamente lo que nos protege de que alguien adivine contraseñas, y quitarlo sería peor que el problema.
 
