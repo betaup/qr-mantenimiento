@@ -1,5 +1,5 @@
 # 7. Corrección y revalidación de vulnerabilidades
 
-Medidas correctivas y repetición de las pruebas para comprobar su efectividad.
+Aquí mostraremos cómo corregimos cada vulnerabilidad y el resultado de volver a ejecutar las pruebas después de corregirla.
 
-Pendiente: la evidencia de este criterio se agrega en la Parte 4.
+Esta parte todavía está en preparación.

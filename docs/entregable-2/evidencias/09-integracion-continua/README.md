@@ -1,5 +1,5 @@
 # 9. Integración continua y automatización de seguridad
 
-Pruebas y análisis de seguridad dentro del flujo de integración continua.
+Aquí mostraremos cómo las pruebas y los análisis de seguridad se ejecutan solos en GitHub cada vez que subimos cambios.
 
-Pendiente: la evidencia de este criterio se agrega en la Parte 5.
+Esta parte todavía está en preparación.

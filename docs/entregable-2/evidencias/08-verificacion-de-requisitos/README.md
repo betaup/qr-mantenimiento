@@ -1,5 +1,5 @@
 # 8. Verificación de requisitos y mitigación de amenazas
 
-Comprobar que los requisitos de seguridad se cumplen y que las amenazas tienen mitigación.
+Aquí revisaremos uno por uno los 23 requisitos de seguridad del primer entregable y comprobaremos que cada amenaza tiene su defensa.
 
-Pendiente: la evidencia de este criterio se agrega en la Parte 6.
+Esta parte todavía está en preparación.

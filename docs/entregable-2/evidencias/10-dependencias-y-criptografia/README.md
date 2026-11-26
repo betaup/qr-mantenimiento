@@ -1,5 +1,5 @@
 # 10. Revisión de dependencias y mecanismos criptográficos
 
-Uso seguro de componentes externos y de los mecanismos criptográficos.
+Aquí revisaremos que las librerías que usamos estén actualizadas y que los mecanismos de cifrado y de hash estén bien configurados.
 
-Pendiente: la evidencia de este criterio se agrega en la Parte 6.
+Esta parte todavía está en preparación.

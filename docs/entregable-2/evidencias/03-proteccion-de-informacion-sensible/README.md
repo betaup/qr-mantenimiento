@@ -1,5 +1,5 @@
 # 3. Protección de información sensible
 
-Resguardo de credenciales, secretos y datos, evitando su exposición innecesaria.
+Aquí explicaremos cómo protegemos las contraseñas, las sesiones, los secretos de la aplicación y los datos de las empresas.
 
-Pendiente: la evidencia de este criterio se agrega en la Parte 6.
+Esta parte todavía está en preparación.
