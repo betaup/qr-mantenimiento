@@ -7,7 +7,7 @@
 //
 // Cada prueba ataca una amenaza del modelo (T1 a T11) o un hallazgo del analisis
 // estatico (H-01, H-02) y compara lo que paso con lo que deberia pasar. Al final
-// guarda los resultados en docs/entregable-2/evidencias/05-pruebas-dinamicas.
+// guarda los resultados en docs/2do-entregable/evidencias/05-pruebas-dinamicas.
 
 import puppeteer from "puppeteer-core";
 import { DatabaseSync } from "node:sqlite";
@@ -377,7 +377,7 @@ await navegador.close();
 const pasan = resultados.filter((r) => r.resultado === "PASA").length;
 console.log(`\n${pasan} de ${resultados.length} pruebas pasan, ${resultados.length - pasan} fallan`);
 
-const carpeta = "docs/entregable-2/evidencias/05-pruebas-dinamicas";
+const carpeta = "docs/2do-entregable/evidencias/05-pruebas-dinamicas";
 mkdirSync(carpeta, { recursive: true });
 const fecha = new Date().toISOString().slice(0, 10);
 const archivo = `${carpeta}/resultados-${process.env.ETIQUETA ?? fecha}.json`;
